@@ -12,6 +12,7 @@ import Profile from "./pages/Profile";
 import { useAuthStore } from "./store/authStore";
 import Train from "./pages/Train";
 
+/* 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { session, loading } = useAuthStore();
 
@@ -29,6 +30,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   return children;
 };
+*/
 
 const App = () => {
   const { initializeAccount } = useAuthStore();
@@ -44,9 +46,9 @@ const App = () => {
       <Route
         path="/dashboard"
         element={
-          <ProtectedRoute>
-          </ProtectedRoute>
-          <DashboardLayout />\n          </ProtectedRoute>
+          // <ProtectedRoute>
+          // </ProtectedRoute>
+          <DashboardLayout />
         }
       >
         <Route index element={<Dashboard />} />

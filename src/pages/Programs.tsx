@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useAppStore } from "../store/appStore";
 import { Link } from "react-router";
+import programs from "../lib/programs.json";
 
 const Programs = () => {
   const { activeProgram, setActiveProgram } = useAppStore();
@@ -75,9 +76,15 @@ const Programs = () => {
         <div className="absolute inset-0 bg-linear-to-r from-black via-black/40 to-transparent p-10 flex flex-col justify-end">
           <button
             onClick={() => setActiveProgram("Metabolic Conditioning 2.0")}
-            className="absolute top-10 right-10 px-4 py-2 bg-white text-black font-bold text-xs uppercase rounded"
+            className={`absolute top-10 right-10 px-4 py-2 font-bold text-xs uppercase rounded transition-colors ${
+              activeProgram === "Metabolic Conditioning 2.0"
+                ? "bg-rose-500 text-white"
+                : "bg-white text-black hover:bg-gray-200"
+            }`}
           >
-            Set Active
+            {activeProgram === "Metabolic Conditioning 2.0"
+              ? "Active Program"
+              : "Set Active"}
           </button>
           <div className="flex gap-2 mb-4">
             <span className="bg-white/10 backdrop-blur-md border border-white/10 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest">
@@ -122,54 +129,20 @@ const Programs = () => {
         </div>
 
         <div className="grid grid-cols-3 gap-6">
-          <ProgramCard
-            onClick={() => setActiveProgram("Mechanical Tension")}
-            image="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=500"
-            tag="HYPERTROPHY"
-            title="Mechanical Tension"
-            desc="High-volume resistance training focused on structural muscle..."
-            level="INTERMEDIATE"
-            duration="8-12 WKS"
-            progress={65}
-          />
-          <ProgramCard
-            onClick={() => setActiveProgram("Neuromuscular Flow")}
-            image="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?auto=format&fit=crop&q=80&w=500"
-            tag="MOBILITY"
-            title="Neuromuscular Flow"
-            desc="Enhance joint integrity and movement economy through deep..."
-            level="BEGINNER"
-            duration="4 WKS"
-            progress={100}
-          />
-          <ProgramCard
-            onClick={() => setActiveProgram("Absolute Power")}
-            image="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?auto=format&fit=crop&q=80&w=500"
-            tag="STRENGTH"
-            title="Absolute Power"
-            desc="Peak force production and CNS conditioning utilizing compound..."
-            level="ADVANCED"
-            duration="16 WKS"
-            progress={12}
-          />
-          <ProgramCard
-            image="https://images.unsplash.com/photo-1544033527-b192daee1f5b?auto=format&fit=crop&q=80&w=500"
-            tag="CALISTHENICS"
-            title="Relative Strength"
-            desc="Master your bodyweight with progression-based training for..."
-            level="INTERMEDIATE"
-            duration="10 WKS"
-            progress={0}
-          />
-          <ProgramCard
-            image="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=500"
-            tag="RECOVERY"
-            title="Restoration Protocol"
-            desc="Optimize systemic recovery with parasympathetic-focused sessions..."
-            level="ADAPTIVE"
-            duration="ONGOING"
-            progress={40}
-          />
+          {programs.map((prog, index) => (
+            <ProgramCard
+              key={index}
+              onClick={() => setActiveProgram(prog.title)}
+              isActive={activeProgram === prog.title}
+              image={prog.image}
+              tag={prog.tag}
+              title={prog.title}
+              desc={prog.description}
+              level={prog.level}
+              duration={prog.duration}
+              progress={prog.progress}
+            />
+          ))}
 
           {/* Custom Protocol Card */}
           {/* <div className="bg-[#141414] border border-white/5 border-dashed rounded-2xl p-6 flex flex-col items-center justify-center text-center">
@@ -198,12 +171,21 @@ const ProgramCard = ({
   level,
   duration,
   progress,
+  isActive,
   onClick,
 }: any) => (
   <Link
     to={`/dashboard/programs/train/${tag}`}
-    onClick={onClick}
-    className="bg-[#141414] border border-white/5 rounded-2xl overflow-hidden group cursor-pointer hover:border-white/20 transition-all"
+    onClick={(e) => {
+      // Allow navigation but also trigger active if we want, or just let users click into it.
+      // E.g. we might want to have a set active button entirely separate. But let's trigger it.
+      onClick?.(e);
+    }}
+    className={`bg-[#141414] border rounded-2xl overflow-hidden group cursor-pointer transition-all ${
+      isActive
+        ? "border-rose-500/50 shadow-[0_0_15px_rgba(244,63,94,0.1)]"
+        : "border-white/5 hover:border-white/20"
+    }`}
   >
     <div className="h-48 relative overflow-hidden">
       <img
@@ -211,10 +193,15 @@ const ProgramCard = ({
         alt={title}
         className="w-full h-full object-cover grayscale opacity-50 group-hover:scale-105 transition-transform duration-500"
       />
-      <div className="absolute top-4 left-4">
+      <div className="absolute top-4 left-4 flex gap-2">
         <span className="bg-black text-[8px] font-black px-2 py-0.5 rounded tracking-widest uppercase border border-white/10">
           {tag}
         </span>
+        {isActive && (
+          <span className="bg-rose-500 text-white text-[8px] font-black px-2 py-0.5 rounded tracking-widest uppercase border border-rose-400">
+            Active
+          </span>
+        )}
       </div>
     </div>
     <div className="p-6">

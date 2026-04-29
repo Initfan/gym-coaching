@@ -39,29 +39,10 @@ const Nutrition = () => {
             KINETIC ATELIER
           </span>
           <nav className="flex gap-6 text-sm text-white/40 font-medium">
-            <a href="#" className="hover:text-white">
-              Performance
-            </a>
             <a href="#" className="text-white border-b border-white pb-1">
               Nutrition
             </a>
-            <a href="#" className="hover:text-white">
-              Recovery
-            </a>
-            <a href="#" className="hover:text-white">
-              Protocols
-            </a>
           </nav>
-        </div>
-        <div className="flex items-center gap-6">
-          <Bell size={18} className="text-white/40 cursor-pointer" />
-          <Settings size={18} className="text-white/40 cursor-pointer" />
-          <div className="w-8 h-8 rounded-full bg-neutral-800 border border-white/10 flex items-center justify-center overflow-hidden">
-            <img
-              src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=100"
-              alt="Avatar"
-            />
-          </div>
         </div>
       </header>
 
@@ -175,7 +156,7 @@ const Nutrition = () => {
       {/* Top Grid: Macros, Hydration, Supplements */}
 
       <div className="grid grid-cols-3 gap-6 mb-12">
-        <div className="bg-[#141414] border border-white/5 rounded-2xl p-8">
+        <div className="bg-[#141414] col-span-2 border border-white/5 rounded-2xl p-8">
           <h3 className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] mb-8">
             Daily Macro Overview
           </h3>
@@ -235,7 +216,7 @@ const Nutrition = () => {
           </button>
         </div>
 
-        <div className="bg-[#141414] border border-white/5 rounded-2xl p-8">
+        {/* <div className="bg-[#141414] border border-white/5 rounded-2xl p-8">
           <h3 className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] mb-6">
             Daily Stack
           </h3>
@@ -259,7 +240,7 @@ const Nutrition = () => {
               completed={false}
             />
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Today's Fuel Timeline */}

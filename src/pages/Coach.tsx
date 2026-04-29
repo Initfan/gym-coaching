@@ -19,27 +19,6 @@ const Coach = () => {
           <h2 className="font-black tracking-tighter text-lg uppercase">
             Kinetic Atelier
           </h2>
-          <div className="flex items-center gap-6">
-            <div className="relative">
-              <Search
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30"
-                size={14}
-              />
-              <input
-                type="text"
-                placeholder="Search insights..."
-                className="bg-[#141414] border border-white/5 rounded-md py-1.5 pl-9 pr-4 text-xs w-64 focus:outline-none"
-              />
-            </div>
-            <Zap size={18} className="text-white/40" />
-            <Bell size={18} className="text-white/40" />
-            <div className="w-7 h-7 rounded-full bg-slate-400 border border-white/20 overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100"
-                alt="Avatar"
-              />
-            </div>
-          </div>
         </header>
 
         <ChatBot />

@@ -29,13 +29,17 @@ const Progress = () => {
 
   const handleUpdate = (e: React.FormEvent) => {
     e.preventDefault();
-    if(Number(newWeight) > 0) addWeightLog(Number(newWeight));
+    if (Number(newWeight) > 0) addWeightLog(Number(newWeight));
     setShowUpdateMode(false);
     setNewWeight("");
   };
-  
-  const latestWeight = weightLogs.length > 0 ? weightLogs[weightLogs.length - 1].weight : 0;
-  const previousWeight = weightLogs.length > 1 ? weightLogs[weightLogs.length - 2].weight : latestWeight;
+
+  const latestWeight =
+    weightLogs.length > 0 ? weightLogs[weightLogs.length - 1].weight : 0;
+  const previousWeight =
+    weightLogs.length > 1
+      ? weightLogs[weightLogs.length - 2].weight
+      : latestWeight;
   const weightDiff = latestWeight - previousWeight;
 
   return (
@@ -47,27 +51,10 @@ const Progress = () => {
             KINETIC ATELIER
           </span>
           <nav className="flex gap-6 text-sm text-white/40 font-medium">
-            <a href="#" className="hover:text-white">
-              Explore
-            </a>
             <a href="#" className="text-white border-b border-white pb-1">
               Progress
             </a>
-            <a href="#" className="hover:text-white">
-              Insights
-            </a>
           </nav>
-        </div>
-
-        <div className="flex items-center gap-6">
-          <Zap size={18} className="text-white/40 cursor-pointer" />
-          <Bell size={18} className="text-white/40 cursor-pointer" />
-          <div className="w-7 h-7 rounded-full bg-slate-400 border border-white/20 overflow-hidden">
-            <img
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100"
-              alt="Avatar"
-            />
-          </div>
         </div>
       </header>
 
@@ -80,19 +67,6 @@ const Progress = () => {
           <h2 className="text-4xl font-bold mt-1 tracking-tight">
             Optimization Progress
           </h2>
-        </div>
-        <div className="bg-[#141414] border border-white/5 rounded-xl p-4 flex items-center gap-4 max-w-sm">
-          <div className="bg-white/5 p-2 rounded-lg">
-            <Brain size={18} className="text-white/70" />
-          </div>
-          <div>
-            <p className="text-[8px] font-bold text-white/40 uppercase tracking-widest">
-              AI Insight
-            </p>
-            <p className="text-[11px] text-white/80 leading-relaxed">
-              Your consistency is up 12%. Suggested caloric floor: 2,450 kcal.
-            </p>
-          </div>
         </div>
       </div>
 
@@ -132,11 +106,15 @@ const Progress = () => {
 
           <div className="absolute top-24 right-12 text-right">
             <div className="flex items-baseline justify-end gap-2">
-              <span className="text-5xl font-black tracking-tighter">{latestWeight.toFixed(1)}</span>
+              <span className="text-5xl font-black tracking-tighter">
+                {latestWeight.toFixed(1)}
+              </span>
               <span className="text-sm font-bold text-white/40">kg</span>
             </div>
             <p className="text-[10px] font-bold text-rose-500 mt-1 flex items-center justify-end gap-1 uppercase tracking-widest">
-              {weightDiff <= 0 ? <ArrowDownRight size={12} /> : null} {weightDiff > 0 ? "+" : ""}{weightDiff.toFixed(1)} kg (from last)
+              {weightDiff <= 0 ? <ArrowDownRight size={12} /> : null}{" "}
+              {weightDiff > 0 ? "+" : ""}
+              {weightDiff.toFixed(1)} kg (from last)
             </p>
           </div>
         </div>
@@ -169,14 +147,36 @@ const Progress = () => {
           </div>
           {showUpdateMode ? (
             <form onSubmit={handleUpdate} className="flex gap-2.5 mt-4">
-              <input type="number" step="0.1" value={newWeight} onChange={e => setNewWeight(e.target.value)} placeholder="0.0 kg" className="w-full py-3 bg-black border border-white/10 rounded-lg text-sm px-3 focus:outline-none" />
-              <button type="submit" className="px-4 py-3 bg-white text-black rounded-lg text-[9px] font-bold uppercase hover:bg-white/90">Save</button>
-              <button type="button" onClick={() => setShowUpdateMode(false)} className="px-4 py-3 bg-white/10 rounded-lg text-[9px] font-bold uppercase">Cancel</button>
+              <input
+                type="number"
+                step="0.1"
+                value={newWeight}
+                onChange={(e) => setNewWeight(e.target.value)}
+                placeholder="0.0 kg"
+                className="w-full py-3 bg-black border border-white/10 rounded-lg text-sm px-3 focus:outline-none"
+              />
+              <button
+                type="submit"
+                className="px-4 py-3 bg-white text-black rounded-lg text-[9px] font-bold uppercase hover:bg-white/90"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowUpdateMode(false)}
+                className="px-4 py-3 bg-white/10 rounded-lg text-[9px] font-bold uppercase"
+              >
+                Cancel
+              </button>
             </form>
           ) : (
-          <button onClick={() => setShowUpdateMode(true)} className="w-full py-3 bg-white/5 border border-white/5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all mt-4">
-            Update Measurements
-          </button>)}
+            <button
+              onClick={() => setShowUpdateMode(true)}
+              className="w-full py-3 bg-white/5 border border-white/5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all mt-4"
+            >
+              Update Measurements
+            </button>
+          )}
         </div>
       </div>
 
@@ -258,38 +258,6 @@ const Progress = () => {
             </div>
             <span>Protocol Perfect</span>
           </div>
-        </div>
-      </div>
-
-      {/* Executive Summary Footer */}
-      <div className="bg-[#141414] border border-white/5 rounded-2xl p-8 flex items-center gap-10">
-        <div className="w-24 h-24 bg-black rounded-xl border border-white/5 flex items-center justify-center p-4">
-          <div className="text-[10px] font-black tracking-tighter leading-none text-center">
-            KINETIC
-            <br />
-            <span className="text-[6px] text-white/40 tracking-widest">
-              ATELIER
-            </span>
-          </div>
-        </div>
-        <div className="flex-1">
-          <h3 className="text-lg font-bold mb-2">
-            Executive Summary: Phase 2 Complete
-          </h3>
-          <p className="text-sm text-white/50 leading-relaxed max-w-3xl">
-            Your metabolic efficiency has increased by 4.2% since the start of
-            the optimization protocol. Muscle density markers in the thoracic
-            region show significant improvement. Recommend shifting focus to VO2
-            Max stabilization for the upcoming quarter.
-          </p>
-        </div>
-        <div className="flex flex-col gap-3 shrink-0">
-          <button className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/5 px-6 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all">
-            <FileText size={14} /> Generate Report
-          </button>
-          <button className="flex items-center gap-2 text-white/40 hover:text-white px-6 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">
-            <Archive size={14} /> Archive Data
-          </button>
         </div>
       </div>
     </main>

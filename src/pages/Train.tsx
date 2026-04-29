@@ -126,7 +126,7 @@ const Train: React.FC = () => {
       <div className="grid grid-cols-[1fr,minmax(280px,auto)] gap-8">
         {/* Main Content Area */}
         <div className="space-y-8">
-          {activeTab === "Workout" && <WorkoutTabContent />}
+          {activeTab === "Workout" && <WorkoutTabContent program={program} />}
           {activeTab === "Nutrition" && <NutritionTabContent />}
           {activeTab === "Recovery" && <RecoveryTabContent />}
           {activeTab === "Milestones" && <MilestonesTabContent />}
@@ -237,7 +237,7 @@ const Train: React.FC = () => {
 
 /* --- TAB COMPONENTS --- */
 
-const WorkoutTabContent = () => (
+const WorkoutTabContent = ({ program }: { program: any }) => (
   <>
     {/* AI Insight */}
     <div className="bg-[#111112] border border-[#1a1a1c] p-6 rounded-xl flex items-center gap-5">
@@ -249,11 +249,8 @@ const WorkoutTabContent = () => (
           AI Coach Insight
         </h4>
         <p className="text-sm text-white/90 leading-relaxed max-w-2xl">
-          Based on your <span className="font-bold">CNS recovery metrics</span>{" "}
-          and sleep quality of 88%, today is optimized for{" "}
-          <span className="font-bold text-white">High Volume</span>. Focus on
-          tempo (3-1-1) and deep mind-muscle connection during the eccentric
-          phases.
+          {program.insight ||
+            "Based on your CNS recovery metrics and sleep quality, today is optimized for Volume. Focus on tempo and deep mind-muscle connection."}
         </p>
       </div>
     </div>
@@ -267,11 +264,23 @@ const WorkoutTabContent = () => (
         </span>
       </div>
       <div className="grid grid-cols-5 gap-3">
-        <DayCard day={1} title="Push & Core" isToday />
-        <DayCard day={2} title="Legs (Quad Bias)" />
-        <DayCard day={3} title="Active Recovery" />
-        <DayCard day={4} title="Pull & Arm" />
-        <DayCard day={5} title="" isEmpty />
+        {program.days?.map((d: any, i: number) => (
+          <DayCard
+            key={i}
+            day={d.day}
+            title={d.title}
+            isToday={d.isToday}
+            isEmpty={d.isEmpty}
+          />
+        )) || (
+          <>
+            <DayCard day={1} title="Push & Core" isToday />
+            <DayCard day={2} title="Legs (Quad Bias)" />
+            <DayCard day={3} title="Active Recovery" />
+            <DayCard day={4} title="Pull & Arm" />
+            <DayCard day={5} title="" isEmpty />
+          </>
+        )}
       </div>
     </section>
 
@@ -281,27 +290,40 @@ const WorkoutTabContent = () => (
         Today's Protocol
       </h3>
       <div className="space-y-3">
-        <ExerciseRow
-          image="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=100&q=80&auto=format&fit=crop"
-          name="Kinetic Barbell Press"
-          target="Primary Movers • Tempo 3-1-1"
-          sets="4 × 8-10"
-          rpe={8.5}
-        />
-        <ExerciseRow
-          image="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=100&q=80&auto=format&fit=crop"
-          name="Explosive Pull Ups"
-          target="Lats & Neural Activation"
-          sets="3 x AMRAP"
-          rpe={9.0}
-        />
-        <ExerciseRow
-          image="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=100&q=80&auto=format&fit=crop"
-          name="Seated Low Row"
-          target="Mid Back • 2s Squeeze"
-          sets="4 × 12"
-          rpe={8.0}
-        />
+        {program.exercises?.map((ex: any, i: number) => (
+          <ExerciseRow
+            key={i}
+            image={ex.image}
+            name={ex.name}
+            target={ex.target}
+            sets={ex.sets}
+            rpe={ex.rpe}
+          />
+        )) || (
+          <>
+            <ExerciseRow
+              image="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=100&q=80&auto=format&fit=crop"
+              name="Kinetic Barbell Press"
+              target="Primary Movers • Tempo 3-1-1"
+              sets="4 × 8-10"
+              rpe={8.5}
+            />
+            <ExerciseRow
+              image="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=100&q=80&auto=format&fit=crop"
+              name="Explosive Pull Ups"
+              target="Lats & Neural Activation"
+              sets="3 x AMRAP"
+              rpe={9.0}
+            />
+            <ExerciseRow
+              image="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=100&q=80&auto=format&fit=crop"
+              name="Seated Low Row"
+              target="Mid Back • 2s Squeeze"
+              sets="4 × 12"
+              rpe={8.0}
+            />
+          </>
+        )}
       </div>
     </section>
   </>

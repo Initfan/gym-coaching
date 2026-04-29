@@ -14,38 +14,16 @@ import { useAppStore } from "../store/appStore";
 
 const Dashboard = () => {
   const { nutrition, weightLogs, activeProgram } = useAppStore();
-  const latestWeight = weightLogs.length > 0 ? weightLogs[weightLogs.length - 1].weight : 0;
-  const previousWeight = weightLogs.length > 1 ? weightLogs[weightLogs.length - 2].weight : latestWeight;
+  const latestWeight =
+    weightLogs.length > 0 ? weightLogs[weightLogs.length - 1].weight : 0;
+  const previousWeight =
+    weightLogs.length > 1
+      ? weightLogs[weightLogs.length - 2].weight
+      : latestWeight;
   const weightDiff = latestWeight - previousWeight;
 
   return (
     <main className="flex-1 p-10 overflow-y-auto">
-      {/* Header */}
-      <header className="flex justify-between items-center mb-10">
-        <div className="relative w-96">
-          <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30"
-            size={16}
-          />
-          <input
-            type="text"
-            placeholder="Search metrics..."
-            className="w-full bg-[#141414] border border-white/5 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-white/20 transition-all"
-          />
-        </div>
-        <div className="flex items-center gap-6">
-          <Zap
-            size={20}
-            className="text-white/40 cursor-pointer hover:text-white"
-          />
-          <Bell
-            size={20}
-            className="text-white/40 cursor-pointer hover:text-white"
-          />
-          <div className="w-8 h-8 rounded-full bg-linear-to-tr from-emerald-500 to-blue-500 border border-white/20" />
-        </div>
-      </header>
-
       <section className="mb-10">
         <h2 className="text-4xl font-bold mb-2 tracking-tight">
           Good Morning, Ready to Train?
@@ -58,27 +36,53 @@ const Dashboard = () => {
       {/* Top Stats Grid */}
       <div className="grid grid-cols-4 gap-4 mb-8">
         <StatCard title="TODAY'S WORKOUT" icon={<Dumbbell size={14} />}>
-          <div className="text-xl font-bold tracking-tight truncate py-1">{activeProgram}</div>
+          <div className="text-xl font-bold tracking-tight truncate py-1">
+            {activeProgram}
+          </div>
           <p className="text-[10px] text-white/40 mt-1 uppercase tracking-wider">
             Expected duration: 75 min
           </p>
         </StatCard>
         <StatCard title="CALORIES TARGET" icon={<Flame size={14} />}>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-bold tracking-tight">{(nutrition.protein * 4 + nutrition.carbs * 4 + nutrition.fats * 9).toFixed(0)}</span>
-            <span className="text-xs text-white/40">/ {(nutrition.targetProtein * 4 + nutrition.targetCarbs * 4 + nutrition.targetFats * 9).toFixed(0)} kcal</span>
+            <span className="text-2xl font-bold tracking-tight">
+              {(
+                nutrition.protein * 4 +
+                nutrition.carbs * 4 +
+                nutrition.fats * 9
+              ).toFixed(0)}
+            </span>
+            <span className="text-xs text-white/40">
+              /{" "}
+              {(
+                nutrition.targetProtein * 4 +
+                nutrition.targetCarbs * 4 +
+                nutrition.targetFats * 9
+              ).toFixed(0)}{" "}
+              kcal
+            </span>
           </div>
           <div className="w-full bg-white/5 h-1 mt-3 rounded-full overflow-hidden">
-            <div className="bg-white/60 h-full transition-all" style={{ width: `${Math.min(100, ((nutrition.protein * 4 + nutrition.carbs * 4 + nutrition.fats * 9) / (nutrition.targetProtein * 4 + nutrition.targetCarbs * 4 + nutrition.targetFats * 9)) * 100)}%` }} />
+            <div
+              className="bg-white/60 h-full transition-all"
+              style={{
+                width: `${Math.min(100, ((nutrition.protein * 4 + nutrition.carbs * 4 + nutrition.fats * 9) / (nutrition.targetProtein * 4 + nutrition.targetCarbs * 4 + nutrition.targetFats * 9)) * 100)}%`,
+              }}
+            />
           </div>
         </StatCard>
         <StatCard title="WEIGHT PROGRESS" icon={<TrendingUp size={14} />}>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-bold tracking-tight">{latestWeight.toFixed(1)}</span>
+            <span className="text-2xl font-bold tracking-tight">
+              {latestWeight.toFixed(1)}
+            </span>
             <span className="text-xs text-white/40">kg</span>
           </div>
-          <p className={`text-[10px] mt-1 ${weightDiff <= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-            {weightDiff <= 0 ? '↘' : '↗'} {Math.abs(weightDiff).toFixed(1)}kg from last log
+          <p
+            className={`text-[10px] mt-1 ${weightDiff <= 0 ? "text-emerald-400" : "text-red-400"}`}
+          >
+            {weightDiff <= 0 ? "↘" : "↗"} {Math.abs(weightDiff).toFixed(1)}kg
+            from last log
           </p>
         </StatCard>
         <StatCard title="CONSISTENCY" icon={<Calendar size={14} />}>
@@ -190,9 +194,24 @@ const Dashboard = () => {
             </h3>
           </div>
           <div className="space-y-6">
-            <NutritionRow label="PROTEIN" current={nutrition.protein} target={nutrition.targetProtein} unit="g" />
-            <NutritionRow label="CARBS" current={nutrition.carbs} target={nutrition.targetCarbs} unit="g" />
-            <NutritionRow label="FATS" current={nutrition.fats} target={nutrition.targetFats} unit="g" />
+            <NutritionRow
+              label="PROTEIN"
+              current={nutrition.protein}
+              target={nutrition.targetProtein}
+              unit="g"
+            />
+            <NutritionRow
+              label="CARBS"
+              current={nutrition.carbs}
+              target={nutrition.targetCarbs}
+              unit="g"
+            />
+            <NutritionRow
+              label="FATS"
+              current={nutrition.fats}
+              target={nutrition.targetFats}
+              unit="g"
+            />
           </div>
         </div>
 
@@ -258,7 +277,12 @@ const Metric = ({ label, value }: any) => (
   </div>
 );
 
-const ProgressBar = ({ label, value, progress = 92, color = "bg-white" }: any) => (
+const ProgressBar = ({
+  label,
+  value,
+  progress = 92,
+  color = "bg-white",
+}: any) => (
   <div className="space-y-2">
     <div className="flex justify-between items-center">
       <span className="text-[10px] text-white/40 font-bold uppercase tracking-widest">
@@ -315,7 +339,10 @@ const NutritionRow = ({ label, current, target, unit }: any) => (
         </span>
       </div>
       <div className="w-full bg-white/5 h-1 mt-2">
-        <div className="bg-white/40 h-full transition-all duration-500" style={{ width: `${Math.min(100, (current / target) * 100)}%` }} />
+        <div
+          className="bg-white/40 h-full transition-all duration-500"
+          style={{ width: `${Math.min(100, (current / target) * 100)}%` }}
+        />
       </div>
     </div>
   </div>
