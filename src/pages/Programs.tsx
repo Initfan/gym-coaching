@@ -9,8 +9,10 @@ import {
   Sparkles,
   Search,
 } from "lucide-react";
+import { useAppStore } from "../store/appStore";
 
 const Programs = () => {
+  const { activeProgram, setActiveProgram } = useAppStore();
   return (
     <main className="flex-1 p-10 overflow-y-auto">
       {/* Top Navigation */}
@@ -75,6 +77,7 @@ const Programs = () => {
             className="absolute inset-0 w-full h-full object-cover opacity-60 grayscale"
           />
           <div className="absolute inset-0 bg-linear-to-r from-black via-black/40 to-transparent p-10 flex flex-col justify-end">
+            <button onClick={() => setActiveProgram("Metabolic Conditioning 2.0")} className="absolute top-10 right-10 px-4 py-2 bg-white text-black font-bold text-xs uppercase rounded">Set Active</button>
             <div className="flex gap-2 mb-4">
               <span className="bg-white/10 backdrop-blur-md border border-white/10 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest">
                 Elite Tier
@@ -137,6 +140,7 @@ const Programs = () => {
 
         <div className="grid grid-cols-3 gap-6">
           <ProgramCard
+            onClick={() => setActiveProgram("Mechanical Tension")}
             image="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=500"
             tag="HYPERTROPHY"
             title="Mechanical Tension"
@@ -146,6 +150,7 @@ const Programs = () => {
             progress={65}
           />
           <ProgramCard
+            onClick={() => setActiveProgram("Neuromuscular Flow")}
             image="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?auto=format&fit=crop&q=80&w=500"
             tag="MOBILITY"
             title="Neuromuscular Flow"
@@ -155,6 +160,7 @@ const Programs = () => {
             progress={100}
           />
           <ProgramCard
+            onClick={() => setActiveProgram("Absolute Power")}
             image="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?auto=format&fit=crop&q=80&w=500"
             tag="STRENGTH"
             title="Absolute Power"
@@ -209,8 +215,9 @@ const ProgramCard = ({
   level,
   duration,
   progress,
+  onClick
 }: any) => (
-  <div className="bg-[#141414] border border-white/5 rounded-2xl overflow-hidden group cursor-pointer hover:border-white/20 transition-all">
+  <div onClick={onClick} className="bg-[#141414] border border-white/5 rounded-2xl overflow-hidden group cursor-pointer hover:border-white/20 transition-all">
     <div className="h-48 relative overflow-hidden">
       <img
         src={image}
