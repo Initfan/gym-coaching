@@ -23,9 +23,9 @@ const Nutrition = () => {
 
   const handleAddMacro = (e: React.FormEvent) => {
     e.preventDefault();
-    if (newMacro.protein > 0) addMacro('protein', Number(newMacro.protein));
-    if (newMacro.carbs > 0) addMacro('carbs', Number(newMacro.carbs));
-    if (newMacro.fats > 0) addMacro('fats', Number(newMacro.fats));
+    if (newMacro.protein > 0) addMacro("protein", Number(newMacro.protein));
+    if (newMacro.carbs > 0) addMacro("carbs", Number(newMacro.carbs));
+    if (newMacro.fats > 0) addMacro("fats", Number(newMacro.fats));
     setNewMacro({ protein: 0, carbs: 0, fats: 0 });
     setShowAddForm(false);
   };
@@ -93,35 +93,81 @@ const Nutrition = () => {
               </p>
             </div>
           </div>
-          <button onClick={() => setShowAddForm(true)} className="px-4 py-2 bg-emerald-500/20 text-emerald-500 rounded text-xs font-bold uppercase hover:bg-emerald-500 hover:text-white transition-colors">
+          <button
+            onClick={() => setShowAddForm(true)}
+            className="px-4 py-2 bg-emerald-500/20 text-emerald-500 rounded text-xs font-bold uppercase hover:bg-emerald-500 hover:text-white transition-colors"
+          >
             + Log Custom Food
           </button>
         </div>
-      
       </section>
 
       {showAddForm && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-          <form onSubmit={handleAddMacro} className="bg-[#1a1a1a] p-8 rounded-xl w-96 border border-white/10">
+          <form
+            onSubmit={handleAddMacro}
+            className="bg-[#1a1a1a] p-8 rounded-xl w-96 border border-white/10"
+          >
             <h3 className="text-xl font-bold mb-4">Log Macros</h3>
-             <div className="space-y-4">
-               <div>
-                 <label className="block text-xs text-white/40 mb-1">Protein (g)</label>
-                 <input type="number" value={newMacro.protein} onChange={e => setNewMacro({...newMacro, protein: Number(e.target.value)})} className="w-full bg-black border border-white/10 rounded px-3 py-2 text-sm focus:outline-none focus:border-white/30" />
-               </div>
-               <div>
-                 <label className="block text-xs text-white/40 mb-1">Carbs (g)</label>
-                 <input type="number" value={newMacro.carbs} onChange={e => setNewMacro({...newMacro, carbs: Number(e.target.value)})} className="w-full bg-black border border-white/10 rounded px-3 py-2 text-sm focus:outline-none focus:border-white/30" />
-               </div>
-               <div>
-                 <label className="block text-xs text-white/40 mb-1">Fats (g)</label>
-                 <input type="number" value={newMacro.fats} onChange={e => setNewMacro({...newMacro, fats: Number(e.target.value)})} className="w-full bg-black border border-white/10 rounded px-3 py-2 text-sm focus:outline-none focus:border-white/30" />
-               </div>
-               <div className="flex justify-end gap-3 mt-6">
-                 <button type="button" onClick={() => setShowAddForm(false)} className="px-4 py-2 rounded text-sm text-white/40 hover:text-white">Cancel</button>
-                 <button type="submit" className="px-4 py-2 bg-white text-black rounded text-sm font-bold">Save Log</button>
-               </div>
-             </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs text-white/40 mb-1">
+                  Protein (g)
+                </label>
+                <input
+                  type="number"
+                  value={newMacro.protein}
+                  onChange={(e) =>
+                    setNewMacro({
+                      ...newMacro,
+                      protein: Number(e.target.value),
+                    })
+                  }
+                  className="w-full bg-black border border-white/10 rounded px-3 py-2 text-sm focus:outline-none focus:border-white/30"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-white/40 mb-1">
+                  Carbs (g)
+                </label>
+                <input
+                  type="number"
+                  value={newMacro.carbs}
+                  onChange={(e) =>
+                    setNewMacro({ ...newMacro, carbs: Number(e.target.value) })
+                  }
+                  className="w-full bg-black border border-white/10 rounded px-3 py-2 text-sm focus:outline-none focus:border-white/30"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-white/40 mb-1">
+                  Fats (g)
+                </label>
+                <input
+                  type="number"
+                  value={newMacro.fats}
+                  onChange={(e) =>
+                    setNewMacro({ ...newMacro, fats: Number(e.target.value) })
+                  }
+                  className="w-full bg-black border border-white/10 rounded px-3 py-2 text-sm focus:outline-none focus:border-white/30"
+                />
+              </div>
+              <div className="flex justify-end gap-3 mt-6">
+                <button
+                  type="button"
+                  onClick={() => setShowAddForm(false)}
+                  className="px-4 py-2 rounded text-sm text-white/40 hover:text-white"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-white text-black rounded text-sm font-bold"
+                >
+                  Save Log
+                </button>
+              </div>
+            </div>
           </form>
         </div>
       )}
@@ -134,9 +180,30 @@ const Nutrition = () => {
             Daily Macro Overview
           </h3>
           <div className="flex justify-between items-center px-2">
-            <RadialProgress value={Math.min(100, Math.floor((nutrition.protein/nutrition.targetProtein)*100))} label="PROTEIN" sub={`${nutrition.protein}g / ${nutrition.targetProtein}g`} />
-            <RadialProgress value={Math.min(100, Math.floor((nutrition.carbs/nutrition.targetCarbs)*100))} label="CARBS" sub={`${nutrition.carbs}g / ${nutrition.targetCarbs}g`} />
-            <RadialProgress value={Math.min(100, Math.floor((nutrition.fats/nutrition.targetFats)*100))} label="FATS" sub={`${nutrition.fats}g / ${nutrition.targetFats}g`} />
+            <RadialProgress
+              value={Math.min(
+                100,
+                Math.floor((nutrition.protein / nutrition.targetProtein) * 100),
+              )}
+              label="PROTEIN"
+              sub={`${nutrition.protein}g / ${nutrition.targetProtein}g`}
+            />
+            <RadialProgress
+              value={Math.min(
+                100,
+                Math.floor((nutrition.carbs / nutrition.targetCarbs) * 100),
+              )}
+              label="CARBS"
+              sub={`${nutrition.carbs}g / ${nutrition.targetCarbs}g`}
+            />
+            <RadialProgress
+              value={Math.min(
+                100,
+                Math.floor((nutrition.fats / nutrition.targetFats) * 100),
+              )}
+              label="FATS"
+              sub={`${nutrition.fats}g / ${nutrition.targetFats}g`}
+            />
           </div>
         </div>
 
@@ -222,16 +289,6 @@ const Nutrition = () => {
             macros={{ p: 52, c: 65, f: 12 }}
             img="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=200"
             note="Omega-3 rich for neuro-protection."
-          />
-          <MealCard
-            time="04:00 PM"
-            type="POST-WORKOUT"
-            title="Anabolic Recovery Shake"
-            calories="320"
-            macros={{ p: 40, c: 30, f: 2 }}
-            img="https://images.unsplash.com/photo-1626241318461-9f20c42d3856?auto=format&fit=crop&q=80&w=200"
-            note="Increased sodium and glutamine for recovery."
-            athlete
           />
         </div>
       </section>

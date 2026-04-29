@@ -44,15 +44,15 @@ const App = () => {
       <Route
         path="/dashboard"
         element={
-          // <ProtectedRoute>
-          // </ProtectedRoute>
-          <DashboardLayout />
+          <ProtectedRoute>
+          </ProtectedRoute>
+          <DashboardLayout />\n          </ProtectedRoute>
         }
       >
         <Route index element={<Dashboard />} />
         <Route path="programs">
           <Route index element={<Programs />} />
-          <Route path="train" element={<Train />} />
+          <Route path="train/:tag" element={<Train />} />
         </Route>
         <Route path="nutrition" element={<Nutrition />} />
         <Route path="coach" element={<Coach />} />

@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Mechanical Tension",
+    "tag": "HYPERTROPHY",
+    "image": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=500",
+    "description": "High-volume resistance training focused on structural muscle...",
+    "level": "INTERMEDIATE",
+    "duration": "8-12 WKS",
+    "progress": 65,
+    "activeKey": "Mechanical Tension"
+  },
+  {
+    "title": "Neuromuscular Flow",
+    "tag": "MOBILITY",
+    "image": "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?auto=format&fit=crop&q=80&w=500",
+    "description": "Enhance joint integrity and movement economy through deep...",
+    "level": "BEGINNER",
+    "duration": "4 WKS",
+    "progress": 100,
+    "activeKey": "Neuromuscular Flow"
+  },
+  {
+    "title": "Absolute Power",
+    "tag": "STRENGTH",
+    "image": "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?auto=format&fit=crop&q=80&w=500",
+    "description": "Peak force production and CNS conditioning utilizing compound...",
+    "level": "ADVANCED",
+    "duration": "16 WKS",
+    "progress": 12,
+    "activeKey": "Absolute Power"
+  },
+  {
+    "title": "Relative Strength",
+    "tag": "CALISTHENICS",
+    "image": "https://images.unsplash.com/photo-1544033527-b192daee1f5b?auto=format&fit=crop&q=80&w=500",
+    "description": "Master your bodyweight with progression-based training for...",
+    "level": "INTERMEDIATE",
+    "duration": "10 WKS",
+    "progress": 0
+  },
+  {
+    "title": "Restoration Protocol",
+    "tag": "RECOVERY",
+    "image": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=500",
+    "description": "Optimize systemic recovery with parasympathetic-focused sessions...",
+    "level": "ADAPTIVE",
+    "duration": "ONGOING",
+    "progress": 40
+  }
+]

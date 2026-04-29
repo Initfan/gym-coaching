@@ -27,11 +27,11 @@ const Programs = () => {
             <a href="#" className="text-white">
               Programs
             </a>
-            <a href="#" className="hover:text-white transition-colors">
+            <a
+              href="/dashboard/community"
+              className="hover:text-white transition-colors"
+            >
               Community
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
-              Insights
             </a>
           </nav>
         </div>
@@ -48,9 +48,6 @@ const Programs = () => {
               className="bg-[#141414] border border-white/5 rounded-md py-1.5 pl-9 pr-4 text-xs w-64 focus:outline-none focus:border-white/20"
             />
           </div>
-          <Zap size={18} className="text-white/40 cursor-pointer" />
-          <Bell size={18} className="text-white/40 cursor-pointer" />
-          <div className="w-7 h-7 rounded-full bg-linear-to-tr from-orange-500 to-rose-500 border border-white/20" />
         </div>
       </header>
 
@@ -60,9 +57,7 @@ const Programs = () => {
           Training Modules
         </span>
         <h2 className="text-6xl font-black mt-2 mb-4 tracking-tighter leading-none">
-          CURATED
-          <br />
-          PROGRAMS
+          CURATED PROGRAMS
         </h2>
         <p className="max-w-xl text-white/50 text-sm leading-relaxed">
           Precision-engineered curricula designed for metabolic adaptation,
@@ -71,61 +66,42 @@ const Programs = () => {
       </section>
 
       {/* Featured Program */}
-      <div className="grid grid-cols-4 gap-6 mb-16">
-        <div className="col-span-3 relative h-[320px] rounded-2xl overflow-hidden group">
-          <img
-            src="https://images.unsplash.com/photo-1594882645126-14020914d58d?auto=format&fit=crop&q=80&w=1200"
-            alt="Running"
-            className="absolute inset-0 w-full h-full object-cover opacity-60 grayscale"
-          />
-          <div className="absolute inset-0 bg-linear-to-r from-black via-black/40 to-transparent p-10 flex flex-col justify-end">
-            <button
-              onClick={() => setActiveProgram("Metabolic Conditioning 2.0")}
-              className="absolute top-10 right-10 px-4 py-2 bg-white text-black font-bold text-xs uppercase rounded"
-            >
-              Set Active
-            </button>
-            <div className="flex gap-2 mb-4">
-              <span className="bg-white/10 backdrop-blur-md border border-white/10 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest">
-                Elite Tier
-              </span>
-              <span className="bg-white/10 backdrop-blur-md border border-white/10 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest">
-                New Release
-              </span>
-            </div>
-            <h3 className="text-4xl font-bold mb-3 tracking-tight">
-              Metabolic Conditioning 2.0
-            </h3>
-            <p className="text-white/60 text-sm max-w-sm mb-6">
-              The flagship engine optimization program for advanced endurance
-              and fat oxidation.
-            </p>
-            <div className="flex gap-6 text-[10px] font-bold tracking-widest text-white/40">
-              <span className="flex items-center gap-2">
-                <Clock size={12} /> 12 WEEKS
-              </span>
-              <span className="flex items-center gap-2">
-                <BarChart size={12} /> ADVANCED
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-[#141414] border border-white/5 rounded-2xl p-6 flex flex-col">
-          <div className="p-2 bg-white/5 rounded-lg w-fit mb-6">
-            <Sparkles size={18} className="text-white/60" />
-          </div>
-          <h4 className="font-bold text-sm mb-3 uppercase tracking-wider">
-            AI Adaptive Path
-          </h4>
-          <p className="text-xs text-white/40 leading-relaxed mb-8">
-            Based on your recent 5K run metrics, we recommend prioritizing the{" "}
-            <span className="text-white">Aerobic Threshold</span> series this
-            week.
-          </p>
-          <button className="mt-auto flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white/60 hover:text-white transition-colors">
-            View Analysis <ArrowRight size={14} />
+      <div className="relative h-[320px] rounded-2xl overflow-hidden group mb-16">
+        <img
+          src="https://images.unsplash.com/photo-1594882645126-14020914d58d?auto=format&fit=crop&q=80&w=1200"
+          alt="Running"
+          className="absolute inset-0 w-full h-full object-cover opacity-60 grayscale"
+        />
+        <div className="absolute inset-0 bg-linear-to-r from-black via-black/40 to-transparent p-10 flex flex-col justify-end">
+          <button
+            onClick={() => setActiveProgram("Metabolic Conditioning 2.0")}
+            className="absolute top-10 right-10 px-4 py-2 bg-white text-black font-bold text-xs uppercase rounded"
+          >
+            Set Active
           </button>
+          <div className="flex gap-2 mb-4">
+            <span className="bg-white/10 backdrop-blur-md border border-white/10 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest">
+              Elite Tier
+            </span>
+            <span className="bg-white/10 backdrop-blur-md border border-white/10 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest">
+              New Release
+            </span>
+          </div>
+          <h3 className="text-4xl font-bold mb-3 tracking-tight">
+            Metabolic Conditioning 2.0
+          </h3>
+          <p className="text-white/60 text-sm max-w-sm mb-6">
+            The flagship engine optimization program for advanced endurance and
+            fat oxidation.
+          </p>
+          <div className="flex gap-6 text-[10px] font-bold tracking-widest text-white/40">
+            <span className="flex items-center gap-2">
+              <Clock size={12} /> 12 WEEKS
+            </span>
+            <span className="flex items-center gap-2">
+              <BarChart size={12} /> ADVANCED
+            </span>
+          </div>
         </div>
       </div>
 
@@ -196,7 +172,7 @@ const Programs = () => {
           />
 
           {/* Custom Protocol Card */}
-          <div className="bg-[#141414] border border-white/5 border-dashed rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+          {/* <div className="bg-[#141414] border border-white/5 border-dashed rounded-2xl p-6 flex flex-col items-center justify-center text-center">
             <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center mb-6 text-white/40">
               <Plus size={24} />
             </div>
@@ -207,7 +183,7 @@ const Programs = () => {
             <button className="bg-white/5 border border-white/10 px-6 py-2.5 rounded text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all">
               Create Now
             </button>
-          </div>
+          </div> */}
         </div>
       </section>
     </main>
@@ -225,7 +201,7 @@ const ProgramCard = ({
   onClick,
 }: any) => (
   <Link
-    to="/dashboard/programs/train"
+    to={`/dashboard/programs/train/${tag}`}
     onClick={onClick}
     className="bg-[#141414] border border-white/5 rounded-2xl overflow-hidden group cursor-pointer hover:border-white/20 transition-all"
   >
