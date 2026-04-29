@@ -13,17 +13,22 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useCommunityStore } from "../store/communityStore";
+import { Image as ImageIcon } from "lucide-react";
 
 const Community = () => {
   const { posts, addPost, likePost, athletes, toggleFollow } =
     useCommunityStore();
   const [newPost, setNewPost] = useState("");
+  const [newImgUrl, setNewImgUrl] = useState("");
+  const [showImgInput, setShowImgInput] = useState(false);
 
   const handlePost = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newPost.trim()) return;
-    addPost(newPost);
+    addPost(newPost, newImgUrl);
     setNewPost("");
+    setNewImgUrl("");
+    setShowImgInput(false);
   };
 
   return (
@@ -116,11 +121,23 @@ const Community = () => {
                 value={newPost}
                 onChange={(e) => setNewPost(e.target.value)}
                 placeholder="Share your progress..."
-                className="w-full bg-transparent resize-none focus:outline-none text-sm placeholder:text-white/20 mb-4 h-16"
+                className="w-full bg-transparent resize-none focus:outline-none text-sm placeholder:text-white/20 mb-2 h-16"
               />
+              {showImgInput && (
+                <input
+                  type="text"
+                  value={newImgUrl}
+                  onChange={(e) => setNewImgUrl(e.target.value)}
+                  placeholder="Paste image URL here..."
+                  className="w-full bg-[#111112] border border-white/10 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-white/20 mb-4"
+                />
+              )}
               <div className="flex justify-between items-center">
-                <div className="text-white/20 hover:text-white cursor-pointer">
-                  <MoreHorizontal size={18} />
+                <div
+                  className="text-white/20 hover:text-white cursor-pointer transition-colors"
+                  onClick={() => setShowImgInput(!showImgInput)}
+                >
+                  <ImageIcon size={18} />
                 </div>
                 <button
                   type="submit"
