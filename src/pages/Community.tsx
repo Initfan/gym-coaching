@@ -12,36 +12,17 @@ import {
   History,
 } from "lucide-react";
 import { useState } from "react";
+import { useCommunityStore } from "../store/communityStore";
 
 const Community = () => {
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      author: "Elena Rodriguez",
-      time: "2 hours ago • London, UK",
-      text: "Just hit a new PR on my conventional deadlift today. 140kg felt like air. Huge thanks to the AI Coach for the technical adjustments on my hinge. Stability is everything.",
-      img: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&q=80&w=1000",
-      likes: 242,
-      comments: 18,
-    },
-  ]);
+  const { posts, addPost, likePost, athletes, toggleFollow } =
+    useCommunityStore();
   const [newPost, setNewPost] = useState("");
 
   const handlePost = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newPost) return;
-    setPosts([
-      {
-        id: Date.now(),
-        author: "You",
-        time: "Just now",
-        text: newPost,
-        img: "",
-        likes: 0,
-        comments: 0,
-      },
-      ...posts,
-    ]);
+    if (!newPost.trim()) return;
+    addPost(newPost);
     setNewPost("");
   };
 
@@ -164,9 +145,10 @@ const Community = () => {
                       <img
                         className="w-full h-full object-cover"
                         src={
-                          post.author === "You"
+                          post.authorImg ||
+                          (post.author === "You"
                             ? "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100"
-                            : "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=100"
+                            : "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=100")
                         }
                       />
                     </div>
@@ -193,8 +175,15 @@ const Community = () => {
                 )}
                 <div className="flex justify-between items-center">
                   <div className="flex gap-6">
-                    <button className="flex items-center gap-2 text-[10px] font-bold text-white/40 hover:text-rose-500 transition-colors">
-                      <Heart size={14} /> {post.likes}
+                    <button
+                      onClick={() => likePost(post.id)}
+                      className={`flex items-center gap-2 text-[10px] font-bold transition-colors ${post.isLikedByMe ? "text-rose-500" : "text-white/40 hover:text-rose-500"}`}
+                    >
+                      <Heart
+                        size={14}
+                        className={post.isLikedByMe ? "fill-rose-500" : ""}
+                      />{" "}
+                      {post.likes}
                     </button>
                     <button className="flex items-center gap-2 text-[10px] font-bold text-white/40 hover:text-white transition-colors">
                       <MessageSquare size={14} /> {post.comments}
@@ -216,22 +205,16 @@ const Community = () => {
         <div className="space-y-6">
           <SidebarCard title="Rising Athletes">
             <div className="space-y-4">
-              <AthleteRow
-                name="Julian S."
-                role="Powerlifting Expert"
-                img="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100"
-              />
-              <AthleteRow
-                name="Sarah Chen"
-                role="Mobility Coach"
-                img="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100"
-              />
-              <AthleteRow
-                name="Mona Lisa"
-                role="Yoga/Balance"
-                img="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100"
-                following
-              />
+              {athletes.map((athlete) => (
+                <AthleteRow
+                  key={athlete.id}
+                  name={athlete.name}
+                  role={athlete.role}
+                  img={athlete.img}
+                  following={athlete.following}
+                  onToggleFollow={() => toggleFollow(athlete.id)}
+                />
+              ))}
             </div>
             <button className="w-full text-center text-[9px] font-bold text-white/20 hover:text-white uppercase tracking-widest mt-6">
               View All Directory
@@ -357,7 +340,13 @@ const SidebarCard = ({ title, children }: any) => (
   </div>
 );
 
-const AthleteRow = ({ name, role, img, following = false }: any) => (
+const AthleteRow = ({
+  name,
+  role,
+  img,
+  following = false,
+  onToggleFollow,
+}: any) => (
   <div className="flex items-center justify-between group">
     <div className="flex gap-3 items-center">
       <img
@@ -371,6 +360,7 @@ const AthleteRow = ({ name, role, img, following = false }: any) => (
       </div>
     </div>
     <button
+      onClick={onToggleFollow}
       className={`px-4 py-1.5 rounded-full text-[9px] font-bold uppercase tracking-widest transition-all ${following ? "bg-white/5 text-white/40 border border-white/5" : "bg-white text-black"}`}
     >
       {following ? "Following" : "Follow"}
