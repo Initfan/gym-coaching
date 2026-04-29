@@ -1,4 +1,5 @@
-import { Route, Routes } from "react-router";
+import { Route, Routes, Navigate } from "react-router";
+import { useEffect } from "react";
 import Dashboard from "./pages/Dashboard";
 import Programs from "./pages/Programs";
 import DashboardLayout from "./components/DashboardLayout";
@@ -8,12 +9,34 @@ import Community from "./pages/Community";
 import Auth from "./pages/Auth";
 import Nutrition from "./pages/Nutrition";
 import Profile from "./pages/Profile";
+import { useAuthStore } from "./store/authStore";
+
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { session, loading } = useAuthStore();
+  
+  if (loading) {
+    return <div className="min-h-screen bg-[#050505] flex items-center justify-center text-white">Loading...</div>;
+  }
+  
+  if (!session) {
+    return <Navigate to="/auth" replace />;
+  }
+
+  return children;
+};
 
 const App = () => {
+  const { initializeAccount } = useAuthStore();
+
+  useEffect(() => {
+    initializeAccount();
+  }, [initializeAccount]);
+
   return (
     <Routes>
-      <Route path="auth" element={<Auth />} />
-      <Route path="dashboard" element={<DashboardLayout />}>
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/auth" element={<Auth />} />
+      <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
         <Route index element={<Dashboard />} />
         <Route path="programs" element={<Programs />} />
         <Route path="nutrition" element={<Nutrition />} />
