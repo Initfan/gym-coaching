@@ -10,6 +10,7 @@ import Auth from "./pages/Auth";
 import Nutrition from "./pages/Nutrition";
 import Profile from "./pages/Profile";
 import { useAuthStore } from "./store/authStore";
+import { useAppStore } from "./store/appStore";
 import Train from "./pages/Train";
 
 /* 
@@ -34,10 +35,13 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 const App = () => {
   const { initializeAccount } = useAuthStore();
+  const { syncSupabaseData } = useAppStore();
 
   useEffect(() => {
-    initializeAccount();
-  }, [initializeAccount]);
+    initializeAccount().then(() => {
+      syncSupabaseData();
+    });
+  }, [initializeAccount, syncSupabaseData]);
 
   return (
     <Routes>

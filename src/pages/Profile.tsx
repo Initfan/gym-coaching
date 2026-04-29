@@ -8,6 +8,7 @@ import {
   Infinity as InfinityIcon,
   BrainCircuit,
 } from "lucide-react";
+import { useAuthStore } from "../store/authStore";
 
 type MetricCardProps = {
   label: string;
@@ -124,6 +125,9 @@ const BarChartItem: React.FC<{ height: string; isActive?: boolean }> = ({
 );
 
 const Profile: React.FC = () => {
+  const { user } = useAuthStore();
+  const displayName = user?.email?.split("@")[0] || "Athlete";
+
   return (
     <main className="flex-1 p-10 overflow-y-auto">
       <header className="flex justify-between items-center mb-12">
@@ -146,10 +150,8 @@ const Profile: React.FC = () => {
             <span className="inline-block bg-[#1c1c1e] px-3 py-1 rounded text-[10px] font-bold uppercase tracking-[0.3em] text-[#8e8e93]">
               Elite Optimization Phase
             </span>
-            <h1 className="text-6xl font-black tracking-tighter leading-[0.85]">
-              Alex
-              <br />
-              Mercer
+            <h1 className="text-6xl font-black tracking-tighter leading-[0.85] capitalize">
+              {displayName}
             </h1>
             <p className="max-w-md text-sm text-[#8e8e93] leading-relaxed">
               Calisthenics specialist focused on explosive power and neural

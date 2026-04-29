@@ -11,17 +11,21 @@ import {
   MoreHorizontal,
   History,
 } from "lucide-react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useCommunityStore } from "../store/communityStore";
 import { Image as ImageIcon } from "lucide-react";
 
 const Community = () => {
-  const { posts, addPost, likePost, athletes, toggleFollow } =
+  const { posts, addPost, likePost, athletes, toggleFollow, fetchRemotePosts } =
     useCommunityStore();
   const [newPost, setNewPost] = useState("");
   const [newImgUrl, setNewImgUrl] = useState("");
   const [showImgInput, setShowImgInput] = useState(false);
   const postInputRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    fetchRemotePosts();
+  }, [fetchRemotePosts]);
 
   const handlePost = (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,53 +66,6 @@ const Community = () => {
       <div className="grid grid-cols-3 gap-8">
         {/* Left Column: Feed & Transformation */}
         <div className="col-span-2 space-y-8">
-          {/* Featured Transformation */}
-          <div className="bg-[#141414] border border-white/5 rounded-2xl overflow-hidden flex">
-            <div className="w-1/2 relative">
-              <img
-                src="https://images.unsplash.com/photo-1583454110551-21f2fa2adfcd?auto=format&fit=crop&q=80&w=600"
-                alt="Transformation"
-                className="h-full object-cover grayscale"
-              />
-              <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-2 py-1 rounded text-[8px] font-bold tracking-widest uppercase border border-white/10">
-                Transformation of the week
-              </div>
-            </div>
-            <div className="w-1/2 p-8 flex flex-col justify-center">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-full border border-white/10 overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=100"
-                    alt="Marcus"
-                  />
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider">
-                    Marcus Thorne
-                  </h4>
-                  <p className="text-[9px] text-white/40 uppercase tracking-widest">
-                    Protocol: Hypertrophy V3
-                  </p>
-                </div>
-              </div>
-              <blockquote className="text-2xl font-bold tracking-tight mb-8 leading-tight">
-                "The Kinetic approach isn't just about weight — it's about
-                re-engineering the habit loop."
-              </blockquote>
-              <div className="flex gap-8 mb-8">
-                <MetricSmall label="Duration" value="12 Weeks" />
-                <MetricSmall
-                  label="Body Fat"
-                  value="-8.2%"
-                  color="text-emerald-500"
-                />
-              </div>
-              <button className="w-fit px-6 py-2 border border-white/10 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all">
-                Read Case Study
-              </button>
-            </div>
-          </div>
-
           {/* Compose Post */}
           <form
             onSubmit={handlePost}
@@ -284,20 +241,6 @@ const Community = () => {
               ))}
             </div>
           </SidebarCard>
-
-          <button
-            onClick={() => {
-              postInputRef.current?.focus();
-            }}
-            className="w-full aspect-square border border-dashed border-white/10 rounded-2xl flex flex-col items-center justify-center gap-4 text-white/20 hover:text-white/40 hover:bg-white/2 transition-all group"
-          >
-            <div className="p-4 bg-white/5 rounded-full group-hover:scale-110 transition-transform">
-              <Plus size={24} />
-            </div>
-            <span className="text-xs font-bold uppercase tracking-widest">
-              Share Entry
-            </span>
-          </button>
         </div>
       </div>
     </main>

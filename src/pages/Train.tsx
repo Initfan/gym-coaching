@@ -53,29 +53,6 @@ const Train: React.FC = () => {
           </button>
           <h2 className="text-lg font-black tracking-tight">{tag}</h2>
         </div>
-        <div className="flex items-center gap-6">
-          <div className="relative group">
-            <Search
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-[#48484a] group-focus-within:text-white"
-              size={16}
-            />
-            <input
-              type="text"
-              placeholder="Search exercises..."
-              className="bg-[#111112] border border-[#1a1a1c] rounded-full py-2 pl-10 pr-4 text-xs w-72 focus:outline-none focus:border-[#2c2c2e] transition-all"
-            />
-          </div>
-          <div className="flex items-center gap-6 text-[#8e8e93]">
-            <Bell size={18} className="cursor-pointer hover:text-white" />
-            <Zap size={18} className="cursor-pointer hover:text-white" />
-            <div className="w-8 h-8 rounded-full bg-slate-600 border border-[#2c2c2e] overflow-hidden flex items-center justify-center">
-              <img
-                src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?&w=64&q=80&auto=format&fit=crop"
-                alt="User"
-              />
-            </div>
-          </div>
-        </div>
       </header>
 
       {/* Hero Banner */}
