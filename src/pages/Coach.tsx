@@ -44,68 +44,6 @@ const Coach = () => {
 
         <ChatBot />
       </main>
-
-      {/* --- Right Sidebar: Insights --- */}
-      <aside className="w-80 p-8 space-y-10 h-screen overflow-y-scroll">
-        <div>
-          <h3 className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-6">
-            Contextual Recommendations
-          </h3>
-          <div className="space-y-4">
-            <RecommendationCard
-              label="New Routine"
-              title="Hypertrophy Plateau Breaker"
-              desc="Based on your chest progress stall, we recommend a 3-week undulating periodization block."
-            />
-            <RecommendationCard
-              label="Nutrition"
-              title="Evening Recovery Meal"
-              desc="High magnesium intake needed today. Suggested: Salmon with roasted pumpkin and pumpkin seeds."
-            />
-          </div>
-        </div>
-
-        <div>
-          <h3 className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-6">
-            Biometric Feed
-          </h3>
-          <div className="grid grid-cols-2 gap-3">
-            <BiometricCard
-              icon={<Activity size={14} />}
-              label="HRV"
-              value="64"
-              unit="ms"
-            />
-            <BiometricCard
-              icon={<Moon size={14} />}
-              label="SLEEP"
-              value="88"
-              unit="%"
-            />
-          </div>
-        </div>
-
-        <div>
-          <h3 className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-6">
-            Knowledge Atelier
-          </h3>
-          <div className="relative group cursor-pointer overflow-hidden rounded-xl border border-white/5">
-            <img
-              src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&q=80&w=400"
-              alt="Video"
-              className="w-full h-40 object-cover opacity-40 group-hover:scale-105 transition-all"
-            />
-            <div className="absolute inset-0 bg-linear-to-t from-black to-transparent flex flex-col justify-end p-4">
-              <div className="flex items-center gap-2 text-[10px] font-bold tracking-widest text-blue-400 mb-1">
-                <PlayCircle size={12} /> VIDEO GUIDE • 4 MIN
-              </div>
-              <h4 className="text-xs font-black uppercase tracking-tighter">
-                Mastering the Arch
-              </h4>
-            </div>
-          </div>
-        </div>
-      </aside>
     </>
   );
 };

@@ -121,6 +121,7 @@ const ChatBot = () => {
           ].map((pill) => (
             <button
               key={pill}
+              onClick={() => setChatBox(pill)}
               className="bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-[10px] font-bold text-white/60 hover:text-white whitespace-nowrap"
             >
               <span className="flex items-center gap-2">

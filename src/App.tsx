@@ -10,14 +10,19 @@ import Auth from "./pages/Auth";
 import Nutrition from "./pages/Nutrition";
 import Profile from "./pages/Profile";
 import { useAuthStore } from "./store/authStore";
+import Train from "./pages/Train";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { session, loading } = useAuthStore();
-  
+
   if (loading) {
-    return <div className="min-h-screen bg-[#050505] flex items-center justify-center text-white">Loading...</div>;
+    return (
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center text-white">
+        Loading...
+      </div>
+    );
   }
-  
+
   if (!session) {
     return <Navigate to="/auth" replace />;
   }
@@ -36,9 +41,19 @@ const App = () => {
     <Routes>
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
       <Route path="/auth" element={<Auth />} />
-      <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
+      <Route
+        path="/dashboard"
+        element={
+          // <ProtectedRoute>
+          // </ProtectedRoute>
+          <DashboardLayout />
+        }
+      >
         <Route index element={<Dashboard />} />
-        <Route path="programs" element={<Programs />} />
+        <Route path="programs">
+          <Route index element={<Programs />} />
+          <Route path="train" element={<Train />} />
+        </Route>
         <Route path="nutrition" element={<Nutrition />} />
         <Route path="coach" element={<Coach />} />
         <Route path="progress" element={<Progress />} />

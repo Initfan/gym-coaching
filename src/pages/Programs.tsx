@@ -11,6 +11,7 @@ import {
   Search,
 } from "lucide-react";
 import { useAppStore } from "../store/appStore";
+import { Link } from "react-router";
 
 const Programs = () => {
   const { activeProgram, setActiveProgram } = useAppStore();
@@ -78,7 +79,12 @@ const Programs = () => {
             className="absolute inset-0 w-full h-full object-cover opacity-60 grayscale"
           />
           <div className="absolute inset-0 bg-linear-to-r from-black via-black/40 to-transparent p-10 flex flex-col justify-end">
-            <button onClick={() => setActiveProgram("Metabolic Conditioning 2.0")} className="absolute top-10 right-10 px-4 py-2 bg-white text-black font-bold text-xs uppercase rounded">Set Active</button>
+            <button
+              onClick={() => setActiveProgram("Metabolic Conditioning 2.0")}
+              className="absolute top-10 right-10 px-4 py-2 bg-white text-black font-bold text-xs uppercase rounded"
+            >
+              Set Active
+            </button>
             <div className="flex gap-2 mb-4">
               <span className="bg-white/10 backdrop-blur-md border border-white/10 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest">
                 Elite Tier
@@ -216,9 +222,13 @@ const ProgramCard = ({
   level,
   duration,
   progress,
-  onClick
+  onClick,
 }: any) => (
-  <div onClick={onClick} className="bg-[#141414] border border-white/5 rounded-2xl overflow-hidden group cursor-pointer hover:border-white/20 transition-all">
+  <Link
+    to="/dashboard/programs/train"
+    onClick={onClick}
+    className="bg-[#141414] border border-white/5 rounded-2xl overflow-hidden group cursor-pointer hover:border-white/20 transition-all"
+  >
     <div className="h-48 relative overflow-hidden">
       <img
         src={image}
@@ -259,7 +269,7 @@ const ProgramCard = ({
         </div>
       </div>
     </div>
-  </div>
+  </Link>
 );
 
 export default Programs;
