@@ -8,8 +8,11 @@ import {
   User,
 } from "lucide-react";
 import { NavLink } from "react-router";
+import { useAppStore } from "../store/appStore";
 
 const Sidebar = () => {
+  const { workoutActive, startWorkout, endWorkout, activeProgram } = useAppStore();
+
   return (
     <aside className="w-64 border-r border-white/5 flex flex-col p-6 sticky top-0 h-screen">
       <div className="mb-10">
@@ -23,45 +26,52 @@ const Sidebar = () => {
           label="Dashboard"
         />
         <NavItem
-          to={"programs"}
+          to={"/dashboard/programs"}
           icon={<Dumbbell size={18} />}
           label="Programs"
         />
         <NavItem
-          to={"nutrition"}
+          to={"/dashboard/nutrition"}
           icon={<Utensils size={18} />}
           label="Nutrition"
         />
         <NavItem
-          to={"coach"}
+          to={"/dashboard/coach"}
           icon={<BrainCircuit size={18} />}
           label="AI Coach"
         />
         <NavItem
-          to={"progress"}
+          to={"/dashboard/progress"}
           icon={<LineChart size={18} />}
           label="Progress"
         />
         <NavItem
-          to={"community"}
+          to={"/dashboard/community"}
           icon={<Users size={18} />}
           label="Community"
         />
-        <NavItem to={"profile"} icon={<User size={18} />} label="Profile" />
+        <NavItem to={"/dashboard/profile"} icon={<User size={18} />} label="Profile" />
       </nav>
 
       <div className="mt-auto space-y-4">
-        <button className="w-full bg-[#d1d1d1] text-black font-bold py-3 rounded-md text-xs uppercase tracking-wider hover:bg-white transition-colors">
-          Start Workout
-        </button>
+        {workoutActive ? (
+           <button onClick={endWorkout} className="w-full bg-red-500/20 text-red-500 font-bold py-3 rounded-md text-xs uppercase tracking-wider hover:bg-red-500 hover:text-white transition-colors">
+            End Workout
+          </button>
+        ) : (
+          <button onClick={() => startWorkout(activeProgram)} className="w-full bg-[#d1d1d1] text-black font-bold py-3 rounded-md text-xs uppercase tracking-wider hover:bg-white transition-colors">
+            Start Workout
+          </button>
+        )}
       </div>
     </aside>
   );
 };
 
-const NavItem = ({ icon, label, to }) => (
+const NavItem = ({ icon, label, to }: any) => (
   <NavLink
     to={to}
+    end={to === "/dashboard"}
     className={({ isActive }) =>
       `flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-all ${isActive ? "bg-white/5 text-white" : "text-white/40 hover:text-white hover:bg-white/5"}`
     }

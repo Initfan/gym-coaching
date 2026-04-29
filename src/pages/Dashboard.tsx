@@ -9,8 +9,14 @@ import {
   Calendar,
   TrendingUp,
 } from "lucide-react";
+import { useAppStore } from "../store/appStore";
 
 const Dashboard = () => {
+  const { nutrition, weightLogs, activeProgram } = useAppStore();
+  const latestWeight = weightLogs.length > 0 ? weightLogs[weightLogs.length - 1].weight : 0;
+  const previousWeight = weightLogs.length > 1 ? weightLogs[weightLogs.length - 2].weight : latestWeight;
+  const weightDiff = latestWeight - previousWeight;
+
   return (
     <main className="flex-1 p-10 overflow-y-auto">
       {/* Header */}
@@ -51,27 +57,27 @@ const Dashboard = () => {
       {/* Top Stats Grid */}
       <div className="grid grid-cols-4 gap-4 mb-8">
         <StatCard title="TODAY'S WORKOUT" icon={<Dumbbell size={14} />}>
-          <div className="text-2xl font-bold">Push A</div>
+          <div className="text-xl font-bold tracking-tight truncate py-1">{activeProgram}</div>
           <p className="text-[10px] text-white/40 mt-1 uppercase tracking-wider">
             Expected duration: 75 min
           </p>
         </StatCard>
         <StatCard title="CALORIES TARGET" icon={<Flame size={14} />}>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-bold tracking-tight">2,450</span>
-            <span className="text-xs text-white/40">kcal</span>
+            <span className="text-2xl font-bold tracking-tight">{(nutrition.protein * 4 + nutrition.carbs * 4 + nutrition.fats * 9).toFixed(0)}</span>
+            <span className="text-xs text-white/40">/ {(nutrition.targetProtein * 4 + nutrition.targetCarbs * 4 + nutrition.targetFats * 9).toFixed(0)} kcal</span>
           </div>
           <div className="w-full bg-white/5 h-1 mt-3 rounded-full overflow-hidden">
-            <div className="bg-white/60 h-full w-[85%]" />
+            <div className="bg-white/60 h-full transition-all" style={{ width: `${Math.min(100, ((nutrition.protein * 4 + nutrition.carbs * 4 + nutrition.fats * 9) / (nutrition.targetProtein * 4 + nutrition.targetCarbs * 4 + nutrition.targetFats * 9)) * 100)}%` }} />
           </div>
         </StatCard>
         <StatCard title="WEIGHT PROGRESS" icon={<TrendingUp size={14} />}>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-bold tracking-tight">78.4</span>
+            <span className="text-2xl font-bold tracking-tight">{latestWeight.toFixed(1)}</span>
             <span className="text-xs text-white/40">kg</span>
           </div>
-          <p className="text-[10px] text-emerald-400 mt-1">
-            ↘ 0.4kg from last week
+          <p className={`text-[10px] mt-1 ${weightDiff <= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+            {weightDiff <= 0 ? '↘' : '↗'} {Math.abs(weightDiff).toFixed(1)}kg from last log
           </p>
         </StatCard>
         <StatCard title="CONSISTENCY" icon={<Calendar size={14} />}>
@@ -118,10 +124,10 @@ const Dashboard = () => {
           <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent p-8 flex flex-col justify-between">
             <div>
               <span className="bg-white/10 backdrop-blur-md px-3 py-1 rounded text-[10px] font-bold uppercase tracking-widest">
-                Volume Phase
+                Current Program
               </span>
               <h3 className="text-5xl font-bold mt-4 leading-[1.1] max-w-md tracking-tighter">
-                Push Intensity & Hypertrophy A
+                {activeProgram}
               </h3>
             </div>
             <div className="flex gap-12">
@@ -183,9 +189,9 @@ const Dashboard = () => {
             </h3>
           </div>
           <div className="space-y-6">
-            <NutritionRow label="PROTEIN" current={180} target={200} unit="g" />
-            <NutritionRow label="CARBS" current={240} target={280} unit="g" />
-            <NutritionRow label="FATS" current={65} target={70} unit="g" />
+            <NutritionRow label="PROTEIN" current={nutrition.protein} target={nutrition.targetProtein} unit="g" />
+            <NutritionRow label="CARBS" current={nutrition.carbs} target={nutrition.targetCarbs} unit="g" />
+            <NutritionRow label="FATS" current={nutrition.fats} target={nutrition.targetFats} unit="g" />
           </div>
         </div>
 
@@ -230,7 +236,7 @@ const Dashboard = () => {
 
 // --- Subcomponents ---
 
-const StatCard = ({ title, icon, children }) => (
+const StatCard = ({ title, icon, children }: any) => (
   <div className="bg-[#141414] border border-white/5 p-5 rounded-2xl">
     <div className="flex justify-between items-center mb-4">
       <span className="text-[10px] font-bold text-white/40 tracking-widest">
@@ -242,7 +248,7 @@ const StatCard = ({ title, icon, children }) => (
   </div>
 );
 
-const Metric = ({ label, value }) => (
+const Metric = ({ label, value }: any) => (
   <div>
     <p className="text-[10px] text-white/40 font-bold tracking-widest uppercase mb-1">
       {label}
@@ -251,7 +257,7 @@ const Metric = ({ label, value }) => (
   </div>
 );
 
-const ProgressBar = ({ label, value, progress = 92, color = "bg-white" }) => (
+const ProgressBar = ({ label, value, progress = 92, color = "bg-white" }: any) => (
   <div className="space-y-2">
     <div className="flex justify-between items-center">
       <span className="text-[10px] text-white/40 font-bold uppercase tracking-widest">
@@ -268,7 +274,7 @@ const ProgressBar = ({ label, value, progress = 92, color = "bg-white" }) => (
   </div>
 );
 
-const NutritionRow = ({ label, current, target, unit }) => (
+const NutritionRow = ({ label, current, target, unit }: any) => (
   <div className="flex items-center gap-6">
     <div className="relative flex items-center justify-center w-12 h-12">
       <svg className="w-full h-full -rotate-90">
@@ -290,7 +296,7 @@ const NutritionRow = ({ label, current, target, unit }) => (
           fill="transparent"
           className="text-white/80"
           strokeDasharray={125.6}
-          strokeDashoffset={125.6 - (current / target) * 125.6}
+          strokeDashoffset={125.6 - Math.min(1, current / target) * 125.6}
           strokeLinecap="round"
         />
       </svg>
@@ -307,7 +313,9 @@ const NutritionRow = ({ label, current, target, unit }) => (
           {unit}
         </span>
       </div>
-      <div className="w-full bg-white/5 h-1 mt-2" />
+      <div className="w-full bg-white/5 h-1 mt-2">
+        <div className="bg-white/40 h-full transition-all duration-500" style={{ width: `${Math.min(100, (current / target) * 100)}%` }} />
+      </div>
     </div>
   </div>
 );

@@ -127,7 +127,7 @@ const Profile: React.FC = () => {
     <main className="flex-1 p-10 overflow-y-auto">
       <header className="flex justify-between items-center mb-10">
         <h2 className="text-lg font-black tracking-tight uppercase">
-          Kinetic Atelier
+          Kinetic Atelier <button onClick={() => { import("../store/authStore").then(m => m.useAuthStore.getState().signOut()) }} className="ml-4 text-xs bg-red-500/20 text-red-500 px-3 py-1 rounded hover:bg-red-500 hover:text-white transition-colors">Sign Out</button>
         </h2>
         <div className="flex items-center gap-6 text-[#48484a]">
           <Zap size={18} className="cursor-pointer hover:text-white" />
