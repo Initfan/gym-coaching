@@ -11,7 +11,7 @@ import {
   MoreHorizontal,
   History,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useCommunityStore } from "../store/communityStore";
 import { Image as ImageIcon } from "lucide-react";
 
@@ -21,6 +21,7 @@ const Community = () => {
   const [newPost, setNewPost] = useState("");
   const [newImgUrl, setNewImgUrl] = useState("");
   const [showImgInput, setShowImgInput] = useState(false);
+  const postInputRef = useRef<HTMLTextAreaElement>(null);
 
   const handlePost = (e: React.FormEvent) => {
     e.preventDefault();
@@ -118,6 +119,7 @@ const Community = () => {
             </div>
             <div className="flex-1 shrink-0">
               <textarea
+                ref={postInputRef}
                 value={newPost}
                 onChange={(e) => setNewPost(e.target.value)}
                 placeholder="Share your progress..."
@@ -276,7 +278,12 @@ const Community = () => {
             </div>
           </SidebarCard>
 
-          <button className="w-full aspect-square border border-dashed border-white/10 rounded-2xl flex flex-col items-center justify-center gap-4 text-white/20 hover:text-white/40 hover:bg-white/2 transition-all group">
+          <button
+            onClick={() => {
+              postInputRef.current?.focus();
+            }}
+            className="w-full aspect-square border border-dashed border-white/10 rounded-2xl flex flex-col items-center justify-center gap-4 text-white/20 hover:text-white/40 hover:bg-white/2 transition-all group"
+          >
             <div className="p-4 bg-white/5 rounded-full group-hover:scale-110 transition-transform">
               <Plus size={24} />
             </div>
