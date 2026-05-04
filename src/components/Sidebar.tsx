@@ -8,10 +8,11 @@ import {
   User,
 } from "lucide-react";
 import { NavLink } from "react-router";
-import { useAppStore } from "../store/appStore";
+// import { useAppStore } from "../store/appStore";
 
 const Sidebar = () => {
-  const { workoutActive, startWorkout, endWorkout, activeProgram } = useAppStore();
+  // const { workoutActive, startWorkout, endWorkout, activeProgram } =
+  //   useAppStore();
 
   return (
     <aside className="w-64 border-r border-white/5 flex flex-col p-6 sticky top-0 h-screen">
@@ -50,20 +51,30 @@ const Sidebar = () => {
           icon={<Users size={18} />}
           label="Community"
         />
-        <NavItem to={"/dashboard/profile"} icon={<User size={18} />} label="Profile" />
+        <NavItem
+          to={"/dashboard/profile"}
+          icon={<User size={18} />}
+          label="Profile"
+        />
       </nav>
 
-      <div className="mt-auto space-y-4">
+      {/* <div className="mt-auto space-y-4">
         {workoutActive ? (
-           <button onClick={endWorkout} className="w-full bg-red-500/20 text-red-500 font-bold py-3 rounded-md text-xs uppercase tracking-wider hover:bg-red-500 hover:text-white transition-colors">
+          <button
+            onClick={endWorkout}
+            className="w-full bg-red-500/20 text-red-500 font-bold py-3 rounded-md text-xs uppercase tracking-wider hover:bg-red-500 hover:text-white transition-colors"
+          >
             End Workout
           </button>
         ) : (
-          <button onClick={() => startWorkout(activeProgram)} className="w-full bg-[#d1d1d1] text-black font-bold py-3 rounded-md text-xs uppercase tracking-wider hover:bg-white transition-colors">
+          <button
+            onClick={() => startWorkout(activeProgram)}
+            className="w-full bg-[#d1d1d1] text-black font-bold py-3 rounded-md text-xs uppercase tracking-wider hover:bg-white transition-colors"
+          >
             Start Workout
           </button>
         )}
-      </div>
+      </div> */}
     </aside>
   );
 };

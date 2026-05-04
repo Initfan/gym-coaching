@@ -12,12 +12,12 @@ import {
   History,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import { useCommunityStore } from "../store/communityStore";
+// import { useCommunityStore } from "../store/communityStore";
 import { Image as ImageIcon } from "lucide-react";
 
 const Community = () => {
-  const { posts, addPost, likePost, athletes, toggleFollow, fetchRemotePosts } =
-    useCommunityStore();
+  // const { posts, addPost, likePost, athletes, toggleFollow, fetchRemotePosts } =
+  //   useCommunityStore();
   const [newPost, setNewPost] = useState("");
   const [newImgUrl, setNewImgUrl] = useState("");
   const [showImgInput, setShowImgInput] = useState(false);

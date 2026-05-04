@@ -4,6 +4,7 @@ import type { Provider } from "@supabase/auth-js";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { useAuthStore } from "../store/authStore";
+import { Dumbbell, Lock, Mail } from "lucide-react";
 
 type Inputs = {
   email: string;
@@ -50,97 +51,155 @@ const Auth = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white font-sans flex flex-col selection:bg-neutral-500/30">
-      <main className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-[480px] bg-[#0f0f0f] border border-white/5 rounded-3xl p-10 md:p-14 shadow-2xl">
-          <header className="text-center mb-10">
-            <h2 className="text-3xl font-bold tracking-tight mb-3">
-              {isSignUp ? "Create Account" : "Welcome Back"}
-            </h2>
-            <p className="text-sm text-white/40 tracking-tight">
-              {isSignUp ? "Sign up to start your journey" : "Enter your credentials to access the Atelier"}
-            </p>
-          </header>
-
-          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-            {errorMsg && (
-              <div className="bg-red-500/10 text-red-500 p-3 rounded-lg text-sm text-center">
-                {errorMsg}
+    <div className="min-h-screen flex items-center justify-center font-sans">
+      <div className="max-w-5xl w-full flex flex-col md:flex-row min-h-screen py-4">
+        {/* Left Section: Branding & Social Proof */}
+        <div className="md:w-1/2 bg-black p-12 flex flex-col justify-between relative rounded-l-xl">
+          <div className="relative z-10">
+            <div className="flex items-center gap-2 text-white mb-16">
+              <div className="bg-white p-1.5 rounded-lg">
+                <Dumbbell className="w-5 h-5 text-black" />
               </div>
-            )}
-            <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 ml-1">
-                Email Address
-              </label>
-              <input
-                type="email"
-                {...register("email", { required: true })}
-                placeholder="name@atelier.com"
-                className="w-full bg-black border border-white/10 rounded-xl py-4 px-5 text-sm focus:outline-none focus:border-white/30 placeholder:text-white/10 transition-all"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex justify-between items-center ml-1">
-                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">
-                  Password
-                </label>
-                {!isSignUp && (
-                  <button type="button" className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 hover:text-white transition-colors">
-                    Forgot Password?
-                  </button>
-                )}
-              </div>
-              <input
-                type="password"
-                {...register("password", { required: true })}
-                placeholder="••••••••"
-                className="w-full bg-black border border-white/10 rounded-xl py-4 px-5 text-sm focus:outline-none focus:border-white/30 placeholder:text-white/10 transition-all"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-[#d1d1d1] text-black font-black py-4 rounded-xl text-xs uppercase tracking-[0.2em] hover:bg-white transition-all transform active:scale-[0.98]"
-            >
-              {isSignUp ? "Sign Up" : "Sign In"}
-            </button>
-          </form>
-
-          <div className="mt-10">
-            <div className="relative flex items-center justify-center mb-8">
-              <div className="w-full border-t border-white/5"></div>
-              <span className="absolute bg-[#0f0f0f] px-4 text-[9px] font-black uppercase tracking-[0.3em] text-white/20">
-                Or continue with
+              <span className="font-bold text-xl tracking-tight">
+                AIFit Coach
               </span>
             </div>
 
-            <button
-              type="button"
-              onClick={() => googleSignin("google")}
-              className="w-full flex items-center justify-center gap-3 bg-white/5 border border-white/5 rounded-xl py-3.5 text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-all"
-            >
-              <svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                <g id="SVGRepo_iconCarrier">
-                  <path d="M19.76 10.77L19.67 10.42H12.23V13.58H16.68C16.4317 14.5443 15.8672 15.3974 15.0767 16.0029C14.2863 16.6084 13.3156 16.9313 12.32 16.92C11.0208 16.9093 9.77254 16.4135 8.81999 15.53C8.35174 15.0685 7.97912 14.5191 7.72344 13.9134C7.46777 13.3077 7.33407 12.6575 7.33 12C7.34511 10.6795 7.86792 9.41544 8.79 8.47002C9.7291 7.58038 10.9764 7.08932 12.27 7.10002C13.3779 7.10855 14.4446 7.52101 15.27 8.26002L17.47 6.00002C16.02 4.70638 14.1432 3.9941 12.2 4.00002C11.131 3.99367 10.0713 4.19793 9.08127 4.60115C8.09125 5.00436 7.19034 5.59863 6.43 6.35002C4.98369 7.8523 4.16827 9.85182 4.15152 11.9371C4.13478 14.0224 4.918 16.0347 6.34 17.56C7.12784 18.3449 8.06422 18.965 9.09441 19.3839C10.1246 19.8029 11.2279 20.0123 12.34 20C13.3484 20.0075 14.3479 19.8102 15.2779 19.42C16.2078 19.0298 17.0488 18.4549 17.75 17.73C19.1259 16.2171 19.8702 14.2347 19.83 12.19C19.8408 11.7156 19.8174 11.2411 19.76 10.77Z" fill="#ffffff"></path>
-                </g>
-              </svg>
-              Google
-            </button>
+            <h1 className="text-5xl font-bold text-white leading-[1.1] tracking-tight mb-6">
+              Elite Performance <br />
+              through AI <br />
+              Wisdom
+            </h1>
+
+            <p className="text-zinc-400 text-lg leading-relaxed max-w-sm">
+              Join the community of elite performers using artificial
+              intelligence to optimize every aspect of their fitness journey.
+            </p>
           </div>
 
-          <p className="mt-10 text-center text-xs text-white/40 font-medium">
-            {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
-            <button type="button" onClick={() => setIsSignUp(!isSignUp)} className="text-white hover:underline">
-              {isSignUp ? "Sign in" : "Sign up"}
-            </button>
-          </p>
+          {/* Social Proof Card */}
+          <div className="hidden relative z-10 bg-zinc-800/40 backdrop-blur-md border border-white/10 p-6 rounded-2xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex -space-x-3">
+                {[1, 2, 3].map((i) => (
+                  <div
+                    key={i}
+                    className="w-8 h-8 rounded-full border-2 border-black bg-zinc-600"
+                  />
+                ))}
+              </div>
+              <span className="text-zinc-300 text-sm font-medium">
+                Joined by 10k+ athletes
+              </span>
+            </div>
+            <p className="text-zinc-400 text-sm italic leading-relaxed">
+              "This AI coach transformed my routine in weeks. The precision is
+              unmatched."
+            </p>
+          </div>
         </div>
-      </main>
+
+        {/* Right Section: Login Form */}
+        <div className="md:w-1/2 flex flex-col justify-center">
+          <div className="max-w-sm w-full mx-auto">
+            <header className="mb-10">
+              <h2 className="text-3xl font-bold text-slate-900 mb-2">
+                {isSignUp ? "Sign Up" : "Welcome back"}
+              </h2>
+              <p className="text-slate-500 text-sm">
+                Please enter your credentials to access your dashboard.
+              </p>
+            </header>
+
+            <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+              {/* Email Field */}
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">
+                  Email Address
+                </label>
+                <div className="relative group">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-black transition-colors" />
+                  <input
+                    type="email"
+                    placeholder="name@example.com"
+                    {...register("email")}
+                    className="w-full bg-slate-50 border border-slate-100 rounded-xl py-3.5 pl-11 pr-4 text-sm focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black outline-none transition-all placeholder:text-slate-400"
+                  />
+                </div>
+              </div>
+
+              {/* Password Field */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center px-1">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                    Password
+                  </label>
+                  <button
+                    type="button"
+                    className="text-[10px] font-bold uppercase tracking-widest text-slate-900 hover:underline"
+                  >
+                    Forgot password?
+                  </button>
+                </div>
+                <div className="relative group">
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-black transition-colors" />
+                  <input
+                    type="password"
+                    placeholder="••••••••"
+                    {...register("password")}
+                    className="w-full bg-slate-50 border border-slate-100 rounded-xl py-3.5 pl-11 pr-4 text-sm focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black outline-none transition-all placeholder:text-slate-400"
+                  />
+                </div>
+              </div>
+
+              {errorMsg && <p className="text-red-500 text-sm">{errorMsg}</p>}
+
+              <button
+                type="submit"
+                className=" w-full bg-black text-white py-4 rounded-xl font-bold hover:bg-zinc-800 transition-all active:scale-[0.98]"
+              >
+                Login
+              </button>
+              <SocialButton
+                icon="/google.svg"
+                label="Google"
+                onClick={() => googleSignin("google")}
+              />
+              <p className="text-sm">
+                {isSignUp ? "Already have account? " : "Doesn't have account? "}
+                <span
+                  className="text-blue-500 cursor-pointer"
+                  onClick={() => setIsSignUp((p) => !p)}
+                >
+                  {isSignUp ? "Login" : "Sign Up"}
+                </span>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
+
+const SocialButton = ({
+  icon,
+  label,
+  onClick,
+}: {
+  icon: string;
+  label: string;
+  onClick: () => void;
+}) => (
+  <button
+    className="flex items-center justify-center gap-2 p-3 w-full border border-slate-300 rounded-xl hover:bg-slate-100 transition-all group"
+    onClick={onClick}
+  >
+    <div className="w-6 h-6 ">
+      <img src={icon} alt="icon" />
+    </div>
+    <span className="text-xs font-bold text-slate-700">{label}</span>
+  </button>
+);
 
 export default Auth;

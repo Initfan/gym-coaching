@@ -20,7 +20,7 @@ import {
   Archive,
 } from "lucide-react";
 import { useState } from "react";
-import { useAppStore } from "../store/appStore";
+// import { useAppStore } from "../store/appStore";
 
 const Progress = () => {
   const { weightLogs, addWeightLog } = useAppStore();

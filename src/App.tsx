@@ -10,8 +10,11 @@ import Auth from "./pages/Auth";
 import Nutrition from "./pages/Nutrition";
 import Profile from "./pages/Profile";
 import { useAuthStore } from "./store/authStore";
-import { useAppStore } from "./store/appStore";
+// import { useAppStore } from "./store/appStore";
 import Train from "./pages/Train";
+import Pricing from "./components/Pricing";
+import Boarding from "./components/Boarding";
+import Goal from "./components/Goal";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { session, loading } = useAuthStore();
@@ -33,18 +36,21 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 const App = () => {
   const { initializeAccount } = useAuthStore();
-  const { syncSupabaseData } = useAppStore();
+  // const { syncSupabaseData } = useAppStore();
 
   useEffect(() => {
     initializeAccount().then(() => {
-      syncSupabaseData();
+      // syncSupabaseData();
     });
-  }, [initializeAccount, syncSupabaseData]);
+  }, [initializeAccount]);
+  // }, [initializeAccount, syncSupabaseData]);
 
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/" element={<Boarding />} />
       <Route path="/auth" element={<Auth />} />
+      <Route path="/pricing" element={<Pricing />} />
+      <Route path="/goal" element={<Goal />} />
       <Route
         path="/dashboard"
         element={

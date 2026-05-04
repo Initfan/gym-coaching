@@ -1,11 +1,7 @@
-// @ts-nocheck
 import {
   Dumbbell,
   Utensils,
   BrainCircuit,
-  Search,
-  Zap,
-  Bell,
   Flame,
   Calendar,
   TrendingUp,
