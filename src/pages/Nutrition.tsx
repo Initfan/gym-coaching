@@ -1,19 +1,14 @@
 import {
-  Dumbbell,
   BrainCircuit,
-  Settings,
-  Bell,
-  Droplets,
-  Pill,
   Clock,
   Sparkles,
-  Plus,
   ShieldCheck,
   RefreshCw,
   Dna,
 } from "lucide-react";
 import { useState } from "react";
 import { useAppStore } from "../store/appStore";
+import Hydration from "../components/nutrition/Hydration";
 
 const Nutrition = () => {
   const { nutrition, addMacro } = useAppStore();
@@ -31,20 +26,6 @@ const Nutrition = () => {
 
   return (
     <main className="flex-1 p-10 overflow-y-auto">
-      {/* Header */}
-      <header className="flex justify-between items-center mb-12">
-        <div className="flex gap-8 items-center">
-          <span className="text-sm font-bold tracking-tight">
-            KINETIC ATELIER
-          </span>
-          <nav className="flex gap-6 text-sm text-white/40 font-medium">
-            <a href="#" className="text-white border-b border-white pb-1">
-              Nutrition
-            </a>
-          </nav>
-        </div>
-      </header>
-
       {/* Hero Section */}
       <section className="mb-12 flex justify-between items-end">
         <div>
@@ -96,7 +77,7 @@ const Nutrition = () => {
                 </label>
                 <input
                   type="number"
-                  value={newMacro.protein}
+                  defaultValue={newMacro.protein}
                   onChange={(e) =>
                     setNewMacro({
                       ...newMacro,
@@ -112,7 +93,7 @@ const Nutrition = () => {
                 </label>
                 <input
                   type="number"
-                  value={newMacro.carbs}
+                  defaultValue={newMacro.carbs}
                   onChange={(e) =>
                     setNewMacro({ ...newMacro, carbs: Number(e.target.value) })
                   }
@@ -125,7 +106,7 @@ const Nutrition = () => {
                 </label>
                 <input
                   type="number"
-                  value={newMacro.fats}
+                  defaultValue={newMacro.fats}
                   onChange={(e) =>
                     setNewMacro({ ...newMacro, fats: Number(e.target.value) })
                   }
@@ -187,59 +168,7 @@ const Nutrition = () => {
           </div>
         </div>
 
-        <div className="bg-[#141414] border border-white/5 rounded-2xl p-8 flex flex-col justify-between">
-          <div>
-            <h3 className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] mb-6">
-              Hydration
-            </h3>
-            <div className="flex items-baseline gap-2 mb-4">
-              <span className="text-4xl font-bold">2.4</span>
-              <span className="text-sm font-bold text-white/40">/ 3.5 L</span>
-            </div>
-            <div className="flex gap-1.5 h-8 mb-6">
-              {[1, 1, 1, 1, 0.4, 0, 0, 0].map((fill, i) => (
-                <div
-                  key={i}
-                  className="flex-1 bg-white/5 rounded-sm overflow-hidden relative"
-                >
-                  <div
-                    className="absolute bottom-0 w-full bg-white/40 transition-all duration-1000"
-                    style={{ height: `${fill * 100}%` }}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-          <button className="w-full py-3 bg-white/5 border border-white/5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2">
-            <Plus size={14} /> Add 500ml
-          </button>
-        </div>
-
-        {/* <div className="bg-[#141414] border border-white/5 rounded-2xl p-8">
-          <h3 className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] mb-6">
-            Daily Stack
-          </h3>
-          <div className="space-y-4">
-            <SupplementRow
-              icon={<Dumbbell size={12} />}
-              name="Creatine Monohydrate"
-              dose="5G • STRENGTH"
-              completed
-            />
-            <SupplementRow
-              icon={<Droplets size={12} />}
-              name="Omega-3 Fish Oil"
-              dose="2G • HEART"
-              completed
-            />
-            <SupplementRow
-              icon={<Pill size={12} />}
-              name="Vitamin D3 + K2"
-              dose="5000 IU • BONE"
-              completed={false}
-            />
-          </div>
-        </div> */}
+        <Hydration />
       </div>
 
       {/* Today's Fuel Timeline */}
@@ -345,27 +274,6 @@ const RadialProgress = ({ value, label, sub }: any) => (
   </div>
 );
 
-const SupplementRow = ({ icon, name, dose, completed }: any) => (
-  <div className="flex items-center justify-between group cursor-pointer">
-    <div className="flex items-center gap-3">
-      <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-white/40 group-hover:text-white transition-colors">
-        {icon}
-      </div>
-      <div>
-        <h4 className="text-[11px] font-bold">{name}</h4>
-        <p className="text-[9px] text-white/30 uppercase tracking-widest">
-          {dose}
-        </p>
-      </div>
-    </div>
-    <div
-      className={`w-5 h-5 rounded-full border flex items-center justify-center transition-all ${completed ? "bg-white/10 border-white/20" : "border-white/10"}`}
-    >
-      {completed && <CheckCircle2 className="text-white/80" size={12} />}
-    </div>
-  </div>
-);
-
 const MealCard = ({
   time,
   type,
@@ -447,28 +355,6 @@ const ProtocolCard = ({ icon, tag, title, desc }: any) => (
     <h4 className="text-xl font-bold mb-3 tracking-tight">{title}</h4>
     <p className="text-xs text-white/40 leading-relaxed">{desc}</p>
   </div>
-);
-
-const CheckCircle2 = ({
-  size,
-  className,
-}: {
-  size: number;
-  className?: string;
-}) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="3"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path d="M20 6 9 17l-5-5" />
-  </svg>
 );
 
 export default Nutrition;
