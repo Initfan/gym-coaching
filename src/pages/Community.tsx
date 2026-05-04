@@ -1,23 +1,18 @@
-// @ts-nocheck
 import {
   BrainCircuit,
-  Search,
-  Zap,
-  Bell,
   Heart,
   MessageSquare,
   Share2,
-  Plus,
   MoreHorizontal,
   History,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-// import { useCommunityStore } from "../store/communityStore";
+import { useCommunityStore } from "../store/communityStore";
 import { Image as ImageIcon } from "lucide-react";
 
 const Community = () => {
-  // const { posts, addPost, likePost, athletes, toggleFollow, fetchRemotePosts } =
-  //   useCommunityStore();
+  const { posts, addPost, likePost, athletes, toggleFollow, fetchRemotePosts } =
+    useCommunityStore();
   const [newPost, setNewPost] = useState("");
   const [newImgUrl, setNewImgUrl] = useState("");
   const [showImgInput, setShowImgInput] = useState(false);
@@ -38,12 +33,6 @@ const Community = () => {
 
   return (
     <main className="flex-1 p-10 overflow-y-auto">
-      <header className="flex justify-between items-center mb-12">
-        <h2 className="text-sm font-bold tracking-tight uppercase">
-          Kinetic Atelier
-        </h2>
-      </header>
-
       {/* Hero Title */}
       <section className="mb-12 flex justify-between items-end">
         <div>

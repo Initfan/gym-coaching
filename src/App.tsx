@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate } from "react-router";
+import { Route, Routes, Navigate, Outlet } from "react-router";
 import { useEffect } from "react";
 import Dashboard from "./pages/Dashboard";
 import Programs from "./pages/Programs";
@@ -34,6 +34,24 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return children;
 };
 
+const GuestRoute = () => {
+  const { loading, user } = useAuthStore();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center text-white">
+        Loading...
+      </div>
+    );
+  }
+
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return <Outlet />;
+};
+
 const App = () => {
   const { initializeAccount } = useAuthStore();
   // const { syncSupabaseData } = useAppStore();
@@ -47,10 +65,13 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<Boarding />} />
-      <Route path="/auth" element={<Auth />} />
-      <Route path="/pricing" element={<Pricing />} />
-      <Route path="/goal" element={<Goal />} />
+      <Route path="/" element={<GuestRoute />}>
+        <Route index element={<Boarding />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/goal" element={<Goal />} />
+      </Route>
+
       <Route
         path="/dashboard"
         element={

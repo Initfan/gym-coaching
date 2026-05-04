@@ -8,11 +8,13 @@ import {
   User,
 } from "lucide-react";
 import { NavLink } from "react-router";
+import { useAuthStore } from "../store/authStore";
 // import { useAppStore } from "../store/appStore";
 
 const Sidebar = () => {
   // const { workoutActive, startWorkout, endWorkout, activeProgram } =
   //   useAppStore();
+  const { signOut } = useAuthStore();
 
   return (
     <aside className="w-64 border-r border-white/5 flex flex-col p-6 sticky top-0 h-screen">
@@ -57,6 +59,13 @@ const Sidebar = () => {
           label="Profile"
         />
       </nav>
+
+      <button
+        onClick={signOut}
+        className="w-full bg-red-500/20 text-red-500 font-bold py-3 rounded-md text-xs uppercase tracking-wider hover:bg-red-500 hover:text-white transition-colors"
+      >
+        Log Out
+      </button>
 
       {/* <div className="mt-auto space-y-4">
         {workoutActive ? (
