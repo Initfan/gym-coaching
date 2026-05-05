@@ -7,7 +7,7 @@ import Coach from "./pages/Coach";
 import Progress from "./pages/Progress";
 import Community from "./pages/Community";
 import Auth from "./pages/Auth";
-import Nutrition from "./pages/Nutrition";
+import Nutrition from "./pages/Nutrition-v2";
 import Profile from "./pages/Profile";
 import { useAuthStore } from "./store/authStore";
 // import { useAppStore } from "./store/appStore";

@@ -21,7 +21,7 @@ const Meal = ({
       async () =>
         await supabase
           .from("meal")
-          .insert({ ...meal, user_id: user.id })
+          .insert({ ...meal, id: undefined, user_id: user.id })
           .select("*")
           .single()
           .then(({ success, data }) => success && selected(data.id)),
@@ -56,7 +56,7 @@ const Meal = ({
             {meal.description}
           </p>
           <div className="flex gap-3">
-            <span className="px-2 py-1 bg-neutral-800 border border-neutral-700 rounded text-[9px] font-bold text-slate-300 tracking-wider">
+            <span className="px-2 py-1 bg-neutral-800 uppercase border border-neutral-700 rounded text-[9px] font-bold text-slate-300 tracking-wider">
               {meal.tag}
             </span>
             <span className="px-2 py-1 bg-neutral-800 border border-neutral-700 rounded text-[9px] font-bold text-slate-300 tracking-wider">
