@@ -74,6 +74,19 @@ export type AIInsight = {
   created_at: string | null;
 };
 
+export type MealType = {
+  id: string;
+  user_id: string | null;
+  image: string | null;
+  eat_time: string | null;
+  name: string | null;
+  description: string | null;
+  tag: string | null;
+  protein: number | null;
+  calorie: number | null;
+  created_at: string | null;
+};
+
 export type ProgramWithWorkout = Program & {
   workouts: WorkoutWithExercises[] | null;
 };
