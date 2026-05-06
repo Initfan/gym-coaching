@@ -115,45 +115,47 @@ export const generateMeal = async (id: string) => {
     .eq("user_id", id)
     .single();
 
-  const res = await ai.models.generateContent({
-    model: "gemini-3-flash-preview",
-    contents: `${mealPrompt} input: ${JSON.stringify(data)}, create 3 meal`,
-  });
-  const meals: MealType[] = JSON.parse(res.text);
-  return meals;
+  let meals = [
+    {
+      id: "a7b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d",
+      user_id: "78b1516d-2772-4818-a244-6d64760ee73b",
+      image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
+      eat_time: "lunch",
+      name: "Lemon Herb Grilled Chicken Salad",
+      description:
+        "A nutrient-dense salad featuring grilled chicken breast, fresh mixed greens, cucumbers, and cherry tomatoes with a zesty lemon vinaigrette. Completely olive and peanut free.",
+      tag: "low-carb",
+      protein: 38,
+      calorie: 350,
+      carbs: 24,
+      fats: 42,
+      created_at: "2026-05-05T13:42:47.483191",
+    },
+    {
+      id: "f1g2h3i4-j5k6-4l7m-8n9o-0p1q2r3s4t5u",
+      user_id: "78b1516d-2772-4818-a244-6d64760ee73b",
+      image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543",
+      eat_time: "breakfast",
+      name: "Berry & Chia Greek Yogurt Bowl",
+      description:
+        "Non-fat Greek yogurt layered with fresh blueberries, raspberries, and chia seeds. High in protein to support weight loss while staying within budget.",
+      tag: "high-protein",
+      protein: 24,
+      calorie: 280,
+      carbs: 24,
+      fats: 42,
+      created_at: "2026-05-05T13:42:47.483191",
+    },
+  ];
 
-  // return [
-  //   {
-  //     id: "a7b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d",
-  //     user_id: "78b1516d-2772-4818-a244-6d64760ee73b",
-  //     image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
-  //     eat_time: "lunch",
-  //     name: "Lemon Herb Grilled Chicken Salad",
-  //     description:
-  //       "A nutrient-dense salad featuring grilled chicken breast, fresh mixed greens, cucumbers, and cherry tomatoes with a zesty lemon vinaigrette. Completely olive and peanut free.",
-  //     tag: "low-carb",
-  //     protein: 38,
-  //     calorie: 350,
-  //     carbs: 24,
-  //     fats: 42,
-  //     created_at: "2026-05-05T13:42:47.483191",
-  //   },
-  //   {
-  //     id: "f1g2h3i4-j5k6-4l7m-8n9o-0p1q2r3s4t5u",
-  //     user_id: "78b1516d-2772-4818-a244-6d64760ee73b",
-  //     image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543",
-  //     eat_time: "breakfast",
-  //     name: "Berry & Chia Greek Yogurt Bowl",
-  //     description:
-  //       "Non-fat Greek yogurt layered with fresh blueberries, raspberries, and chia seeds. High in protein to support weight loss while staying within budget.",
-  //     tag: "high-protein",
-  //     protein: 24,
-  //     calorie: 280,
-  //     carbs: 24,
-  //     fats: 42,
-  //     created_at: "2026-05-05T13:42:47.483191",
-  //   },
-  // ];
+  try {
+    const res = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: `${mealPrompt} input: ${JSON.stringify(data)}, create 3 meal`,
+    });
+    meals = JSON.parse(res.text);
+  } catch (error) {}
+  return meals;
 };
 
 export const getConsumption = async (id: string) => {
