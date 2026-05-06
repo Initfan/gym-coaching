@@ -26,21 +26,6 @@ export const SupabaseServices = {
     return data?.[0];
   },
 
-  async toggleLikePost(userId: string, postId: number, currentLiked: boolean) {
-    if (currentLiked) {
-      const { error } = await supabase
-        .from("post_likes")
-        .delete()
-        .match({ user_id: userId, post_id: postId });
-      if (error) console.error("Error unliking post:", error.message);
-    } else {
-      const { error } = await supabase
-        .from("post_likes")
-        .insert([{ user_id: userId, post_id: postId }]);
-      if (error) console.error("Error liking post:", error.message);
-    }
-  },
-
   // === App Data / Progress ===
   async fetchWeightLogs(userId: string) {
     const { data, error } = await supabase

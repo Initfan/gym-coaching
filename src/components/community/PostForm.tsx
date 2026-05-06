@@ -1,5 +1,5 @@
 import { postSchema, type postSchemaType } from "@/types/schema";
-import { createPost } from "@/usecase/community";
+import { community } from "@/usecase/community";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImageIcon, Loader2, X } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -44,7 +44,7 @@ const PostForm = () => {
   };
 
   const onSubmit = async (d: postSchemaType) => {
-    await createPost(d);
+    await community.createPost(d);
     setValue("content", "");
     setFile([]);
   };

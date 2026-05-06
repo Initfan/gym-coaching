@@ -38,8 +38,7 @@ const Community = () => {
           <PostForm />
 
           <div className="space-y-6">
-            {!pending &&
-              posts.map((post) => <Post key={post.id} post={post} />)}
+            {!pending && posts.map((post, i) => <Post key={i} post={post} />)}
           </div>
         </div>
 

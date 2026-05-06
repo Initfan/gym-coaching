@@ -3,6 +3,7 @@ import { persist } from "zustand/middleware";
 import { SupabaseServices } from "../services/supabaseServices";
 import { useAuthStore } from "./authStore";
 import supabase from "@/utils/supabase";
+import { community } from "@/usecase/community";
 
 export interface Post {
   id: number;
@@ -107,7 +108,7 @@ export const useCommunityStore = create<CommunityState>()(
         }));
 
         if (userId) {
-          await SupabaseServices.toggleLikePost(userId, id, !isLiked);
+          await community.toggleLikePost(userId, id, !isLiked);
         }
       },
 

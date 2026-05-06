@@ -1,19 +1,18 @@
 import { imageUrl } from "@/lib/imageUrl";
 import {
-  useCommunityStore,
+  // useCommunityStore,
   type Post as PostType,
 } from "@/store/communityStore";
 import { Heart, MessageSquare, MoreHorizontal, Share2 } from "lucide-react";
+import { useState } from "react";
 
 const Post = ({ post }: { post: PostType }) => {
-  const { likePost } = useCommunityStore();
+  // const { likePost } = useCommunityStore();
   const images: string[] = JSON.parse(post.images ?? "[]");
+  const [likes, setLikes] = useState(0);
 
   return (
-    <div
-      key={post.id}
-      className="bg-[#141414] border border-white/5 rounded-2xl p-6"
-    >
+    <div className="bg-[#141414] border border-white/5 rounded-2xl p-6">
       <div className="flex justify-between items-start mb-6">
         <div className="flex gap-3">
           <div className="w-10 h-10 rounded-full bg-slate-300 overflow-hidden flex items-center justify-center shrink-0">
@@ -65,7 +64,7 @@ const Post = ({ post }: { post: PostType }) => {
           images.map(
             (v, i) =>
               i != 0 && (
-                <div className="h-32 bg-neutral-800 w-full">
+                <div key={i} className="h-32 bg-neutral-800 w-full">
                   <img
                     src={imageUrl("posts", v)}
                     className="size-full object-cover rounded-lg"
@@ -77,14 +76,17 @@ const Post = ({ post }: { post: PostType }) => {
       <div className="flex justify-between items-center">
         <div className="flex gap-6">
           <button
-            onClick={() => likePost(post.id)}
+            onClick={() => setLikes((p) => p + 1)}
+            // onClick={() => likePost(post.id)}
             className={`flex items-center gap-2 text-[10px] font-bold transition-colors ${post.isLikedByMe ? "text-rose-500" : "text-white/40 hover:text-rose-500"}`}
           >
             <Heart
               size={14}
-              className={post.isLikedByMe ? "fill-rose-500" : ""}
+              className={likes > 0 ? "fill-rose-500" : ""}
+              // className={post.isLikedByMe ? "fill-rose-500" : ""}
             />{" "}
-            {post.likes}
+            {likes}
+            {/* {post.likes} */}
           </button>
           <button className="flex items-center gap-2 text-[10px] font-bold text-white/40 hover:text-white transition-colors">
             <MessageSquare size={14} /> {post.comments}
