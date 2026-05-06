@@ -4,55 +4,63 @@ import {
   ChevronDown,
   ArrowRight,
   Dumbbell,
-  TrendingDown,
-  Utensils,
-  Trophy,
   CheckCircle2,
   Loader2,
+  Layers,
+  Leaf,
+  TrendingUp,
+  Clock,
+  Activity,
 } from "lucide-react";
 import PlanGeneration from "./PlanGeneration";
-import supabase from "../utils/supabase";
 import { useAuthStore } from "../store/authStore";
 import { useForm } from "react-hook-form";
-import { profileSchema, type profileSchemaType } from "../types/schema";
+import {
+  profileSchema,
+  type GoalType,
+  type profileSchemaType,
+} from "../types/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router";
+import { generateProgram } from "@/usecase/program";
 
-interface ObjectiveCard {
-  id: string;
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-}
-
-const OBJECTIVES: ObjectiveCard[] = [
+const OBJECTIVES = [
   {
-    id: "bulking",
-    title: "Bulking",
-    description:
-      "Focus on hyper-trophy and strength gains. Structured caloric surplus with high-intensity resistance training.",
-    icon: <Dumbbell className="w-5 h-5" />,
+    type: "strength",
+    goal: "Muscle & Strength",
+    description: "Build muscle and increase power using weights and machines.",
+    icon: <Dumbbell />,
   },
   {
-    id: "cutting",
-    title: "Cutting",
-    description:
-      "Prioritize fat loss while preserving lean muscle mass. Precision tracking and metabolic conditioning.",
-    icon: <TrendingDown className="w-5 h-5" />,
+    type: "fat loss",
+    goal: "Weight Loss",
+    description: "Burn fat with cardio, HIIT, and nutrition guidance.",
+    icon: <Activity />,
   },
   {
-    id: "maintenance",
-    title: "Diet Maintenance",
-    description:
-      "Balance lifestyle and longevity. Optimal nutritional density and sustainable movement patterns for long-term health.",
-    icon: <Utensils className="w-5 h-5" />,
+    type: "endurance",
+    goal: "Stamina & Cardio",
+    description: "Improve running, cycling, or overall endurance.",
+    icon: <Clock />,
   },
   {
-    id: "contest",
-    title: "Body Contest",
+    type: "functional",
+    goal: "Fitness & Agility",
+    description: "Train movements, flexibility, and sports performance.",
+    icon: <TrendingUp />,
+  },
+  {
+    type: "mind-body",
+    goal: "Wellness & Flexibility",
+    description: "Focus on yoga, stretching, mobility, and stress relief.",
+    icon: <Leaf />,
+  },
+  {
+    type: "hybrid",
+    goal: "Multiple Goals",
     description:
-      "Peak performance and aesthetic conditioning. Rigorous scheduling for competitive preparation and visual symmetry.",
-    icon: <Trophy className="w-5 h-5" />,
+      "Combines strength, cardio, functional, and wellness training.",
+    icon: <Layers />,
   },
 ];
 
@@ -60,19 +68,20 @@ const Goal: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuthStore();
 
-  const [goal, setGoal] = useState<string>("Bulking");
+  const [goal, setGoal] = useState<GoalType>("strength");
   const [bmi, setBmi] = useState<number>(23.1);
   const {
     handleSubmit,
     formState: { isSubmitting, errors },
     watch,
     register,
+    setValues,
   } = useForm<profileSchemaType>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      age: "20",
-      height: "180",
-      weight: "80",
+      age: "0",
+      height: "0",
+      weight: "0",
     },
   });
 
@@ -81,7 +90,7 @@ const Goal: React.FC = () => {
     const calculatedBmi =
       Number(watch("weight")) / (heightInMeters * heightInMeters);
     setBmi(parseFloat(calculatedBmi.toFixed(1)));
-  }, [watch("height"), watch("height")]);
+  }, [watch("weight"), watch("height")]);
 
   const getBmiStatus = (val: number) => {
     if (val < 18.5) return "Underweight";
@@ -91,10 +100,8 @@ const Goal: React.FC = () => {
   };
 
   const onSubmit = async (data: profileSchemaType) => {
-    await supabase
-      .from("profiles")
-      .upsert({ ...data, id: user.id })
-      .then(({ success }) => success && navigate("/dashboard"));
+    await generateProgram(user.id, data);
+    navigate("/dashboard");
   };
 
   return isSubmitting ? (
@@ -194,9 +201,31 @@ const Goal: React.FC = () => {
                 <option disabled selected value="">
                   Select biological gender
                 </option>
-                <option>Male</option>
-                <option>Female</option>
-                <option>Other</option>
+                <option value={"male"}>Male</option>
+                <option value={"female"}>Female</option>
+              </select>
+              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300 pointer-events-none" />
+            </div>
+            {errors.gender && (
+              <p className="text-red-500 text-sm">{errors.gender.message}</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-300">
+              Gender Identity
+            </label>
+            <div className="relative">
+              <select
+                className="w-full appearance-none border border-neutral-700  rounded-xl py-4 px-4 text-sm text-slate-300 font-medium outline-none transition-all cursor-pointer bg-neutral-800"
+                {...register("experience")}
+              >
+                <option disabled selected value="">
+                  Experience level
+                </option>
+                <option value={"beginner"}>Beginner</option>
+                <option value={"intermediate"}>Intermediate</option>
+                <option value={"expert"}>Expert</option>
               </select>
               <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300 pointer-events-none" />
             </div>
@@ -227,39 +256,46 @@ const Goal: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-12">
-            {OBJECTIVES.map((obj) => (
-              <button
-                key={obj.id}
-                onClick={() => setGoal(obj.id)}
-                className={`relative text-left p-8 rounded-xl border-2 transition-all duration-200 flex flex-col gap-4 group ${
-                  goal === obj.id
-                    ? "bg-neutral-900 shadow-sm"
-                    : "border-neutral-700 bg-neutral-800 hover:border-gray-200"
-                }`}
-              >
-                {goal === obj.id && (
-                  <CheckCircle2 className="absolute top-4 right-4 w-5 h-5 text-black" />
-                )}
-
-                <div
-                  className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors ${
-                    goal === obj.id
-                      ? "bg-black text-white"
-                      : "bg-slate-100 text-gray-600"
+          <div className="space-y-3">
+            <h2 className="text-2xl font-bold mb-2">Define your Goal</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-12">
+              {OBJECTIVES.map((obj) => (
+                <button
+                  type="button"
+                  key={obj.type}
+                  onClick={() => (
+                    setGoal(obj.type as GoalType),
+                    setValues({ goal: obj.type as GoalType })
+                  )}
+                  className={`relative text-left p-8 rounded-xl border-2 transition-all duration-200 flex flex-col gap-4 group ${
+                    goal === obj.type
+                      ? "bg-neutral-900 shadow-sm"
+                      : "border-neutral-700 bg-neutral-800 hover:border-gray-200"
                   }`}
                 >
-                  {obj.icon}
-                </div>
+                  {goal === obj.type && (
+                    <CheckCircle2 className="absolute top-4 right-4 w-5 h-5 text-black" />
+                  )}
 
-                <div>
-                  <h3 className="text-xl font-bold mb-2">{obj.title}</h3>
-                  <p className="text-sm leading-relaxed text-slate-300">
-                    {obj.description}
-                  </p>
-                </div>
-              </button>
-            ))}
+                  <div
+                    className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors ${
+                      goal === obj.type
+                        ? "bg-black text-white"
+                        : "bg-slate-100 text-gray-600"
+                    }`}
+                  >
+                    {obj.icon}
+                  </div>
+
+                  <div>
+                    <h3 className="text-xl font-bold mb-2">{obj.goal}</h3>
+                    <p className="text-sm leading-relaxed text-slate-300">
+                      {obj.description}
+                    </p>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
 
           <input type="hidden" {...register("goal")} value={goal} />

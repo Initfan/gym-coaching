@@ -33,8 +33,24 @@ export const profileSchema = z.object({
   weight: z.string(),
   bmi: z.string(),
   gender: z.string().min(1, "Select the gender"),
-  goal: z.enum(["bulking", "cutting", "maintenance", "contest"]),
+  goal: z.enum([
+    "hybrid",
+    "mind-body",
+    "functional",
+    "endurance",
+    "fat loss",
+    "strength",
+  ]),
+  experience: z.enum(["beginner", "intermediate", "expert"]),
 });
+
+export type GoalType =
+  | "hybrid"
+  | "mind-body"
+  | "functional"
+  | "endurance"
+  | "fat loss"
+  | "strength";
 
 export type profileSchemaType = z.infer<typeof profileSchema>;
 

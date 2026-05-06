@@ -86,3 +86,56 @@ Analyze the user's meal, generate a meal that strictly follows the provided JSON
 - "calorie": total kcal (number).
 
 `;
+
+export const generateProgramPrompt = `
+You are a gym assistant that generates structured program and exercise data.
+
+Analyze the user's biometric data, generate a program and exercise that strictly follows the provided JSON schema.
+
+### INPUT (biometric_data):
+- age: string
+- height: string
+- weight: string
+- bmi: string
+- gender: string
+- goal: string
+- experience: string
+
+### OUTPUT REQUIREMENTS:
+- Return ONLY valid JSON.
+- Do NOT include explanations or extra text.
+- Follow the schema exactly.
+- All fields must be present.
+- Use realistic and reasonable values.
+- Ensure the program and exercise aligns with the user's goal and experience.
+
+### OUTPUT SCHEMA:
+{
+  name: string;
+  phase: string;
+  duration_weeks: number;
+  workouts: [{
+    name: string;
+    day_number: number;
+    focus: string;
+    estimated_duration: number;
+    workout: [{
+      order_index: number | null;
+      sets: number | null;
+      reps_min: number | null;
+      reps_max: number | null;
+      rest_seconds: number | null;
+      exercise: {
+        name: string;
+        category: string;
+        muscle_group: string;
+        description: string;
+        video_url: string;
+      }
+    }]
+  }]
+}
+
+### GUIDELINES:
+- "video url": provide a gif image URL.
+`;

@@ -2,7 +2,7 @@ import { BrainCircuit, Loader2 } from "lucide-react";
 
 const PlanGeneration: React.FC = () => {
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 flex flex-col">
+    <div className="min-h-screen bg-neutral-900 font-sans text-white flex flex-col">
       {/* Main Content */}
       <main className="flex-1 max-w-5xl mx-auto px-6 py-16 flex flex-col items-center justify-center">
         {/* Animated Brain Icon */}
@@ -17,13 +17,13 @@ const PlanGeneration: React.FC = () => {
           <h1 className="text-4xl font-bold mb-4 tracking-tight">
             Creating your personalized plan...
           </h1>
-          <p className="text-slate-500 max-w-lg mx-auto text-sm leading-relaxed">
+          <p className="text-slate-300 max-w-lg mx-auto text-sm leading-relaxed">
             Our AI is analyzing your biometric data, fitness history, and
             nutritional goals to construct an elite-level performance protocol.
           </p>
         </div>
 
-        <Loader2 className="animate-spin" />
+        <Loader2 className="animate-spin" size={32} />
       </main>
     </div>
   );

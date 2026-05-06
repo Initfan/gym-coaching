@@ -272,7 +272,7 @@ const SpecItem = ({ label, value, unit, total }: any) => (
 
 const UpcomingItem = ({ title, sub, active, isDone, image }: any) => (
   <div
-    className={`flex items-center gap-4 group cursor-pointer ${active ? "bg-neutral-200" : ""} p-3 rounded-xl`}
+    className={`flex items-center gap-4 group cursor-pointer ${active ? "bg-neutral-700" : ""} p-3 rounded-xl`}
   >
     <div className="w-12 h-12 bg-slate-100 rounded-xl overflow-hidden grayscale group-hover:grayscale-0 transition-all">
       <img src={image} alt={title} className="size-full" />
@@ -280,7 +280,7 @@ const UpcomingItem = ({ title, sub, active, isDone, image }: any) => (
     <div>
       <div className="flex items-center gap-2">
         <h4
-          className={`text-sm font-bold ${isDone ? "text-green-500" : active ? "text-slate-900" : "text-gray-300"}`}
+          className={`text-sm font-bold ${isDone ? "text-green-500" : active ? "text-gray-100" : "text-gray-300"}`}
         >
           {title}
         </h4>
