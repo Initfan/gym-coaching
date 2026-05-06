@@ -28,7 +28,7 @@ const Train: React.FC = () => {
     supabase
       .from("workouts")
       .select("*, workout_exercises(*, exercises(*))")
-      .eq("name", workout.tag.replaceAll("-", " "))
+      .eq("id", workout.id)
       .single()
       .then(({ data, error }) => {
         if (error) return;
@@ -143,7 +143,7 @@ const Train: React.FC = () => {
               <img
                 src={currentExercise.exercises.video_url}
                 alt="Barbell Back Squat"
-                className="w-full h-full object-cover opacity-60"
+                className="w-full h-full object-cover object-top opacity-60"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
 

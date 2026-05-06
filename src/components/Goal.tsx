@@ -101,6 +101,7 @@ const Goal: React.FC = () => {
 
   const onSubmit = async (data: profileSchemaType) => {
     await generateProgram(user.id, data);
+    localStorage.setItem("goal", "defined");
     navigate("/dashboard");
   };
 

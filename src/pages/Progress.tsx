@@ -1,26 +1,12 @@
-// @ts-nocheck
 import {
-  LayoutDashboard,
-  Dumbbell,
-  Utensils,
-  BrainCircuit,
   LineChart,
-  Users,
-  User,
-  Settings,
-  Zap,
-  Bell,
   Flame,
   Calendar,
   MoreHorizontal,
-  Brain,
   ArrowDownRight,
-  ZapIcon,
-  FileText,
-  Archive,
 } from "lucide-react";
 import { useState } from "react";
-// import { useAppStore } from "../store/appStore";
+import { useAppStore } from "../store/appStore";
 
 const Progress = () => {
   const { weightLogs, addWeightLog } = useAppStore();
@@ -44,30 +30,13 @@ const Progress = () => {
 
   return (
     <main className="flex-1 p-10 overflow-y-auto">
-      {/* Header Navigation */}
-      <header className="flex justify-between items-center mb-12">
-        <div className="flex gap-8 items-center">
-          <span className="text-sm font-bold tracking-tight">
-            KINETIC ATELIER
-          </span>
-          <nav className="flex gap-6 text-sm text-white/40 font-medium">
-            <a href="#" className="text-white border-b border-white pb-1">
-              Progress
-            </a>
-          </nav>
-        </div>
-      </header>
-
       {/* Title & AI Insight Bar */}
       <div className="flex justify-between items-start mb-10">
-        <div>
-          <span className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase">
-            Performance Analytics
-          </span>
-          <h2 className="text-4xl font-bold mt-1 tracking-tight">
-            Optimization Progress
-          </h2>
-        </div>
+        <h2 className="text-7xl font-black tracking-tighter leading-none mb-4 uppercase">
+          Optimization
+          <br />
+          <span className="text-white/20">Progress</span>
+        </h2>
       </div>
 
       {/* Top Grid: Weight Trajectory & Key Metrics */}

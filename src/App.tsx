@@ -91,7 +91,7 @@ const App = () => {
         <Route index element={<Dashboard />} />
         <Route path="programs">
           <Route index element={<Programs />} />
-          <Route path="train/:tag" element={<Train />} />
+          <Route path="train/:id" element={<Train />} />
         </Route>
         <Route path="nutrition" element={<Nutrition />} />
         <Route path="coach" element={<Coach />} />

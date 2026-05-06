@@ -37,7 +37,8 @@ const Auth = () => {
           });
           if (error) throw error;
           await initializeAccount();
-          navigate("/pricing");
+          const goalDefined = localStorage.getItem('goal')
+          navigate(goalDefined ? '/dashboard/' : "/pricing")
         } else {
           const { error } = await supabase.auth.signInWithPassword({
             email: data.email,
@@ -45,7 +46,8 @@ const Auth = () => {
           });
           if (error) throw error;
           await initializeAccount();
-          navigate("/pricing");
+          const goalDefined = localStorage.getItem('goal')
+          navigate(goalDefined ? '/dashboard/' : "/pricing")
         }
       } catch (err: any) {
         setErrorMsg(err.message);

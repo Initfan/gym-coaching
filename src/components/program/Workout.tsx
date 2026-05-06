@@ -5,7 +5,7 @@ import { Link } from "react-router";
 const Workout = ({ ex }: { ex: WorkoutWithExercises }) => {
   return (
     <Link
-      to={`/dashboard/programs/train/${ex.name.replaceAll(" ", "-")}`}
+      to={`/dashboard/programs/train/${ex.id}`}
       className="bg-[#141414] border border-neutral-700 hover:bg-neutral-900 rounded-[24px] p-6 flex gap-6 group transition-all"
     >
       <div className="w-32 h-32 rounded-2xl overflow-hidden shrink-0 grayscale group-hover:grayscale-0 transition-all">
