@@ -129,16 +129,10 @@ const Profile: React.FC = () => {
   const displayName = user?.email?.split("@")[0] || "Athlete";
 
   return (
-    <main className="flex-1 p-10 overflow-y-auto">
-      <header className="flex justify-between items-center mb-12">
-        <h2 className="text-sm font-bold tracking-tight uppercase">
-          Kinetic Atelier
-        </h2>
-      </header>
-
+    <main className="flex-1 p-5 md:p-10 overflow-y-auto">
       {/* --- Profile Header Section --- */}
-      <div className="grid grid-cols-3 gap-6 mb-8">
-        <div className="col-span-2 bg-[#111111] p-8 rounded-2xl border border-[#1c1c1e] relative group">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="col-span-1 md:grid-cols-2 bg-[#111111] p-8 rounded-2xl border border-[#1c1c1e] relative group">
           {/* Background Graphic Effect */}
           <div className="absolute top-1/2 right-10 -translate-y-1/2 flex items-baseline gap-1 opacity-10 group-hover:opacity-20 transition-opacity">
             <div className="w-12 h-40 bg-slate-500 rounded-lg"></div>
@@ -150,7 +144,7 @@ const Profile: React.FC = () => {
             <span className="inline-block bg-[#1c1c1e] px-3 py-1 rounded text-[10px] font-bold uppercase tracking-[0.3em] text-[#8e8e93]">
               Elite Optimization Phase
             </span>
-            <h1 className="text-6xl font-black tracking-tighter leading-[0.85] capitalize">
+            <h1 className="text-4xl md:text-6xl font-black tracking-tighter leading-[0.85] capitalize">
               {displayName}
             </h1>
             <p className="max-w-md text-sm text-[#8e8e93] leading-relaxed">
@@ -196,7 +190,7 @@ const Profile: React.FC = () => {
       </div>
 
       {/* --- Key Metrics Grid --- */}
-      <div className="grid grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         <MetricCard
           label="Weekly Volume"
           value="124.5k"
@@ -219,8 +213,8 @@ const Profile: React.FC = () => {
       </div>
 
       {/* --- Benchmarks and Accolades Grid --- */}
-      <div className="grid grid-cols-3 gap-6 mb-8">
-        <div className="col-span-2 bg-[#111111] p-8 rounded-2xl border border-[#1c1c1e]">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="col-span-1 md:grid-cols-2 bg-[#111111] p-8 rounded-2xl border border-[#1c1c1e]">
           <div className="flex justify-between items-center mb-8">
             <h3 className="text-lg font-black tracking-tight uppercase">
               Active Benchmarks

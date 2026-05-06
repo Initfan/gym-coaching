@@ -49,7 +49,7 @@ const Meals = (props: Props) => {
 
       {/* Meal Recommendations */}
       <div className="mb-10">
-        <div className="flex justify-between items-end mb-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6">
           <div>
             <h3 className="text-2xl font-bold tracking-tight">
               {mealContent == "recomend"
@@ -63,7 +63,7 @@ const Meals = (props: Props) => {
           </div>
           <button
             onClick={props.onClose}
-            className="flex items-center gap-2 px-4 py-2 border border-neutral-800 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-colors"
+            className="flex items-center gap-2 px-4 py-2 border border-neutral-800 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-colors my-3 md:my-0"
           >
             <Settings size={14} />
             Preferences

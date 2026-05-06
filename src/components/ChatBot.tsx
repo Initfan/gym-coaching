@@ -60,9 +60,9 @@ const ChatBot = () => {
   }, [chat]);
 
   return (
-    <>
+    <div className="flex flex-col h-screen">
       <div
-        className="flex-1 overflow-y-auto p-8 space-y-10 scrollbar-hide"
+        className="flex-1 relative overflow-y-auto p-5 scrollbar-hide w-full h-full"
         ref={chatContainerRef}
       >
         <StartConversation />
@@ -113,7 +113,7 @@ const ChatBot = () => {
 
       {/* Chat Input */}
       <div className="p-4 pt-0 my-2">
-        <div className="flex gap-2 mb-4 overflow-x-auto no-scrollbar">
+        <div className="flex gap-2 mb-4 overflow-x-auto no-scrollbar flex-wrap">
           {[
             "optimize my bulking",
             "improve bench press",
@@ -163,7 +163,7 @@ const ChatBot = () => {
           </button>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 
@@ -178,7 +178,7 @@ const StartConversation = React.memo(() => {
         </span>
       </div>
 
-      <div className="flex gap-4 max-w-3xl">
+      <div className="flex gap-4 md:max-w-3xl mt-4 ">
         <div className="w-8 h-8 rounded bg-white/10 flex items-center justify-center shrink-0 border border-white/10">
           <BrainCircuit size={16} />
         </div>

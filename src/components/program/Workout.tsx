@@ -40,11 +40,11 @@ const Workout = ({ ex }: { ex: WorkoutWithExercises }) => {
 };
 
 const StatItem = ({ label, value }: { label: string; value: string }) => (
-  <div className=" bg-neutral-800 px-6 py-3 rounded-xl min-w-[100px]">
+  <div className=" md:bg-neutral-800 md:px-6 md:py-3 rounded-xl md:min-w-[100px]">
     <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">
       {label}
     </p>
-    <p className="text-xl font-bold">{value}</p>
+    <p className="md:text-xl font-bold">{value}</p>
   </div>
 );
 

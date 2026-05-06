@@ -37,8 +37,8 @@ const Auth = () => {
           });
           if (error) throw error;
           await initializeAccount();
-          const goalDefined = localStorage.getItem('goal')
-          navigate(goalDefined ? '/dashboard/' : "/pricing")
+          const goalDefined = localStorage.getItem("goal");
+          navigate(goalDefined ? "/dashboard/" : "/pricing");
         } else {
           const { error } = await supabase.auth.signInWithPassword({
             email: data.email,
@@ -46,8 +46,8 @@ const Auth = () => {
           });
           if (error) throw error;
           await initializeAccount();
-          const goalDefined = localStorage.getItem('goal')
-          navigate(goalDefined ? '/dashboard/' : "/pricing")
+          const goalDefined = localStorage.getItem("goal");
+          navigate(goalDefined ? "/dashboard/" : "/pricing");
         }
       } catch (err: any) {
         setErrorMsg(err.message);
@@ -56,10 +56,10 @@ const Auth = () => {
   }
 
   return (
-    <div className="min-h-screen flex bg-black/95 text-white items-center justify-center font-sans">
+    <div className="min-h-screen flex bg-black/95 text-white items-center justify-center font-sans p-5">
       <div className="max-w-5xl w-full flex flex-col md:flex-row min-h-screen py-4">
         {/* Left Section: Branding & Social Proof */}
-        <div className="md:w-1/2 bg-black border border-neutral-800 p-12 flex flex-col justify-between relative rounded-l-xl">
+        <div className="md:w-1/2 hidden md:flex bg-black border border-neutral-800 p-12 flex-col justify-between relative rounded-l-xl">
           <div className="relative z-10">
             <div className="flex items-center gap-2 text-white mb-16">
               <div className="bg-white p-1.5 rounded-lg">

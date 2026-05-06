@@ -23,15 +23,15 @@ const Meal = ({
   };
 
   return (
-    <div className="bg-neutral-900 border border-neutral-700 rounded-[28px] overflow-hidden flex group transition-all duration-300">
-      <div className="w-56 max-h-56 overflow-hidden">
+    <div className="bg-neutral-900 flex-col md:flex-row border border-neutral-700 rounded-[28px] overflow-hidden flex group transition-all duration-300">
+      <div className="md:w-56 w-full max-h-56 overflow-hidden ">
         <img
           src={meal.image}
           alt={meal.name}
           className="size-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
       </div>
-      <div className="flex-1 p-8 flex justify-between items-center">
+      <div className="flex-1 p-8 flex flex-col md:flex-row justify-between items-center">
         <div className="max-w-md">
           <div className="flex items-center gap-3 mb-2">
             <span className="text-[10px] font-bold uppercase tracking-widest text-slate-300">
@@ -59,7 +59,7 @@ const Meal = ({
             </span>
           </div>
         </div>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-6 mt-6 justify-between w-full md:w-auto md:mt-0 md:justify-baseline">
           <div className="text-right">
             <span className="text-2xl font-bold tracking-tighter">
               {meal.calorie}

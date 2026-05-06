@@ -118,6 +118,30 @@ const PostForm = () => {
           </div>
         </div>
 
+        <div className="flex flex-wrap gap-2">
+          {[
+            "#Zone2Masters",
+            "#VerticalPower",
+            "#AtelierLabs",
+            "#CreatineTiming",
+            "#MorningFast",
+          ].map((tag) => (
+            <span
+              key={tag}
+              onClick={() => {
+                // setNewPost(
+                //   (prev) =>
+                //     prev + (prev.endsWith(" ") ? "" : " ") + tag + " ",
+                // );
+                // postInputRef.current?.focus();
+              }}
+              className="px-3 py-1 bg-white/5 border border-white/5 rounded-md text-[10px] font-medium text-white/40 cursor-pointer hover:bg-white/10 hover:text-white transition-all"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+
         <button
           disabled={isSubmitting}
           type="submit"

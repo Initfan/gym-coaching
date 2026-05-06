@@ -13,11 +13,11 @@ const Community = () => {
   }, [getPosts]);
 
   return (
-    <main className="flex-1 p-10 overflow-y-auto">
+    <main className="flex-1 p-5 md:p-10 overflow-y-auto">
       {/* Hero Title */}
-      <section className="mb-12 flex justify-between items-end">
+      <section className="mb-12 flex flex-col justify-between items-end">
         <div>
-          <h1 className="text-8xl font-black tracking-tighter leading-none mb-6">
+          <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-none mb-6">
             COLLECTIVE.
           </h1>
           <p className="max-w-xl text-white/40 text-sm leading-relaxed uppercase tracking-wide">
@@ -29,12 +29,12 @@ const Community = () => {
           <p className="text-[10px] font-bold text-white/30 uppercase tracking-[0.3em] mb-1">
             Active Now
           </p>
-          <p className="text-5xl font-black tabular-nums">1,284</p>
+          <p className="text-3xl md:text-5xl font-black tabular-nums">1,284</p>
         </div>
       </section>
 
-      <div className="grid grid-cols-3 gap-8">
-        <div className="col-span-2 space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="col-span-1 md:col-span-1 space-y-8">
           <PostForm />
 
           <div className="space-y-6">
@@ -78,32 +78,6 @@ const Community = () => {
             <button className="text-[9px] font-bold text-white/40 hover:text-white underline underline-offset-4 uppercase tracking-widest">
               View Comparison Data
             </button>
-          </SidebarCard>
-
-          <SidebarCard title="Trending Protocols">
-            <div className="flex flex-wrap gap-2">
-              {[
-                "#Zone2Masters",
-                "#VerticalPower",
-                "#AtelierLabs",
-                "#CreatineTiming",
-                "#MorningFast",
-              ].map((tag) => (
-                <span
-                  key={tag}
-                  onClick={() => {
-                    // setNewPost(
-                    //   (prev) =>
-                    //     prev + (prev.endsWith(" ") ? "" : " ") + tag + " ",
-                    // );
-                    // postInputRef.current?.focus();
-                  }}
-                  className="px-3 py-1 bg-white/5 border border-white/5 rounded-md text-[10px] font-medium text-white/40 cursor-pointer hover:bg-white/10 hover:text-white transition-all"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
           </SidebarCard>
         </div>
       </div>

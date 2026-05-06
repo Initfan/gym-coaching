@@ -23,12 +23,12 @@ const Nutrition: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-1 font-sans">
+    <div className="flex min-h-screen flex-1 font-sans ">
       {open && <Preference onClose={() => setOpen(false)} />}
 
-      <main className="p-10 w-full">
-        <header className="flex justify-between items-center mb-8">
-          <h2 className="text-7xl font-black tracking-tighter leading-none mb-4 uppercase">
+      <main className="p-5 md:p-10 flex-1">
+        <header className="flex flex-col md:flex-row justify-between md:items-center mb-8">
+          <h2 className="text-4xl md:text-7xl font-black tracking-tighter leading-none mb-4 uppercase">
             Nutrition
             <br />
             <span className="text-white/20">Optimization</span>

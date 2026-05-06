@@ -14,7 +14,7 @@ const Vision = () => {
     <>
       {!close && <NutritionRecognition onClose={() => setClose(true)} />}
 
-      <div className="space-y-3 text-center">
+      <div className="space-y-3 md:text-center">
         <h3 className="text-sm font-bold  tracking-tight">Log Food</h3>
         <button
           onClick={() => setClose(false)}

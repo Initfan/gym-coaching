@@ -24,15 +24,15 @@ const Programs: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex-1 p-10 flex font-sans">
+    <div className="min-h-screen p-5 md:p-10 flex font-sans">
       {/* Main Content */}
-      <main className="flex-1 flex flex-col">
+      <main className="flex flex-col">
         <div className="flex justify-between items-start mb-8">
           <div>
             <span className="text-[10px] font-bold uppercase tracking-widest text-slate-300">
               Phase {programs?.duration_weeks}: {programs?.phase}
             </span>
-            <h2 className="text-7xl font-black tracking-tighter leading-none mb-4 uppercase">
+            <h2 className="md:text-7xl text-5xl font-black tracking-tighter leading-none mb-4 uppercase">
               Daily
               <br />
               <span className="text-white/20">Performance</span>
@@ -43,8 +43,8 @@ const Programs: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-8 space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+          <div className="col-span-1 md:col-span-8 space-y-4">
             <Calendar />
             {pending && <WorkoutSkeleton />}
             {workouts.map((ex, i) => (
@@ -53,7 +53,7 @@ const Programs: React.FC = () => {
           </div>
 
           {/* Sidebar Insights */}
-          <div className="col-span-4 space-y-6">
+          <div className="col-span-1 md:col-span-4 space-y-6">
             <Insight />
             {/* Stats Grid */}
             <div className="grid grid-cols-2 gap-4">

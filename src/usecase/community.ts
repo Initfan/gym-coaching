@@ -3,7 +3,7 @@ import { useAuthStore } from "@/store/authStore";
 import type { postSchemaType } from "@/types/schema";
 import supabase from "@/utils/supabase";
 
-const { id: user_id } = useAuthStore.getState().user;
+const { id: user_id } = useAuthStore?.getState().user ?? { id: 0 };
 
 export const community = {
   async createPost(data: postSchemaType) {

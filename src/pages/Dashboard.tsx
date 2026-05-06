@@ -30,7 +30,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <main className="flex-1 p-10 overflow-y-auto">
+    <main className="flex-1 md:p-10 p-5 overflow-y-auto">
       <section className="mb-10">
         <h2 className="text-4xl font-bold mb-2 tracking-tight">
           Good Morning, Ready to Train?
@@ -41,7 +41,7 @@ const Dashboard = () => {
       </section>
 
       {/* Top Stats Grid */}
-      <div className="grid grid-cols-4 gap-4 mb-8">
+      <div className="grid md:grid-cols-4 gap-4 mb-8">
         <StatCard title="TODAY'S WORKOUT" icon={<Dumbbell size={14} />}>
           <div className="text-xl font-bold tracking-tight truncate py-1">
             {stat?.name}
@@ -96,7 +96,7 @@ const Dashboard = () => {
       </div>
 
       {/* Filters */}
-      <div className="flex gap-2 mb-8">
+      <div className="flex gap-2 mb-8 flex-wrap">
         {[
           "hybrid",
           "mind-body",
@@ -116,8 +116,8 @@ const Dashboard = () => {
       </div>
 
       {/* Center Section: Main Focus & AI Insights */}
-      <div className="grid grid-cols-3 gap-6 mb-8">
-        <div className="col-span-2 relative h-[360px] rounded-2xl overflow-hidden group">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="col-span-1 md:col-span-2 relative h-[360px] rounded-2xl overflow-hidden group">
           <img
             // src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=1000"
             src="https://loremflickr.com/800/600/gym,fitness"
@@ -186,7 +186,7 @@ const Dashboard = () => {
       </div>
 
       {/* Bottom Grid: Nutrition & Strength Progress */}
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-[#141414] border border-white/5 rounded-2xl p-6">
           <div className="flex justify-between items-center mb-8">
             <h3 className="font-bold flex items-center gap-2">

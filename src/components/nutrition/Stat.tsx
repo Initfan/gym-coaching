@@ -29,8 +29,8 @@ const Stat = (props: Props) => {
   }, [props.consumedMeal]);
 
   return (
-    <div className="grid grid-cols-12 gap-6 mb-10">
-      <div className="col-span-4 bg-neutral-900 border border-neutral-700 rounded-[24px] p-8 shadow-sm">
+    <div className="grid md:grid-cols-12 gap-6 mb-10">
+      <div className="md:col-span-4 bg-neutral-900 border border-neutral-700 rounded-[24px] p-8 shadow-sm">
         <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">
           Daily Goal
         </p>
@@ -54,7 +54,7 @@ const Stat = (props: Props) => {
         </div>
       </div>
 
-      <div className="col-span-8 bg-neutral-900 border border-neutral-700 rounded-[24px] p-8 shadow-sm">
+      <div className="md:col-span-8 bg-neutral-900 border border-neutral-700 rounded-[24px] p-8 shadow-sm">
         <div className="flex justify-between items-start mb-8">
           <div>
             <h3 className="text-sm font-bold tracking-tight">Macronutrients</h3>
@@ -66,7 +66,7 @@ const Stat = (props: Props) => {
             Phase 1: Hypertrophy
           </span>
         </div>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <MacroStat
             label="PROTEIN"
             val={currNut.protein}
