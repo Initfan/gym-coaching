@@ -54,10 +54,10 @@ const Auth = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center font-sans">
+    <div className="min-h-screen flex bg-black/95 text-white items-center justify-center font-sans">
       <div className="max-w-5xl w-full flex flex-col md:flex-row min-h-screen py-4">
         {/* Left Section: Branding & Social Proof */}
-        <div className="md:w-1/2 bg-black p-12 flex flex-col justify-between relative rounded-l-xl">
+        <div className="md:w-1/2 bg-black border border-neutral-800 p-12 flex flex-col justify-between relative rounded-l-xl">
           <div className="relative z-10">
             <div className="flex items-center gap-2 text-white mb-16">
               <div className="bg-white p-1.5 rounded-lg">
@@ -106,10 +106,10 @@ const Auth = () => {
         <div className="md:w-1/2 flex flex-col justify-center">
           <div className="max-w-sm w-full mx-auto">
             <header className="mb-10">
-              <h2 className="text-3xl font-bold text-slate-900 mb-2">
+              <h2 className="text-3xl font-bold text-slate-100 mb-2">
                 {isSignUp ? "Sign Up" : "Welcome back"}
               </h2>
-              <p className="text-slate-500 text-sm">
+              <p className="text-slate-300 text-sm">
                 Please enter your credentials to access your dashboard.
               </p>
             </header>
@@ -117,16 +117,16 @@ const Auth = () => {
             <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
               {/* Email Field */}
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-300 ml-1">
                   Email Address
                 </label>
                 <div className="relative group">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-black transition-colors" />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 transition-colors" />
                   <input
                     type="email"
                     placeholder="name@example.com"
                     {...register("email")}
-                    className="w-full bg-slate-50 border border-slate-100 rounded-xl py-3.5 pl-11 pr-4 text-sm focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black outline-none transition-all placeholder:text-slate-400"
+                    className="w-full border border-neutral-700 rounded-xl py-3.5 pl-11 pr-4 text-sm outline-none transition-all placeholder:text-slate-400"
                   />
                 </div>
               </div>
@@ -134,23 +134,23 @@ const Auth = () => {
               {/* Password Field */}
               <div className="space-y-2">
                 <div className="flex justify-between items-center px-1">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-300">
                     Password
                   </label>
                   <button
                     type="button"
-                    className="text-[10px] font-bold uppercase tracking-widest text-slate-900 hover:underline"
+                    className="text-[10px] font-bold uppercase tracking-widest text-slate-100 hover:underline"
                   >
                     Forgot password?
                   </button>
                 </div>
                 <div className="relative group">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-black transition-colors" />
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 transition-colors" />
                   <input
                     type="password"
                     placeholder="••••••••"
                     {...register("password")}
-                    className="w-full bg-slate-50 border border-slate-100 rounded-xl py-3.5 pl-11 pr-4 text-sm focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black outline-none transition-all placeholder:text-slate-400"
+                    className="w-full  border border-neutral-700 rounded-xl py-3.5 pl-11 pr-4 text-smoutline-none transition-all outline-none placeholder:text-slate-400"
                   />
                 </div>
               </div>
@@ -160,7 +160,7 @@ const Auth = () => {
               <button
                 disabled={pending}
                 type="submit"
-                className=" w-full bg-black text-white flex items-center gap-3 justify-center py-4 rounded-xl font-bold hover:bg-zinc-800 transition-all active:scale-[0.98]"
+                className=" w-full bg-neutral-900 text-white flex items-center gap-3 justify-center py-4 rounded-xl font-bold hover:bg-zinc-800 transition-all active:scale-[0.98]"
                 style={{ opacity: pending && "50%" }}
               >
                 {isSignUp ? "Submit" : "Login"}
@@ -198,7 +198,7 @@ const SocialButton = ({
   onClick: () => void;
 }) => (
   <button
-    className="flex items-center justify-center gap-2 p-3 w-full border border-slate-300 rounded-xl hover:bg-slate-100 transition-all group"
+    className="flex items-center justify-center gap-2 p-3 w-full border bg-slate-200 border-slate-300 rounded-xl hover:bg-slate-100 transition-all group"
     onClick={onClick}
   >
     <div className="w-6 h-6 ">

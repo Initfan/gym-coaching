@@ -3,14 +3,14 @@ import { Link } from "react-router";
 
 const Pricing = () => {
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 flex flex-col">
+    <div className="min-h-screen bg-black/90 font-sans text-white flex flex-col">
       <main className="flex-1 max-w-6xl mx-auto px-6 py-16 flex flex-col items-center">
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4 tracking-tight">
             Invest in Your Performance
           </h1>
-          <p className="text-gray-500 max-w-xl mx-auto leading-relaxed">
+          <p className="text-gray-300 max-w-xl mx-auto leading-relaxed">
             Choose the plan that fits your elite training goals. From AI-driven
             nutrition to real-time biofeedback, unlock your full potential.
           </p>
@@ -19,14 +19,14 @@ const Pricing = () => {
         {/* Pricing Cards */}
         <div className="grid md:grid-cols-2 gap-8 w-full max-w-4xl">
           {/* Free Trial Card */}
-          <div className="border border-gray-300 rounded-2xl p-8 flex flex-col">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4 bg-gray-50 w-fit px-3 py-1 rounded-full">
+          <div className="border border-gray-300  rounded-2xl p-8 flex flex-col">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-300 mb-4 bg-neutral-800 w-fit px-3 py-1 rounded-full">
               Limited Access
             </span>
             <h2 className="text-2xl font-bold mb-2">Free Trial (7 days)</h2>
             <div className="mb-8">
               <span className="text-3xl font-bold">$0</span>
-              <span className="text-gray-400 text-sm ml-1">/ 7 days</span>
+              <span className="text-slate-300 text-sm ml-1">/ 7 days</span>
             </div>
 
             <ul className="space-y-4 mb-10 flex-1">
@@ -42,7 +42,7 @@ const Pricing = () => {
 
             <Link
               to={"/goal"}
-              className="w-full text-center py-3 rounded-xl border border-gray-200 font-bold hover:bg-gray-10 transition-colors"
+              className="w-full text-center py-3 rounded-xl hover:bg-neutral-800/80 bg-neutral-800 font-bold hover:bg-gray-10 transition-colors"
             >
               Continue Free Trial
             </Link>
@@ -53,7 +53,7 @@ const Pricing = () => {
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full">
               Recommended
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4 bg-zinc-900 w-fit px-3 py-1 rounded-full">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-300 mb-4 bg-neutral-800 w-fit px-3 py-1 rounded-full">
               Unlimited Access
             </span>
             <h2 className="text-2xl font-bold mb-2">Pro Plan</h2>
@@ -76,7 +76,7 @@ const Pricing = () => {
 
             <Link
               to={"/goal"}
-              className="w-full py-4 text-center rounded-xl bg-black text-white font-bold hover:bg-zinc-800 transition-colors"
+              className="w-full py-4 text-center rounded-xl bg-black text-white font-bold hover:bg-black/80 transition-colors"
             >
               Choose Plan
             </Link>
@@ -98,13 +98,13 @@ const FeatureItem = ({
 }) => (
   <li className="flex items-start gap-3">
     {active ? (
-      <Check className="w-5 h-5 text-black shrink-0" />
+      <Check className="w-5 h-5 text-white shrink-0" />
     ) : (
       <Circle className="w-5 h-5 text-gray-300 shrink-0" />
     )}
     <div>
       <p
-        className={`text-sm font-medium ${active ? "text-slate-900" : "text-gray-300"}`}
+        className={`text-sm font-medium ${active ? "text-white" : "text-gray-300"}`}
       >
         {text}
       </p>
