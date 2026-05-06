@@ -64,3 +64,10 @@ export const nutritionSchema = z.object({
 });
 
 export type nutritionSchemaType = z.infer<typeof nutritionSchema>;
+
+export const postSchema = z.object({
+  content: z.string().min(1),
+  images: z.file().array(),
+});
+
+export type postSchemaType = z.infer<typeof postSchema>;

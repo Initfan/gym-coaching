@@ -9,27 +9,18 @@ import {
 import { useState, useRef, useEffect } from "react";
 import { useCommunityStore } from "../store/communityStore";
 import { Image as ImageIcon } from "lucide-react";
+import PostForm from "@/components/community/PostForm";
 
 const Community = () => {
   const { posts, addPost, likePost, athletes, toggleFollow, fetchRemotePosts } =
     useCommunityStore();
   const [newPost, setNewPost] = useState("");
   const [newImgUrl, setNewImgUrl] = useState("");
-  const [showImgInput, setShowImgInput] = useState(false);
   const postInputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     fetchRemotePosts();
   }, [fetchRemotePosts]);
-
-  const handlePost = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newPost.trim()) return;
-    addPost(newPost, newImgUrl);
-    setNewPost("");
-    setNewImgUrl("");
-    setShowImgInput(false);
-  };
 
   return (
     <main className="flex-1 p-10 overflow-y-auto">
@@ -56,46 +47,7 @@ const Community = () => {
         {/* Left Column: Feed & Transformation */}
         <div className="col-span-2 space-y-8">
           {/* Compose Post */}
-          <form
-            onSubmit={handlePost}
-            className="bg-[#141414] border border-white/5 rounded-2xl p-6 mb-8 flex gap-4"
-          >
-            <div className="w-10 h-10 rounded-full bg-slate-400 border border-white/20 overflow-hidden shrink-0">
-              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100" />
-            </div>
-            <div className="flex-1 shrink-0">
-              <textarea
-                ref={postInputRef}
-                value={newPost}
-                onChange={(e) => setNewPost(e.target.value)}
-                placeholder="Share your progress..."
-                className="w-full bg-transparent resize-none focus:outline-none text-sm placeholder:text-white/20 mb-2 h-16"
-              />
-              {showImgInput && (
-                <input
-                  type="text"
-                  value={newImgUrl}
-                  onChange={(e) => setNewImgUrl(e.target.value)}
-                  placeholder="Paste image URL here..."
-                  className="w-full bg-[#111112] border border-white/10 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-white/20 mb-4"
-                />
-              )}
-              <div className="flex justify-between items-center">
-                <div
-                  className="text-white/20 hover:text-white cursor-pointer transition-colors"
-                  onClick={() => setShowImgInput(!showImgInput)}
-                >
-                  <ImageIcon size={18} />
-                </div>
-                <button
-                  type="submit"
-                  className="bg-white text-black px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-neutral-200"
-                >
-                  Post
-                </button>
-              </div>
-            </div>
-          </form>
+          <PostForm />
 
           {/* Social Posts */}
           <div className="space-y-6">
@@ -328,15 +280,6 @@ const AthleteRow = ({
     >
       {following ? "Following" : "Follow"}
     </button>
-  </div>
-);
-
-const MetricSmall = ({ label, value, color = "text-white" }: any) => (
-  <div>
-    <p className="text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">
-      {label}
-    </p>
-    <p className={`text-sm font-bold ${color}`}>{value}</p>
   </div>
 );
 
