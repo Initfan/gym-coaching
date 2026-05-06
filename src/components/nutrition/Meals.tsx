@@ -1,28 +1,33 @@
 import { Settings } from "lucide-react";
 import type { MealType } from "../../types/db";
 
-import Meal from "./Meal";
-import { useEffect, useState } from "react";
-import supabase from "../../utils/supabase";
+import Meal, { MealSkeleton } from "./Meal";
+import { useEffect, useState, useTransition } from "react";
+import { getConsumption } from "../../usecase/nutrition";
 
 interface Props {
   onClose?: () => void;
   meals: MealType[];
+  userId: string;
+  consumedMeal: (id) => void;
 }
 
 const Meals = (props: Props) => {
+  const [pending, transition] = useTransition();
   const [meals, setMeals] = useState([]);
   const [mealsId, setSelected] = useState<string[]>([]);
   const [mealContent, setMealContent] = useState<"recomend" | "consumption">(
     "recomend",
   );
 
+  useEffect(() => props.consumedMeal(mealsId), [mealsId]);
+
   useEffect(() => {
     if (mealContent == "consumption")
-      supabase
-        .from("meal")
-        .select("*")
-        .then(({ data }) => setMeals(data));
+      transition(async () => {
+        const meals = await getConsumption(props.userId);
+        setMeals(meals);
+      });
   }, [mealContent]);
 
   return (
@@ -75,6 +80,7 @@ const Meals = (props: Props) => {
                 selectedId={mealsId[idx]}
               />
             ))}
+          {pending && <MealSkeleton />}
           {mealContent == "consumption" &&
             meals.map((meal, idx) => (
               <Meal

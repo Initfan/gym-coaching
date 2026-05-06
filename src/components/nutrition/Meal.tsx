@@ -1,5 +1,4 @@
 import { Loader2, Plus } from "lucide-react";
-import supabase from "../../utils/supabase";
 import { useAuthStore } from "../../store/authStore";
 import { useTransition } from "react";
 import type { MealType } from "../../types/db";
@@ -83,6 +82,42 @@ const Meal = ({
               )}
             </button>
           )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const MealSkeleton = () => {
+  return (
+    <div className="bg-neutral-900 border border-neutral-700 rounded-[28px] overflow-hidden flex animate-pulse">
+      {/* Image placeholder */}
+      <div className="w-56 max-h-56 bg-neutral-800" />
+
+      {/* Content placeholder */}
+      <div className="flex-1 p-8 flex justify-between items-center">
+        <div className="max-w-md flex flex-col gap-2">
+          {/* Eat time placeholder */}
+          <div className="h-3 w-32 bg-neutral-800 rounded" />
+
+          {/* Meal name placeholder */}
+          <div className="h-5 w-48 bg-neutral-800 rounded" />
+
+          {/* Description placeholder */}
+          <div className="h-3 w-full bg-neutral-800 rounded" />
+          <div className="h-3 w-5/6 bg-neutral-800 rounded" />
+
+          {/* Tags placeholder */}
+          <div className="flex gap-3 mt-2">
+            <div className="h-5 w-16 bg-neutral-800 rounded" />
+            <div className="h-5 w-20 bg-neutral-800 rounded" />
+          </div>
+        </div>
+
+        {/* Calorie & button placeholder */}
+        <div className="flex items-center gap-4">
+          <div className="h-8 w-16 bg-neutral-800 rounded" />
+          <div className="h-10 w-10 bg-neutral-800 rounded-full" />
         </div>
       </div>
     </div>

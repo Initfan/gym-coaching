@@ -3,7 +3,11 @@ import { getNutrition, getStat } from "../../usecase/nutrition";
 import { useAuthStore } from "../../store/authStore";
 import type { NutritionType } from "../../types/db";
 
-const Stat = () => {
+interface Props {
+  consumedMeal: string[];
+}
+
+const Stat = (props: Props) => {
   const { user } = useAuthStore();
   const [goal, setGoal] = useState({
     goal: "",
@@ -18,8 +22,11 @@ const Stat = () => {
 
   useEffect(() => {
     getStat(user.id).then((res) => setGoal(res));
-    getNutrition().then((res) => setNut(res));
   }, []);
+
+  useEffect(() => {
+    getNutrition().then((res) => setNut(res));
+  }, [props.consumedMeal]);
 
   return (
     <div className="grid grid-cols-12 gap-6 mb-10">
@@ -35,9 +42,9 @@ const Stat = () => {
             kcal remaining
           </span>
         </div>
-        <div className="relative h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+        <div className="relative h-2 w-full bg-neutral-700 rounded-full overflow-hidden">
           <div
-            className="absolute h-full bg-black"
+            className="absolute h-full bg-neutral-400"
             style={{ width: (currNut.kcal / goal.kcal) * 100 }}
           />
         </div>
@@ -93,9 +100,9 @@ const MacroStat = ({
         g
       </span>
     </div>
-    <div className="h-[3px] w-full bg-slate-100 rounded-full overflow-hidden">
+    <div className="h-[3px] w-full bg-neutral-700 rounded-full overflow-hidden">
       <div
-        className="h-full bg-black rounded-full"
+        className="h-full bg-neutral-400 rounded-full"
         style={{ width: `${(val / goal) * 100}%` }}
       />
     </div>
