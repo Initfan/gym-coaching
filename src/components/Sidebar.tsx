@@ -3,7 +3,7 @@ import {
   Dumbbell,
   Utensils,
   BrainCircuit,
-  LineChart,
+  // LineChart,
   Users,
   User,
 } from "lucide-react";
@@ -43,11 +43,11 @@ const Sidebar = () => {
           icon={<BrainCircuit size={18} />}
           label="AI Coach"
         />
-        <NavItem
+        {/* <NavItem
           to={"/dashboard/progress"}
           icon={<LineChart size={18} />}
           label="Progress"
-        />
+        /> */}
         <NavItem
           to={"/dashboard/community"}
           icon={<Users size={18} />}
