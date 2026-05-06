@@ -31,7 +31,7 @@ const Workout = ({ ex }: { ex: WorkoutWithExercises }) => {
           />
           <StatItem
             label="Est Duration"
-            value={`${ex.estimated_duration.toString()}m`}
+            value={`${Math.ceil(ex.workout_exercises.reduce((a, b) => a + b.rest_seconds, 60) / 60)}m`}
           />
         </div>
       </div>

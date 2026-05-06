@@ -47,19 +47,19 @@ export const getStat = async (id: string) => {
   let fat: number;
   let carbs: number;
 
-  if (data.goal === "strength") {
-    tdee = Math.ceil(bmr * 1.55); // Moderate activity
-    kcal = Math.ceil(tdee * 1.15); // Bulking +15%
+  // if (data.goal === "strength") {
+  tdee = Math.ceil(bmr * 1.55); // Moderate activity
+  kcal = Math.ceil(tdee * 1.15); // Bulking +15%
 
-    protein = Math.ceil(2 * Number(data.weight)); // g/kg
-    const proteinCalories = Math.ceil(protein * 4);
+  protein = Math.ceil(2 * Number(data.weight)); // g/kg
+  const proteinCalories = Math.ceil(protein * 4);
 
-    fat = Math.ceil(0.25 * kcal); // 25% of total kcal
-    const fatCalories = fat; // already in kcal
+  fat = Math.ceil(0.25 * kcal); // 25% of total kcal
+  const fatCalories = fat; // already in kcal
 
-    const carbCalories = Math.ceil(kcal - proteinCalories - fatCalories);
-    carbs = Math.ceil(carbCalories / 4); // grams
-  }
+  const carbCalories = Math.ceil(kcal - proteinCalories - fatCalories);
+  carbs = Math.ceil(carbCalories / 4); // grams
+  // }
 
   return {
     goal: data.goal,

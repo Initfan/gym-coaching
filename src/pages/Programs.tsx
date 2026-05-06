@@ -5,9 +5,11 @@ import { getPrograms } from "@/usecase/program";
 import Workout, { WorkoutSkeleton } from "@/components/program/Workout";
 import Calendar from "@/components/program/Calendar";
 import Insight from "@/components/program/Insight";
+import { useNavigate } from "react-router";
 
 const Programs: React.FC = () => {
   const { user } = useAuthStore();
+  const nav = useNavigate();
   const [pending, transition] = useTransition();
   const [programs, setPrograms] = useState<ProgramWithWorkout>();
   const [workouts, setWorkouts] = useState<WorkoutWithExercises[]>([]);
@@ -15,8 +17,8 @@ const Programs: React.FC = () => {
   useEffect(() => {
     transition(
       async () =>
-        await getPrograms(user.id).then(
-          (res) => (setPrograms(res), setWorkouts(res.workouts)),
+        await getPrograms(user.id).then((res) =>
+          res ? (setPrograms(res), setWorkouts(res.workouts)) : nav("/goal"),
         ),
     );
   }, []);
