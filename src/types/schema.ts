@@ -26,7 +26,7 @@ export const profileSchema = z.object({
   weight: z.string(),
   bmi: z.string(),
   gender: z.string().min(1, "Select the gender"),
-  goal: z.string(),
+  goal: z.enum(["bulking", "cutting", "maintenance", "contest"]),
 });
 
 export type profileSchemaType = z.infer<typeof profileSchema>;

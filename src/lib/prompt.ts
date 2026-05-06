@@ -29,6 +29,8 @@ Given the user's meal preferences, generate a meal recommendation that strictly 
   "tag": string,
   "protein": number,
   "calorie": number,
+  "carbs": number,
+  "fats": number,
   "created_at": string
 }
 
@@ -37,6 +39,8 @@ Given the user's meal preferences, generate a meal recommendation that strictly 
 - "eat_time": one of ["breakfast", "lunch", "dinner", "snack"].
 - "tag": short category (e.g., "high-fiber", "pre-workout").
 - "protein": grams (number).
+- "carbs": grams (number).
+- "fats": grams (number).
 - "calorie": total kcal (number).
 
 ### OUTPUT:`;

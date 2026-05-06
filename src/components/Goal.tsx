@@ -230,21 +230,21 @@ const Goal: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-12">
             {OBJECTIVES.map((obj) => (
               <button
-                key={obj.title}
-                onClick={() => setGoal(obj.title)}
+                key={obj.id}
+                onClick={() => setGoal(obj.id)}
                 className={`relative text-left p-8 rounded-xl border-2 transition-all duration-200 flex flex-col gap-4 group ${
-                  goal === obj.title
+                  goal === obj.id
                     ? "bg-neutral-900 shadow-sm"
                     : "border-neutral-700 bg-neutral-800 hover:border-gray-200"
                 }`}
               >
-                {goal === obj.title && (
+                {goal === obj.id && (
                   <CheckCircle2 className="absolute top-4 right-4 w-5 h-5 text-black" />
                 )}
 
                 <div
                   className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors ${
-                    goal === obj.title
+                    goal === obj.id
                       ? "bg-black text-white"
                       : "bg-slate-100 text-gray-600"
                   }`}

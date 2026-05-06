@@ -1,4 +1,21 @@
+import { useEffect, useState } from "react";
+import { getStat } from "../../usecase/nutrition";
+import { useAuthStore } from "../../store/authStore";
+
 const Stat = () => {
+  const { user } = useAuthStore();
+  const [goal, setGoal] = useState({
+    goal: "",
+    kcal: 0,
+    protein: 0,
+    fat: 0,
+    carbs: 0,
+  });
+
+  useEffect(() => {
+    getStat(user.id).then((res) => setGoal(res));
+  }, []);
+
   return (
     <div className="grid grid-cols-12 gap-6 mb-10">
       <div className="col-span-4 bg-neutral-900 border border-neutral-700 rounded-[24px] p-8 shadow-sm">
@@ -6,13 +23,15 @@ const Stat = () => {
           Daily Goal
         </p>
         <div className="flex items-baseline gap-2 mb-6">
-          <span className="text-4xl font-bold tracking-tighter">2,450</span>
+          <span className="text-4xl font-bold tracking-tighter">
+            {goal.kcal.toLocaleString("id-ID")}
+          </span>
           <span className="text-xs text-slate-400 font-medium tracking-tight">
             kcal remaining
           </span>
         </div>
         <div className="relative h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-          <div className="absolute h-full bg-black w-[65%]" />
+          <div className="absolute h-full bg-black w-0" />
         </div>
         <div className="flex justify-between mt-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
           <span>1,592 kcal consumed</span>
@@ -25,7 +44,7 @@ const Stat = () => {
           <div>
             <h3 className="text-sm font-bold tracking-tight">Macronutrients</h3>
             <p className="text-[11px] text-slate-400">
-              Optimized for lean muscle growth
+              Optimized for {goal.goal}
             </p>
           </div>
           <span className="bg-neutral-800 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full text-gray-300">
@@ -33,9 +52,9 @@ const Stat = () => {
           </span>
         </div>
         <div className="grid grid-cols-3 gap-8">
-          <MacroStat label="PROTEIN" val={0} goal={10} />
-          <MacroStat label="CARBS" val={0} goal={10} />
-          <MacroStat label="FATS" val={0} goal={10} />
+          <MacroStat label="PROTEIN" val={0} goal={goal.protein} />
+          <MacroStat label="CARBS" val={0} goal={goal.carbs} />
+          <MacroStat label="FATS" val={0} goal={goal.fat} />
         </div>
       </div>
     </div>

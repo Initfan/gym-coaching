@@ -44,30 +44,30 @@ const Nutrition: React.FC = () => {
   ]);
   const [pending, transition] = useTransition();
 
-  useEffect(() => {
-    const generateMeal = async (data: z.infer<typeof meal_preference>) => {
-      const res = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: `${mealPrompt} input: ${JSON.stringify(data)}, create 2 meal`,
-      });
-      const meals = JSON.parse(res.text);
-      setMeals(meals);
-    };
+  // useEffect(() => {
+  //   const generateMeal = async (data: z.infer<typeof meal_preference>) => {
+  //     const res = await ai.models.generateContent({
+  //       model: "gemini-3-flash-preview",
+  //       contents: `${mealPrompt} input: ${JSON.stringify(data)}, create 2 meal`,
+  //     });
+  //     const meals = JSON.parse(res.text);
+  //     setMeals(meals);
+  //   };
 
-    transition(async () => {
-      await supabase
-        .from("meal_preference")
-        .select("*")
-        .eq("user_id", user.id)
-        .single()
-        .then(
-          ({ data, error }) =>
-            !error &&
-            data &&
-            generateMeal(data as z.infer<typeof meal_preference>),
-        );
-    });
-  }, []);
+  //   transition(async () => {
+  //     await supabase
+  //       .from("meal_preference")
+  //       .select("*")
+  //       .eq("user_id", user.id)
+  //       .single()
+  //       .then(
+  //         ({ data, error }) =>
+  //           !error &&
+  //           data &&
+  //           generateMeal(data as z.infer<typeof meal_preference>),
+  //       );
+  //   });
+  // }, []);
 
   return (
     <div className="flex min-h-screen font-sans">
