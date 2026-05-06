@@ -3,6 +3,7 @@ import supabase from "../../utils/supabase";
 import { useAuthStore } from "../../store/authStore";
 import { useTransition } from "react";
 import type { MealType } from "../../types/db";
+import { consumeMeal } from "../../usecase/nutrition";
 
 const Meal = ({
   meal,
@@ -16,17 +17,12 @@ const Meal = ({
   const { user } = useAuthStore();
   const [pending, transition] = useTransition();
 
-  const consumeMeal = (meal: MealType) => {
-    transition(
-      async () =>
-        await supabase
-          .from("meal")
-          .insert({ ...meal, id: undefined, user_id: user.id })
-          .select("*")
-          .single()
-          .then(({ success, data }) => success && selected(data.id)),
+  const onConsumeMeal = (meal: MealType) => {
+    transition(async () =>
+      consumeMeal(user.id, meal).then((res) => selected(res.id)),
     );
   };
+
   return (
     <div className="bg-neutral-900 border border-neutral-700 rounded-[28px] overflow-hidden flex group transition-all duration-300">
       <div className="w-56 max-h-56 overflow-hidden">
@@ -76,7 +72,7 @@ const Meal = ({
           {meal.id != selectedId && (
             <button
               disabled={pending}
-              onClick={() => consumeMeal(meal)}
+              onClick={() => onConsumeMeal(meal)}
               className="w-10 h-10 rounded-full border border-neutral-500 flex items-center justify-center transition-all hover:bg-neutral-700"
               style={{ opacity: pending && "50%" }}
             >

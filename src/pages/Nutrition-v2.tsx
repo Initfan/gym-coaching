@@ -26,6 +26,8 @@ const Nutrition: React.FC = () => {
       tag: "low-carb",
       protein: 38,
       calorie: 350,
+      carbs: 24,
+      fats: 42,
       created_at: "2026-05-05T13:42:47.483191",
     },
     {
@@ -39,6 +41,8 @@ const Nutrition: React.FC = () => {
       tag: "high-protein",
       protein: 24,
       calorie: 280,
+      carbs: 24,
+      fats: 42,
       created_at: "2026-05-05T13:42:47.483191",
     },
   ]);

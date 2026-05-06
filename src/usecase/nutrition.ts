@@ -1,3 +1,4 @@
+import type { MealType, NutritionType } from "../types/db";
 import type { profileSchemaType } from "../types/schema";
 import supabase from "../utils/supabase";
 
@@ -48,7 +49,44 @@ export const getStat = async (id: string) => {
     goal: data.goal,
     kcal,
     protein,
-    fat: Math.ceil(fat / 9),
+    fats: Math.ceil(fat / 9),
     carbs,
   };
+};
+
+export const consumeMeal = async (id: string, meal: MealType) => {
+  const { data } = await supabase
+    .from("meal")
+    .insert({ ...meal, id: undefined, user_id: id })
+    .select("*")
+    .single();
+
+  const { data: nut, success } = await supabase
+    .from("nutrition")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(1);
+
+  console.log(nut);
+
+  if (success)
+    await supabase.from("nutrition").upsert({
+      id: nut.length > 0 ? nut[0].id : undefined,
+      user_id: id,
+      kcal: nut.length > 0 ? nut[0].kcal + meal.calorie : meal.calorie,
+      fats: nut.length > 0 ? nut[0].fats + meal.fats : meal.fats,
+      protein: nut.length > 0 ? nut[0].protein + meal.protein : meal.protein,
+      carbs: nut.length > 0 ? nut[0].carbs + meal.carbs : meal.carbs,
+    });
+
+  return data;
+};
+
+export const getNutrition = async (): Promise<NutritionType> => {
+  const { data }: { data: unknown } = await supabase
+    .from("nutrition")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(1);
+  return data[0] as NutritionType;
 };

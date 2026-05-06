@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { getStat } from "../../usecase/nutrition";
+import { getNutrition, getStat } from "../../usecase/nutrition";
 import { useAuthStore } from "../../store/authStore";
+import type { NutritionType } from "../../types/db";
 
 const Stat = () => {
   const { user } = useAuthStore();
@@ -8,12 +9,16 @@ const Stat = () => {
     goal: "",
     kcal: 0,
     protein: 0,
-    fat: 0,
+    fats: 0,
     carbs: 0,
+  });
+  const [currNut, setNut] = useState<NutritionType>({
+    ...goal,
   });
 
   useEffect(() => {
     getStat(user.id).then((res) => setGoal(res));
+    getNutrition().then((res) => setNut(res));
   }, []);
 
   return (
@@ -31,11 +36,14 @@ const Stat = () => {
           </span>
         </div>
         <div className="relative h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-          <div className="absolute h-full bg-black w-0" />
+          <div
+            className="absolute h-full bg-black"
+            style={{ width: (currNut.kcal / goal.kcal) * 100 }}
+          />
         </div>
         <div className="flex justify-between mt-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-          <span>1,592 kcal consumed</span>
-          <span>858 left</span>
+          <span>{currNut.kcal} kcal consumed</span>
+          <span>{goal.kcal - currNut.kcal} left</span>
         </div>
       </div>
 
@@ -52,9 +60,13 @@ const Stat = () => {
           </span>
         </div>
         <div className="grid grid-cols-3 gap-8">
-          <MacroStat label="PROTEIN" val={0} goal={goal.protein} />
-          <MacroStat label="CARBS" val={0} goal={goal.carbs} />
-          <MacroStat label="FATS" val={0} goal={goal.fat} />
+          <MacroStat
+            label="PROTEIN"
+            val={currNut.protein}
+            goal={goal.protein}
+          />
+          <MacroStat label="CARBS" val={currNut.carbs} goal={goal.carbs} />
+          <MacroStat label="FATS" val={currNut.fats} goal={goal.fats} />
         </div>
       </div>
     </div>

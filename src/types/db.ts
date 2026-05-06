@@ -83,8 +83,21 @@ export type MealType = {
   description: string | null;
   tag: string | null;
   protein: number | null;
+  fats: number | null;
+  carbs: number | null;
   calorie: number | null;
   created_at: string | null;
+};
+
+export type NutritionType = {
+  id?: string;
+  user_id?: string | null;
+  kcal: number | null;
+  protein: number | null;
+  carbs: number | null;
+  fats: number | null;
+  sufficient?: boolean | null;
+  created_at?: string | null;
 };
 
 export type ProgramWithWorkout = Program & {
