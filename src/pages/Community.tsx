@@ -1,26 +1,16 @@
-import {
-  BrainCircuit,
-  Heart,
-  MessageSquare,
-  Share2,
-  MoreHorizontal,
-  History,
-} from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { BrainCircuit } from "lucide-react";
+import { useEffect, useTransition } from "react";
 import { useCommunityStore } from "../store/communityStore";
-import { Image as ImageIcon } from "lucide-react";
 import PostForm from "@/components/community/PostForm";
+import Post from "@/components/community/Post";
 
 const Community = () => {
-  const { posts, addPost, likePost, athletes, toggleFollow, fetchRemotePosts } =
-    useCommunityStore();
-  const [newPost, setNewPost] = useState("");
-  const [newImgUrl, setNewImgUrl] = useState("");
-  const postInputRef = useRef<HTMLTextAreaElement>(null);
+  const [pending, transition] = useTransition();
+  const { posts, athletes, toggleFollow, getPosts } = useCommunityStore();
 
   useEffect(() => {
-    fetchRemotePosts();
-  }, [fetchRemotePosts]);
+    transition(async () => await getPosts());
+  }, [getPosts]);
 
   return (
     <main className="flex-1 p-10 overflow-y-auto">
@@ -44,81 +34,15 @@ const Community = () => {
       </section>
 
       <div className="grid grid-cols-3 gap-8">
-        {/* Left Column: Feed & Transformation */}
         <div className="col-span-2 space-y-8">
-          {/* Compose Post */}
           <PostForm />
 
-          {/* Social Posts */}
           <div className="space-y-6">
-            {posts.map((post) => (
-              <div
-                key={post.id}
-                className="bg-[#141414] border border-white/5 rounded-2xl p-6"
-              >
-                <div className="flex justify-between items-start mb-6">
-                  <div className="flex gap-3">
-                    <div className="w-10 h-10 rounded-full bg-slate-300 overflow-hidden flex items-center justify-center shrink-0">
-                      <img
-                        className="w-full h-full object-cover"
-                        src={
-                          post.authorImg ||
-                          (post.author === "You"
-                            ? "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100"
-                            : "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=100")
-                        }
-                      />
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold">{post.author}</h4>
-                      <p className="text-[10px] text-white/40">{post.time}</p>
-                    </div>
-                  </div>
-                  <MoreHorizontal
-                    size={18}
-                    className="text-white/20 cursor-pointer"
-                  />
-                </div>
-                <p className="text-sm text-white/80 mb-6 leading-relaxed">
-                  {post.text}
-                </p>
-                {post.img && (
-                  <div className="rounded-xl overflow-hidden border border-white/5 mb-6">
-                    <img
-                      src={post.img}
-                      className="w-full grayscale hover:grayscale-0 transition-all duration-700"
-                    />
-                  </div>
-                )}
-                <div className="flex justify-between items-center">
-                  <div className="flex gap-6">
-                    <button
-                      onClick={() => likePost(post.id)}
-                      className={`flex items-center gap-2 text-[10px] font-bold transition-colors ${post.isLikedByMe ? "text-rose-500" : "text-white/40 hover:text-rose-500"}`}
-                    >
-                      <Heart
-                        size={14}
-                        className={post.isLikedByMe ? "fill-rose-500" : ""}
-                      />{" "}
-                      {post.likes}
-                    </button>
-                    <button className="flex items-center gap-2 text-[10px] font-bold text-white/40 hover:text-white transition-colors">
-                      <MessageSquare size={14} /> {post.comments}
-                    </button>
-                    <button className="flex items-center gap-2 text-[10px] font-bold text-white/40 hover:text-white transition-colors">
-                      <Share2 size={14} />
-                    </button>
-                  </div>
-                  <span className="text-[8px] font-bold tracking-[0.2em] text-white/20 uppercase bg-white/5 px-2 py-0.5 rounded">
-                    Global Feed
-                  </span>
-                </div>
-              </div>
-            ))}
+            {!pending &&
+              posts.map((post) => <Post key={post.id} post={post} />)}
           </div>
         </div>
 
-        {/* Right Column: Sidebar UI */}
         <div className="space-y-6">
           <SidebarCard title="Rising Athletes">
             <div className="space-y-4">
@@ -169,11 +93,11 @@ const Community = () => {
                 <span
                   key={tag}
                   onClick={() => {
-                    setNewPost(
-                      (prev) =>
-                        prev + (prev.endsWith(" ") ? "" : " ") + tag + " ",
-                    );
-                    postInputRef.current?.focus();
+                    // setNewPost(
+                    //   (prev) =>
+                    //     prev + (prev.endsWith(" ") ? "" : " ") + tag + " ",
+                    // );
+                    // postInputRef.current?.focus();
                   }}
                   className="px-3 py-1 bg-white/5 border border-white/5 rounded-md text-[10px] font-medium text-white/40 cursor-pointer hover:bg-white/10 hover:text-white transition-all"
                 >
@@ -187,64 +111,6 @@ const Community = () => {
     </main>
   );
 };
-
-// --- Dashboard Extra Sections (Requested from first image) ---
-
-export const RecentPerformance = () => (
-  <div className="grid grid-cols-2 gap-6 mt-12">
-    <div className="bg-[#141414] border border-white/5 rounded-2xl p-6">
-      <h3 className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] mb-6">
-        Recent Performance
-      </h3>
-      <div className="space-y-4">
-        <PerformanceItem
-          title="Bench Press (Max Set)"
-          subtitle="Yesterday • 100Kg x 8 reps"
-          meta="+1 rep PR"
-          color="text-emerald-400"
-        />
-        <PerformanceItem
-          title="Run (Zone 2)"
-          subtitle="2 days ago • 5.2 km"
-          meta="28:40 mins"
-        />
-      </div>
-    </div>
-
-    <div className="bg-[#141414] border border-white/5 rounded-2xl p-6">
-      <h3 className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] mb-6">
-        Atelier Community
-      </h3>
-      <div className="flex items-start gap-4">
-        <div className="flex -space-x-3">
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className="w-8 h-8 rounded-full border-2 border-[#141414] bg-neutral-600 overflow-hidden"
-            />
-          ))}
-          <div className="w-8 h-8 rounded-full border-2 border-[#141414] bg-white/10 flex items-center justify-center text-[8px] font-bold">
-            +24
-          </div>
-        </div>
-        <div className="flex-1">
-          <p className="text-xs italic text-white/60 leading-relaxed mb-4">
-            "Just smashed the Week 4 Competition Block. Anyone joining for the
-            5AM HIIT session tomorrow?"
-          </p>
-          <div className="flex gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest">
-            <span className="flex items-center gap-1.5">
-              <Heart size={12} /> 12
-            </span>
-            <span className="flex items-center gap-1.5">
-              <MessageSquare size={12} /> 3
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
 
 const SidebarCard = ({ title, children }: any) => (
   <div className="bg-[#141414] border border-white/5 rounded-2xl p-6">
@@ -280,30 +146,6 @@ const AthleteRow = ({
     >
       {following ? "Following" : "Follow"}
     </button>
-  </div>
-);
-
-const PerformanceItem = ({
-  title,
-  subtitle,
-  meta,
-  color = "text-white/40",
-}: any) => (
-  <div className="flex items-center justify-between p-3 bg-black/20 rounded-xl border border-white/2">
-    <div className="flex items-center gap-3">
-      <div className="w-8 h-8 rounded bg-white/5 flex items-center justify-center text-white/40">
-        <History size={14} />
-      </div>
-      <div>
-        <h4 className="text-[11px] font-bold">{title}</h4>
-        <p className="text-[10px] text-white/40">{subtitle}</p>
-      </div>
-    </div>
-    <span
-      className={`text-[10px] font-bold uppercase tracking-widest ${color}`}
-    >
-      {meta}
-    </span>
   </div>
 );
 

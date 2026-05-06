@@ -45,6 +45,8 @@ const PostForm = () => {
 
   const onSubmit = async (d: postSchemaType) => {
     await createPost(d);
+    setValue("content", "");
+    setFile([]);
   };
 
   return (
@@ -119,7 +121,7 @@ const PostForm = () => {
         <button
           disabled={isSubmitting}
           type="submit"
-          className="bg-white flex gap-2 float-right text-black px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-neutral-200"
+          className="bg-white flex gap-2 items-center float-right text-black px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-neutral-200"
           style={{ opacity: isSubmitting && 0.5 }}
         >
           <span>Post</span>

@@ -2,14 +2,15 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { SupabaseServices } from "../services/supabaseServices";
 import { useAuthStore } from "./authStore";
+import supabase from "@/utils/supabase";
 
 export interface Post {
   id: number;
   author: string;
   authorImg: string;
   time: string;
-  text: string;
-  img?: string;
+  content: string;
+  images?: string;
   likes: number;
   comments: number;
   isLikedByMe?: boolean;
@@ -24,29 +25,14 @@ export interface Athlete {
 }
 
 interface CommunityState {
-  posts: Post[];
+  posts?: Post[];
   addPost: (text: string, img?: string) => Promise<void>;
   likePost: (id: number) => Promise<void>;
-  fetchRemotePosts: () => Promise<void>;
+  getPosts: () => Promise<void>;
 
   athletes: Athlete[];
   toggleFollow: (id: string) => void;
 }
-
-const initialPosts: Post[] = [
-  {
-    id: 1,
-    author: "Elena Rodriguez",
-    authorImg:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=100",
-    time: "2 hours ago • London, UK",
-    text: "Just hit a new PR on my conventional deadlift today. 140kg felt like air. Huge thanks to the AI Coach for the technical adjustments on my hinge. Stability is everything.",
-    img: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&q=80&w=1000",
-    likes: 242,
-    comments: 18,
-    isLikedByMe: false,
-  },
-];
 
 const initialAthletes: Athlete[] = [
   {
@@ -75,7 +61,7 @@ const initialAthletes: Athlete[] = [
 export const useCommunityStore = create<CommunityState>()(
   persist(
     (set) => ({
-      posts: initialPosts,
+      posts: [],
       athletes: initialAthletes,
 
       addPost: async (text, img) => {
@@ -91,7 +77,7 @@ export const useCommunityStore = create<CommunityState>()(
               authorImg:
                 "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100",
               time: "Just now",
-              text,
+              content: text,
               img: img || "",
               likes: 0,
               comments: 0,
@@ -125,24 +111,12 @@ export const useCommunityStore = create<CommunityState>()(
         }
       },
 
-      fetchRemotePosts: async () => {
-        const posts = await SupabaseServices.fetchPosts();
-        if (posts && posts.length > 0) {
-          const mappedPosts = posts.map((p) => ({
-            id: p.id,
-            author: p.author?.username || p.author?.full_name || "Unknown",
-            authorImg:
-              p.author?.avatar_url ||
-              "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100",
-            time: new Date(p.created_at).toLocaleDateString(),
-            text: p.text,
-            img: p.img,
-            likes: p.likes || 0,
-            comments: p.comments || 0,
-            isLikedByMe: false,
-          }));
-          set({ posts: mappedPosts });
-        }
+      getPosts: async () => {
+        const { data } = await supabase
+          .from("posts")
+          .select("*")
+          .order("created_at", { ascending: false });
+        set({ posts: data });
       },
 
       toggleFollow: (id) =>
