@@ -47,7 +47,7 @@ export const getStat = async (id: string) => {
   let fat: number;
   let carbs: number;
 
-  if (data.goal === "bulking") {
+  if (data.goal === "strength") {
     tdee = Math.ceil(bmr * 1.55); // Moderate activity
     kcal = Math.ceil(tdee * 1.15); // Bulking +15%
 
@@ -98,10 +98,11 @@ export const consumeMeal = async (id: string, meal: MealType) => {
   return data;
 };
 
-export const getNutrition = async (): Promise<NutritionType> => {
+export const getNutrition = async (id: string): Promise<NutritionType> => {
   const { data }: { data: unknown } = await supabase
     .from("nutrition")
     .select("*")
+    .eq("user_id", id)
     .order("created_at", { ascending: false })
     .limit(1);
   return data[0] as NutritionType;

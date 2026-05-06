@@ -25,7 +25,7 @@ const Stat = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    getNutrition().then((res) => setNut(res));
+    getNutrition(user.id).then((res) => setNut(res));
   }, [props.consumedMeal]);
 
   return (
