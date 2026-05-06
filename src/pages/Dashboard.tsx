@@ -6,17 +6,28 @@ import {
   Calendar,
   TrendingUp,
 } from "lucide-react";
-import { useAppStore } from "../store/appStore";
+// import { useAppStore } from "../store/appStore";
+import { useEffect, useState } from "react";
+import { getStat } from "@/usecase/dashboard";
+import { useAuthStore } from "@/store/authStore";
+import Chart from "@/components/dashboard/Chart";
 
 const Dashboard = () => {
-  const { nutrition, weightLogs, activeProgram } = useAppStore();
-  const latestWeight =
-    weightLogs.length > 0 ? weightLogs[weightLogs.length - 1].weight : 0;
-  const previousWeight =
-    weightLogs.length > 1
-      ? weightLogs[weightLogs.length - 2].weight
-      : latestWeight;
-  const weightDiff = latestWeight - previousWeight;
+  const { user } = useAuthStore();
+  const [stat, setStat] = useState(null);
+
+  // const { nutrition, weightLogs, activeProgram } = useAppStore();
+  // const latestWeight =
+  //   weightLogs.length > 0 ? weightLogs[weightLogs.length - 1].weight : 0;
+  // const previousWeight =
+  //   weightLogs.length > 1
+  //     ? weightLogs[weightLogs.length - 2].weight
+  //     : latestWeight;
+  // const weightDiff = latestWeight - previousWeight;
+
+  useEffect(() => {
+    getStat(user.id).then((res) => setStat(res));
+  }, []);
 
   return (
     <main className="flex-1 p-10 overflow-y-auto">
@@ -33,36 +44,26 @@ const Dashboard = () => {
       <div className="grid grid-cols-4 gap-4 mb-8">
         <StatCard title="TODAY'S WORKOUT" icon={<Dumbbell size={14} />}>
           <div className="text-xl font-bold tracking-tight truncate py-1">
-            {activeProgram}
+            {stat?.name}
           </div>
           <p className="text-[10px] text-white/40 mt-1 uppercase tracking-wider">
-            Expected duration: 75 min
+            Expected duration: {stat?.duration} min
           </p>
         </StatCard>
         <StatCard title="CALORIES TARGET" icon={<Flame size={14} />}>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-bold tracking-tight">
-              {(
-                nutrition.protein * 4 +
-                nutrition.carbs * 4 +
-                nutrition.fats * 9
-              ).toFixed(0)}
+              {stat?.kcal}
             </span>
             <span className="text-xs text-white/40">
-              /{" "}
-              {(
-                nutrition.targetProtein * 4 +
-                nutrition.targetCarbs * 4 +
-                nutrition.targetFats * 9
-              ).toFixed(0)}{" "}
-              kcal
+              / {stat?.goalNut.kcal} kcal
             </span>
           </div>
           <div className="w-full bg-white/5 h-1 mt-3 rounded-full overflow-hidden">
             <div
               className="bg-white/60 h-full transition-all"
               style={{
-                width: `${Math.min(100, ((nutrition.protein * 4 + nutrition.carbs * 4 + nutrition.fats * 9) / (nutrition.targetProtein * 4 + nutrition.targetCarbs * 4 + nutrition.targetFats * 9)) * 100)}%`,
+                width: `${Math.min(100, (stat?.calorie / stat?.tdee) * 100)}%`,
               }}
             />
           </div>
@@ -70,16 +71,16 @@ const Dashboard = () => {
         <StatCard title="WEIGHT PROGRESS" icon={<TrendingUp size={14} />}>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-bold tracking-tight">
-              {latestWeight.toFixed(1)}
+              {stat?.weight}
             </span>
             <span className="text-xs text-white/40">kg</span>
           </div>
-          <p
+          {/* <p
             className={`text-[10px] mt-1 ${weightDiff <= 0 ? "text-emerald-400" : "text-red-400"}`}
           >
             {weightDiff <= 0 ? "↘" : "↗"} {Math.abs(weightDiff).toFixed(1)}kg
             from last log
-          </p>
+          </p> */}
         </StatCard>
         <StatCard title="CONSISTENCY" icon={<Calendar size={14} />}>
           <div className="text-2xl font-bold">94%</div>
@@ -97,17 +98,17 @@ const Dashboard = () => {
       {/* Filters */}
       <div className="flex gap-2 mb-8">
         {[
-          "DIET",
-          "BULKING",
-          "CUTTING",
-          "HEAVY MUSCLE",
-          "COMPETITION",
-          "BODY FIT",
-        ].map((tag, i) => (
+          "hybrid",
+          "mind-body",
+          "functional",
+          "endurance",
+          "fat loss",
+          "strength",
+        ].map((tag) => (
           <button
             key={tag}
-            className={`px-4 py-1.5 rounded-full text-[10px] font-bold tracking-widest transition-all
-              ${i === 0 ? "bg-white text-black" : "bg-[#1a1a1a] text-white/40 border border-white/5 hover:border-white/20"}`}
+            className={`px-4 py-1.5 rounded-full text-[10px] font-bold tracking-widest transition-all uppercase
+              ${tag === stat?.goal ? "bg-white text-black" : "bg-[#1a1a1a] text-white/40 border border-white/5 hover:border-white/20"}`}
           >
             {tag}
           </button>
@@ -118,7 +119,8 @@ const Dashboard = () => {
       <div className="grid grid-cols-3 gap-6 mb-8">
         <div className="col-span-2 relative h-[360px] rounded-2xl overflow-hidden group">
           <img
-            src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=1000"
+            // src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=1000"
+            src="https://loremflickr.com/800/600/gym,fitness"
             alt="Gym"
             className="absolute inset-0 w-full h-full object-cover opacity-40 grayscale group-hover:scale-105 transition-transform duration-700"
           />
@@ -128,16 +130,18 @@ const Dashboard = () => {
                 Current Program
               </span>
               <h3 className="text-5xl font-bold mt-4 leading-[1.1] max-w-md tracking-tighter">
-                {activeProgram}
+                {stat?.name}
               </h3>
             </div>
             <div className="flex gap-12">
-              <Metric label="DURATION" value="75 Mins" />
+              <Metric label="DURATION" value={`${stat?.duration} Mins`} />
               <Metric label="LOAD INDEX" value="8.5/10" />
               <Metric label="EST. CAL" value="640 kcal" />
             </div>
             <div className="absolute top-8 right-8 text-right">
-              <span className="text-5xl font-black text-white/20">01</span>
+              <span className="text-5xl font-black text-white/20">
+                0{stat?.day}
+              </span>
               <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest">
                 Today's Focus
               </p>
@@ -192,59 +196,26 @@ const Dashboard = () => {
           <div className="space-y-6">
             <NutritionRow
               label="PROTEIN"
-              current={nutrition.protein}
-              target={nutrition.targetProtein}
+              current={stat?.protein}
+              target={stat?.goalNut.protein}
               unit="g"
             />
             <NutritionRow
               label="CARBS"
-              current={nutrition.carbs}
-              target={nutrition.targetCarbs}
+              current={stat?.carbs}
+              target={stat?.goalNut.carbs}
               unit="g"
             />
             <NutritionRow
               label="FATS"
-              current={nutrition.fats}
-              target={nutrition.targetFats}
+              current={stat?.fats}
+              target={stat?.goalNut.fats}
               unit="g"
             />
           </div>
         </div>
 
-        <div className="bg-[#141414] border border-white/5 rounded-2xl p-6">
-          <div className="flex justify-between items-center mb-6">
-            <div>
-              <h3 className="font-bold">Strength Progress</h3>
-              <p className="text-[10px] text-white/40 uppercase tracking-widest mt-1">
-                Main Lift: Deadlift (1RM Est.)
-              </p>
-            </div>
-            <div className="flex bg-black p-1 rounded-md">
-              {["7D", "30D", "ALL"].map((t) => (
-                <button
-                  key={t}
-                  className={`px-3 py-1 text-[10px] font-bold rounded ${t === "30D" ? "bg-white text-black" : "text-white/40"}`}
-                >
-                  {t}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="h-40 flex items-end gap-2 px-2">
-            {[40, 45, 42, 48, 55, 75, 85, 70, 90, 100].map((h, i) => (
-              <div
-                key={i}
-                style={{ height: `${h}%` }}
-                className={`flex-1 rounded-t-sm transition-all duration-500 ${i > 7 ? "bg-white" : "bg-white/10"}`}
-              />
-            ))}
-          </div>
-          <div className="flex justify-between mt-4 text-[10px] font-bold text-white/20 uppercase tracking-widest">
-            <span>Oct 01</span>
-            <span>Oct 15</span>
-            <span>Oct 31</span>
-          </div>
-        </div>
+        <Chart />
       </div>
     </main>
   );
