@@ -1,9 +1,22 @@
 import { createPartFromUri, createUserContent } from "@google/genai";
 import { analyzeNutritionPrompt, mealPrompt } from "../lib/prompt";
 import type { MealType, NutritionType } from "../types/db";
-import type { profileSchemaType } from "../types/schema";
+import type { mealPreferenceType, profileSchemaType } from "../types/schema";
 import ai from "../utils/gemini";
 import supabase from "../utils/supabase";
+
+export const getPreference = async (id: string) => {
+  const { data } = await supabase
+    .from("meal_preference")
+    .select("*")
+    .eq("user_id", id)
+    .single();
+
+  return {
+    data: data as mealPreferenceType,
+    id: data.id,
+  };
+};
 
 export const getStat = async (id: string) => {
   const { data }: { data: profileSchemaType } = await supabase

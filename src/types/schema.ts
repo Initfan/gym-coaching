@@ -1,11 +1,14 @@
 import z from "zod";
 
 export const meal_preference = z.object({
+  user_id: z.string(),
   alergies: z.string(),
   budget: z.string(),
   disliked_food: z.string().min(1),
   goal: z.string().min(1),
 });
+
+export type mealPreferenceType = z.infer<typeof meal_preference>;
 
 export const mealSchema = z.object({
   id: z.string(),

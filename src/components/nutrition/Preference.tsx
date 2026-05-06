@@ -9,28 +9,40 @@ import {
 import { useForm } from "react-hook-form";
 import { useAuthStore } from "../../store/authStore";
 import supabase from "../../utils/supabase";
-import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { meal_preference } from "../../types/schema";
-
-type data = z.infer<typeof meal_preference>;
+import { meal_preference, type mealPreferenceType } from "../../types/schema";
+import { useEffect, useState } from "react";
+import { getPreference } from "../../usecase/nutrition";
 
 const Preference = ({ onClose }: { onClose?: () => void }) => {
   const { user } = useAuthStore();
+  const [id, setId] = useState();
   const {
     formState: { errors, isSubmitting },
     handleSubmit,
     register,
-  } = useForm<data>({
+    setValues,
+    watch,
+  } = useForm<mealPreferenceType>({
     resolver: zodResolver(meal_preference),
+    defaultValues: {
+      user_id: user.id,
+    },
   });
 
-  const onSubmit = async (data: data) => {
+  useEffect(() => {
+    getPreference(user.id).then((res) => {
+      setValues(res.data);
+      setId(res.id);
+    });
+  }, []);
+
+  const onSubmit = async (data: mealPreferenceType) => {
     await supabase
       .from("meal_preference")
-      .insert({
+      .upsert({
+        id,
         ...data,
-        user_id: user.id,
       })
       .then(({ error }) => !error && onClose());
   };
@@ -62,10 +74,13 @@ const Preference = ({ onClose }: { onClose?: () => void }) => {
             </label>
             <div className="relative">
               <select
-                className="w-full  border border-neutral-800 rounded-xl px-4 py-3 text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-black/5 transition-all cursor-pointer"
+                className="w-full  bg-neutral-800 border border-neutral-800 rounded-xl px-4 py-3 text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-black/5 transition-all cursor-pointer"
+                value={watch("goal")}
                 {...register("goal")}
               >
-                <option>Select Goal</option>
+                <option disabled selected>
+                  Select Goal
+                </option>
                 <option value="weight loss">Weight Loss</option>
                 <option value="fat loss">Fat Loss</option>
                 <option value="muscle gain">Muscle Gain</option>
@@ -89,6 +104,7 @@ const Preference = ({ onClose }: { onClose?: () => void }) => {
               <Ban size={14} /> What food don't you like?
             </label>
             <textarea
+              value={watch("disliked_food")}
               {...register("disliked_food")}
               placeholder="e.g. Mushrooms, Olives, Cilantro..."
               className="w-full border border-neutral-700 rounded-xl px-4 py-3 text-sm min-h-[100px] focus:outline-none focus:ring-2 focus:ring-black/5 transition-all resize-none"
@@ -107,6 +123,7 @@ const Preference = ({ onClose }: { onClose?: () => void }) => {
                 <AlertTriangle size={14} /> Allergies
               </label>
               <input
+                value={watch("alergies")}
                 {...register("alergies")}
                 type="text"
                 placeholder="e.g. Peanuts"
@@ -128,6 +145,7 @@ const Preference = ({ onClose }: { onClose?: () => void }) => {
                   $
                 </span>
                 <input
+                  value={watch("budget")}
                   {...register("budget")}
                   type="number"
                   placeholder="20"
