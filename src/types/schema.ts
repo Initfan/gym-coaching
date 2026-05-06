@@ -17,8 +17,12 @@ export const mealSchema = z.object({
   tag: z.string(),
   protein: z.number(),
   calorie: z.number(),
+  fats: z.number(),
+  carbs: z.number(),
   created_at: z.string(),
 });
+
+export type mealSchemaType = z.infer<typeof mealSchema>;
 
 export const profileSchema = z.object({
   age: z.string(),
@@ -30,3 +34,14 @@ export const profileSchema = z.object({
 });
 
 export type profileSchemaType = z.infer<typeof profileSchema>;
+
+export const nutritionSchema = z.object({
+  user_id: z.string(),
+  kcal: z.string(),
+  protein: z.string(),
+  carbs: z.string(),
+  fats: z.string(),
+  sufficient: z.boolean().nullable(),
+});
+
+export type nutritionSchemaType = z.infer<typeof nutritionSchema>;

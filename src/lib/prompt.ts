@@ -45,10 +45,44 @@ Given the user's meal preferences, generate a meal recommendation that strictly 
 
 ### OUTPUT:`;
 
-// ### EXAMPLE INPUT:
-// {
-//   "alergies": "peanuts",
-//   "budget": "low",
-//   "disliked_food": "broccoli",
-//   "goal": "muscle gain"
-// }
+export const analyzeNutritionPrompt = `
+You are a nutrition assistant that generates structured meal nutrition data.
+
+Analyze the user's meal, generate a meal that strictly follows the provided JSON schema.
+
+### INPUT (image):
+- file_image: File
+
+### OUTPUT REQUIREMENTS:
+- Return ONLY valid JSON.
+- Do NOT include explanations or extra text.
+- Follow the schema exactly.
+- All fields must be present.
+- Use realistic and reasonable values.
+
+### OUTPUT SCHEMA:
+{
+  "id": string,
+  "user_id": string,
+  "image": string,
+  "eat_time": string,
+  "name": string,
+  "description": string,
+  "tag": string,
+  "protein": number,
+  "calorie": number,
+  "carbs": number,
+  "fats": number,
+  "created_at": string
+}
+
+### GUIDELINES:
+- "image": provide a realistic food image URL.
+- "eat_time": one of ["breakfast", "lunch", "dinner", "snack"].
+- "tag": short category (e.g., "high-fiber", "pre-workout").
+- "protein": grams (number).
+- "carbs": grams (number).
+- "fats": grams (number).
+- "calorie": total kcal (number).
+
+`;
