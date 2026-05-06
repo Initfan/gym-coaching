@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import supabase from "../utils/supabase";
 import type { Provider } from "@supabase/auth-js";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { useAuthStore } from "../store/authStore";
-import { Dumbbell, Lock, Mail } from "lucide-react";
+import { Dumbbell, Loader2, Lock, Mail } from "lucide-react";
 
 type Inputs = {
   email: string;
@@ -13,6 +13,7 @@ type Inputs = {
 
 const Auth = () => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [pending, transition] = useTransition();
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
   const { initializeAccount } = useAuthStore();
@@ -25,29 +26,31 @@ const Auth = () => {
 
   const { register, handleSubmit } = useForm<Inputs>();
 
-  async function onSubmit(data: Inputs) {
-    setErrorMsg("");
-    try {
-      if (isSignUp) {
-        const { error } = await supabase.auth.signUp({
-          email: data.email,
-          password: data.password,
-        });
-        if (error) throw error;
-        await initializeAccount();
-        navigate("/dashboard");
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({
-          email: data.email,
-          password: data.password,
-        });
-        if (error) throw error;
-        await initializeAccount();
-        navigate("/dashboard");
+  function onSubmit(data: Inputs) {
+    transition(async () => {
+      setErrorMsg("");
+      try {
+        if (isSignUp) {
+          const { error } = await supabase.auth.signUp({
+            email: data.email,
+            password: data.password,
+          });
+          if (error) throw error;
+          await initializeAccount();
+          navigate("/pricing");
+        } else {
+          const { error } = await supabase.auth.signInWithPassword({
+            email: data.email,
+            password: data.password,
+          });
+          if (error) throw error;
+          await initializeAccount();
+          navigate("/pricing");
+        }
+      } catch (err: any) {
+        setErrorMsg(err.message);
       }
-    } catch (err: any) {
-      setErrorMsg(err.message);
-    }
+    });
   }
 
   return (
@@ -155,10 +158,13 @@ const Auth = () => {
               {errorMsg && <p className="text-red-500 text-sm">{errorMsg}</p>}
 
               <button
+                disabled={pending}
                 type="submit"
-                className=" w-full bg-black text-white py-4 rounded-xl font-bold hover:bg-zinc-800 transition-all active:scale-[0.98]"
+                className=" w-full bg-black text-white flex items-center gap-3 justify-center py-4 rounded-xl font-bold hover:bg-zinc-800 transition-all active:scale-[0.98]"
+                style={{ opacity: pending && "50%" }}
               >
-                Login
+                {isSignUp ? "Submit" : "Login"}
+                {pending && <Loader2 className="animate-spin" size={16} />}
               </button>
               <SocialButton
                 icon="/google.svg"

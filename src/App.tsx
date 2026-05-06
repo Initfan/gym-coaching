@@ -68,9 +68,18 @@ const App = () => {
       <Route path="/" element={<GuestRoute />}>
         <Route index element={<Boarding />} />
         <Route path="/auth" element={<Auth />} />
-        <Route path="/pricing" element={<Pricing />} />
-        <Route path="/goal" element={<Goal />} />
       </Route>
+
+      <Route path="/pricing" element={<Pricing />} />
+
+      <Route
+        path="/goal"
+        element={
+          <ProtectedRoute>
+            <Goal />
+          </ProtectedRoute>
+        }
+      />
 
       <Route
         path="/dashboard"

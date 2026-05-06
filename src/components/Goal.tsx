@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  BrainCircuit,
   LineChart,
   ChevronDown,
   ArrowRight,
@@ -9,8 +8,15 @@ import {
   Utensils,
   Trophy,
   CheckCircle2,
+  Loader2,
 } from "lucide-react";
 import PlanGeneration from "./PlanGeneration";
+import supabase from "../utils/supabase";
+import { useAuthStore } from "../store/authStore";
+import { useForm } from "react-hook-form";
+import { profileSchema, type profileSchemaType } from "../types/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router";
 
 interface ObjectiveCard {
   id: string;
@@ -51,19 +57,31 @@ const OBJECTIVES: ObjectiveCard[] = [
 ];
 
 const Goal: React.FC = () => {
-  const [age, setAge] = useState<number>(28);
-  const [height, setHeight] = useState<number>(180);
-  const [weight, setWeight] = useState<number>(75);
-  const [bmi, setBmi] = useState<number>(23.1);
-  const [selected, setSelected] = useState<string>("cutting");
-  const [loading, setPlan] = useState(false);
+  const navigate = useNavigate();
+  const { user } = useAuthStore();
 
-  // Simple BMI calculation logic: weight (kg) / [height (m)]^2
+  const [goal, setGoal] = useState<string>("Bulking");
+  const [bmi, setBmi] = useState<number>(23.1);
+  const {
+    handleSubmit,
+    formState: { isSubmitting, errors },
+    watch,
+    register,
+  } = useForm<profileSchemaType>({
+    resolver: zodResolver(profileSchema),
+    defaultValues: {
+      age: "20",
+      height: "180",
+      weight: "80",
+    },
+  });
+
   useEffect(() => {
-    const heightInMeters = height / 100;
-    const calculatedBmi = weight / (heightInMeters * heightInMeters);
+    const heightInMeters = Number(watch("height")) / 100;
+    const calculatedBmi =
+      Number(watch("weight")) / (heightInMeters * heightInMeters);
     setBmi(parseFloat(calculatedBmi.toFixed(1)));
-  }, [height, weight]);
+  }, [watch("height"), watch("height")]);
 
   const getBmiStatus = (val: number) => {
     if (val < 18.5) return "Underweight";
@@ -72,22 +90,25 @@ const Goal: React.FC = () => {
     return "Obese";
   };
 
-  const planGeneration = () => {
-    setPlan(true);
+  const onSubmit = async (data: profileSchemaType) => {
+    await supabase
+      .from("profiles")
+      .upsert({ ...data, id: user.id })
+      .then(({ success }) => success && navigate("/dashboard"));
   };
 
-  return loading ? (
+  return isSubmitting ? (
     <PlanGeneration />
   ) : (
-    <div className=" font-sans text-slate-900 flex items-start gap-8 py-8 h-screen overflow-hidden justify-center">
+    <div className=" font-sans bg-neutral-900 flex-col p-6 lg:px-0 lg:flex-row text-white flex items-start gap-8 py-8 lg:h-screen overflow-hidden justify-center">
       <div>
-        <span className="inline-block bg-slate-100 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-6 text-slate-500">
+        <span className="inline-block bg-neutral-700 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-6 text-slate-300">
           Medical Assessment
         </span>
         <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-tight">
           Personalized <br /> Performance Profile
         </h1>
-        <p className="text-slate-500 leading-relaxed max-w-md">
+        <p className="text-slate-300 leading-relaxed max-w-md">
           Our AI requires precise biological data to engineer a workout and
           nutrition strategy that minimizes injury risk while maximizing
           metabolic efficiency.
@@ -95,48 +116,48 @@ const Goal: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <main className="bg-white w-1/2 h-screen overflow-y-auto border-slate-300 border scrollbar-hide rounded-[32px] p-8 md:p-12 shadow-xl shadow-slate-200/50">
+      <main className="bg-neutral-800 lg:w-1/2 lg:h-screen lg:overflow-y-auto border-neutral-700 border scrollbar-hide rounded-[32px] p-8 md:p-12 ">
         <header className="mb-10">
           <h2 className="text-2xl font-bold mb-2">Biometric Data</h2>
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-slate-300">
             Please provide your current physiological metrics.
           </p>
         </header>
 
-        <div className="space-y-10">
+        <form className="space-y-10" onSubmit={handleSubmit(onSubmit)}>
           {/* Age Slider */}
           <div className="space-y-4">
             <div className="flex justify-between items-end">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-300">
                 Biological Age
               </label>
-              <div className="text-slate-900 font-bold">
-                <span className="text-2xl">{age}</span>
-                <span className="text-sm ml-1 text-slate-400">years</span>
+              <div className="text-slate-300 font-bold">
+                <span className="text-2xl">{watch("age")}</span>
+                <span className="text-sm ml-1 ">years</span>
+                <input type="hidden" {...register("age")} />
               </div>
             </div>
             <input
               type="range"
               min="18"
               max="80"
-              value={age}
-              onChange={(e) => setAge(parseInt(e.target.value))}
-              className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-black"
+              // value={age}
+              {...register("age")}
+              className="w-full h-1.5 bg-neutral-700 rounded-lg appearance-none cursor-pointer accent-black"
             />
           </div>
 
           {/* Height & Weight Inputs */}
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-300">
                 Height
               </label>
               <div className="relative group">
                 <input
                   type="number"
-                  value={height}
-                  onChange={(e) => setHeight(parseInt(e.target.value))}
-                  className="w-full border border-slate-100 bg-white rounded-xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-black/5 focus:border-black outline-none transition-all"
+                  {...register("height")}
+                  className="w-full border border-neutral-700 rounded-xl py-4 px-4 text-sm font-bold outline-none transition-all"
                 />
                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-300">
                   CM
@@ -144,15 +165,14 @@ const Goal: React.FC = () => {
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-300">
                 Weight
               </label>
               <div className="relative group">
                 <input
                   type="number"
-                  value={weight}
-                  onChange={(e) => setWeight(parseInt(e.target.value))}
-                  className="w-full border border-slate-100 bg-white rounded-xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-black/5 focus:border-black outline-none transition-all"
+                  {...register("weight")}
+                  className="w-full border border-neutral-700 rounded-xl py-4 px-4 text-sm font-bold outline-none transition-all"
                 />
                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-300">
                   KG
@@ -163,24 +183,32 @@ const Goal: React.FC = () => {
 
           {/* Gender Select */}
           <div className="space-y-2">
-            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-300">
               Gender Identity
             </label>
             <div className="relative">
-              <select className="w-full appearance-none border border-slate-100 bg-white rounded-xl py-4 px-4 text-sm text-slate-500 font-medium focus:ring-2 focus:ring-black/5 focus:border-black outline-none transition-all cursor-pointer">
-                <option>Select biological gender</option>
+              <select
+                className="w-full appearance-none border border-neutral-700  rounded-xl py-4 px-4 text-sm text-slate-300 font-medium outline-none transition-all cursor-pointer bg-neutral-800"
+                {...register("gender")}
+              >
+                <option disabled selected value="">
+                  Select biological gender
+                </option>
                 <option>Male</option>
                 <option>Female</option>
                 <option>Other</option>
               </select>
-              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300 pointer-events-none" />
             </div>
+            {errors.gender && (
+              <p className="text-red-500 text-sm">{errors.gender.message}</p>
+            )}
           </div>
 
           {/* BMI Display Card */}
-          <div className="bg-slate-50/50 border border-dashed border-slate-200 rounded-2xl p-6 flex items-center justify-between">
+          <div className="bg-neutral-900 border border-dashed border-slate-700 rounded-2xl p-6 flex items-center justify-between">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-300 mb-1">
                 Estimated BMI
               </p>
               <div className="flex items-center gap-2">
@@ -188,9 +216,13 @@ const Goal: React.FC = () => {
                 <span className="text-xs text-slate-500 font-medium">
                   ({getBmiStatus(bmi)})
                 </span>
+                <input
+                  type="hidden"
+                  {...register("bmi", { value: bmi.toString() })}
+                />
               </div>
             </div>
-            <div className="bg-white p-3 rounded-xl shadow-sm border border-slate-100">
+            <div className="bg-slate-100 p-3 rounded-xl shadow-sm border border-slate-100">
               <LineChart className="w-5 h-5 text-slate-900" />
             </div>
           </div>
@@ -198,23 +230,23 @@ const Goal: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-12">
             {OBJECTIVES.map((obj) => (
               <button
-                key={obj.id}
-                onClick={() => setSelected(obj.id)}
+                key={obj.title}
+                onClick={() => setGoal(obj.title)}
                 className={`relative text-left p-8 rounded-xl border-2 transition-all duration-200 flex flex-col gap-4 group ${
-                  selected === obj.id
-                    ? "border-black bg-white shadow-sm"
-                    : "border-gray-100 bg-gray-50/30 hover:border-gray-200"
+                  goal === obj.title
+                    ? "bg-neutral-900 shadow-sm"
+                    : "border-neutral-700 bg-neutral-800 hover:border-gray-200"
                 }`}
               >
-                {selected === obj.id && (
+                {goal === obj.title && (
                   <CheckCircle2 className="absolute top-4 right-4 w-5 h-5 text-black" />
                 )}
 
                 <div
                   className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors ${
-                    selected === obj.id
+                    goal === obj.title
                       ? "bg-black text-white"
-                      : "bg-gray-100 text-gray-600"
+                      : "bg-slate-100 text-gray-600"
                   }`}
                 >
                   {obj.icon}
@@ -222,7 +254,7 @@ const Goal: React.FC = () => {
 
                 <div>
                   <h3 className="text-xl font-bold mb-2">{obj.title}</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">
+                  <p className="text-sm leading-relaxed text-slate-300">
                     {obj.description}
                   </p>
                 </div>
@@ -230,14 +262,22 @@ const Goal: React.FC = () => {
             ))}
           </div>
 
+          <input type="hidden" {...register("goal")} value={goal} />
+
           <button
-            onClick={planGeneration}
-            className="w-full bg-black text-white py-5 rounded-2xl font-bold text-md flex items-center justify-center gap-3 hover:bg-zinc-800 transition-all active:scale-[0.98] shadow-lg shadow-black/10"
+            disabled={isSubmitting}
+            type="submit"
+            className="w-full bg-black text-white py-5 rounded-2xl font-bold text-md flex items-center justify-center gap-3 hover:bg-black/75 transition-all active:scale-[0.98] shadow-lg shadow-black/10"
+            style={{ opacity: isSubmitting && "50%" }}
           >
             Generate My Plan
-            <ArrowRight className="w-5 h-5" />
+            {isSubmitting ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              <ArrowRight className="w-5 h-5" />
+            )}
           </button>
-        </div>
+        </form>
       </main>
     </div>
   );

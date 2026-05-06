@@ -19,3 +19,14 @@ export const mealSchema = z.object({
   calorie: z.number(),
   created_at: z.string(),
 });
+
+export const profileSchema = z.object({
+  age: z.string(),
+  height: z.string(),
+  weight: z.string(),
+  bmi: z.string(),
+  gender: z.string().min(1, "Select the gender"),
+  goal: z.string(),
+});
+
+export type profileSchemaType = z.infer<typeof profileSchema>;
